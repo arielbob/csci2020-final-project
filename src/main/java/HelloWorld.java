@@ -20,7 +20,7 @@ public class HelloWorld extends Application {
         Label label = new Label("Hello world");
         pane.getChildren().add(label);
 
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Help Me!");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
