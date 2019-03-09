@@ -23,3 +23,9 @@ javafx {
 application {
     mainClassName = 'HelloWorld'
 }
+
+task tetris(type: JavaExec) {
+	classpath = sourceSets.main.runtimeClasspath
+	main = "LukeTetrisPrototype.TetrisPrototype"
+	jvmArgs = ["--module-path", classpath.asPath, "--add-modules", "javafx.controls" ] // Need this line to run JavaFX runtime components.
+}
