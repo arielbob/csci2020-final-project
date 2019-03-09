@@ -16,8 +16,8 @@ public class TetrisBoard {
     int[][] boardArray = new int[boardHeight][boardWidth];
     Rectangle[][] rectArray = new Rectangle[boardHeight][boardWidth];
     double tileSize = 15;
-    int occupiedTileX;
     int occupiedTileY;
+    int occupiedTileX;
 
     public TetrisBoard() {
         for (int h = 0; h < boardArray.length; h++) {
@@ -35,13 +35,17 @@ public class TetrisBoard {
     }
 
     public void setOccupied(int y, int x) {
+        if (x <= 0 || x >= rectArray[0].length || y >= rectArray.length) {
+            return;
+        }
+
         for (int h = 0; h < rectArray.length; h++) {
             for (int w = 0; w < rectArray[h].length; w++) {
                 rectArray[h][w].setFill(Color.WHITE);
             }
         }
-        occupiedTileX = x;
         occupiedTileY = y;
+        occupiedTileX = x;
         rectArray[y][x].setFill(Color.BLACK);
     }
 }
