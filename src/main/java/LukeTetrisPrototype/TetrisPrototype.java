@@ -15,11 +15,7 @@ public class TetrisPrototype extends Application {
     public static void main(String[] args) {
         launch();
     }
-
-    int boardWidth = 10;
-    int boardHeight = 25;
-    int[][] boardArray = new int[boardHeight][boardWidth];
-    double tileSize = 15;
+    
     TetrisBoard board = new TetrisBoard();
 
     @Override
