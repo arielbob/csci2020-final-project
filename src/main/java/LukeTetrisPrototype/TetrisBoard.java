@@ -16,16 +16,17 @@ public class TetrisBoard {
     int[][] boardArray = new int[boardHeight][boardWidth];
     Rectangle[][] rectArray = new Rectangle[boardHeight][boardWidth];
     double tileSize = 15;
-    int[] occupiedTile = new int[2];
+    int occupiedTileX;
+    int occupiedTileY;
 
     public TetrisBoard() {
-        for (int i = 0; i < boardArray.length; i++) {
-            for (int j = 0; j < boardArray[i].length; j++) {
+        for (int h = 0; h < boardArray.length; h++) {
+            for (int w = 0; w < boardArray[h].length; w++) {
                 Rectangle r = new Rectangle(tileSize, tileSize, Color.WHITE);
                 r.setStroke(Color.BLACK);
-                r.setX(j*tileSize);
-                r.setY(i*tileSize);
-                rectArray[i][j] = r;
+                r.setX(w*tileSize);
+                r.setY(h*tileSize);
+                rectArray[h][w] = r;
                 pane.getChildren().add(r);
             }
         }
@@ -33,14 +34,14 @@ public class TetrisBoard {
         setOccupied(5, 5);
     }
 
-    public void setOccupied(int x, int y) {
-        for (int i = 0; i < rectArray.length; i++) {
-            for (int j = 0; j < rectArray[i].length; j++) {
-                rectArray[i][j].setFill(Color.WHITE);
+    public void setOccupied(int y, int x) {
+        for (int h = 0; h < rectArray.length; h++) {
+            for (int w = 0; w < rectArray[h].length; w++) {
+                rectArray[h][w].setFill(Color.WHITE);
             }
         }
-        occupiedTile[0] = x;
-        occupiedTile[1] = y;
-        rectArray[x][y].setFill(Color.BLACK);
+        occupiedTileX = x;
+        occupiedTileY = y;
+        rectArray[y][x].setFill(Color.BLACK);
     }
 }

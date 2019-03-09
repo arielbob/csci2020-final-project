@@ -24,7 +24,6 @@ public class TetrisPrototype extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        System.out.println("down");
         Pane pane = new Pane();
         Scene scene = new Scene(pane);
         pane.setPrefSize(500, 500);
@@ -32,13 +31,14 @@ public class TetrisPrototype extends Application {
         pane.getChildren().add(board.pane);
 
         scene.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.UP) {
-                System.out.println("up");
-                board.setOccupied(board.occupiedTile[0]+1, board.occupiedTile[1]);
+            if (e.getCode() == KeyCode.LEFT) {
+                board.setOccupied(board.occupiedTileY, board.occupiedTileX-1);
             }
-            else if (e.getCode() == KeyCode.DOWN) {
-                System.out.println("down");
-                board.setOccupied(board.occupiedTile[0], board.occupiedTile[1]+1);
+            if (e.getCode() == KeyCode.RIGHT) {
+                board.setOccupied(board.occupiedTileY, board.occupiedTileX+1);
+            }
+            if (e.getCode() == KeyCode.DOWN) {
+                board.setOccupied(board.occupiedTileY+1, board.occupiedTileX);
             }
         });
 
