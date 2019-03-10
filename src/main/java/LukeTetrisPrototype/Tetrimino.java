@@ -5,6 +5,11 @@ import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
 
 public class Tetrimino {
-    int[][][] rotationState = new int[4][][];
     Paint paint;
+    int[][][] rotationsArray = new int[4][][];
+    private int rotationState = 0;
+
+    public void setRotationState(int newState) {
+        rotationState = newState % 4;
+    }
 }

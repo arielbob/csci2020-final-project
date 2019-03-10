@@ -37,15 +37,16 @@ public class TetrisBoard {
     }
 
     private void spawnTetrimino() {
-        Tetrimino tetrimino = pickRandomBlock(blockSet);
-        currentBlock = tetrimino;
-        int[][] pieceArray = tetrimino.rotationState[0];
+        //Tetrimino tetrimino = pickRandomBlock(blockSet);
+        currentBlock = pickRandomBlock(blockSet);
+        int[][] pieceArray = currentBlock.rotationsArray[0];
+        currentBlock.setRotationState(0);
         int i = 0;
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {
                 if (1 == pieceArray[y][x]) {
                     // draw each piece
-                    boardArray[y][x].setFill(tetrimino.paint);
+                    boardArray[y][x].setFill(currentBlock.paint);
                     occupiedTiles[i][0] = y;
                     occupiedTiles[i][1] = x;
                     i++;
@@ -89,7 +90,8 @@ public class TetrisBoard {
     }
 
     public void rotateTetrimino() {
-        System.out.println("Rotate");
+        System.out.println("TODO: rotate");
+        int[][] pieceArray = currentBlock.rotationsArray[0];
     }
 
     private void setBoardState() {
