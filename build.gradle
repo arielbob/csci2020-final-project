@@ -32,12 +32,12 @@ task tetris(type: JavaExec) {
 
 task runServerTest(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
-    main = "net.ServerTest"
+    main = "net.test.ServerTest"
     jvmArgs = ["--module-path", classpath.asPath, "--add-modules", "javafx.controls" ]
 }
 
 task runClientTest(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
-    main = "net.ClientTest"
+    main = "net.test.ClientTest"
     jvmArgs = ["--module-path", classpath.asPath, "--add-modules", "javafx.controls" ]
 }

@@ -24,6 +24,7 @@ public class Server extends Thread {
 			try {
 				socket.receive(packet);
 				byte[] data = packet.getData();
+				// TODO: this callback can just be an abstract method, and we should also just pass the whole packet, since it includes things like ip/port
 				onReceive.execute(data);
 			} catch (IOException e) {
 				e.printStackTrace();

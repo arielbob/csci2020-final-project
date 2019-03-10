@@ -1,4 +1,6 @@
-package net;
+package net.test;
+
+import net.Server;
 
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;

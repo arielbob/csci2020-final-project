@@ -1,4 +1,6 @@
-package net;
+package net.test;
+
+import net.Client;
 
 import java.io.IOException;
 import java.net.InetAddress;
