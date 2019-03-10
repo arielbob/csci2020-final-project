@@ -51,7 +51,6 @@ public class ServerTest extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		primaryStage.setOnCloseRequest(event -> {
-			System.out.println("closing");
 			server.stopServer();
 		});
 	}

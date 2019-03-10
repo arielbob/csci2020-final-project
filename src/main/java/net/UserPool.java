@@ -17,4 +17,8 @@ public class UserPool {
 			System.out.println(users.toString());
 		}
 	}
+
+	public HashMap<String, User> getUsers() {
+		return users;
+	}
 }

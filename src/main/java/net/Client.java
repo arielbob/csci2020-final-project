@@ -7,15 +7,33 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 
-public class Client {
+public class Client extends Thread {
 	private InetAddress address;
 	private int port;
 	private DatagramSocket socket;
+	private Callback<DatagramPacket> onReceive;
+	private volatile boolean isRunning;
 
-	public Client(InetAddress address, int port) throws SocketException {
+	public Client(InetAddress address, int port, Callback<DatagramPacket> onReceive) throws SocketException {
 		this.address = address;
 		this.port = port;
 		this.socket = new DatagramSocket();
+		this.onReceive = onReceive;
+	}
+
+	public void run() {
+		isRunning = true;
+		while (isRunning) {
+			byte[] buf = new byte[256];
+			DatagramPacket packet = new DatagramPacket(buf, buf.length);
+
+			try {
+				socket.receive(packet);
+				onReceive.execute(packet);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void sendData(byte[] data) throws IOException {
@@ -28,5 +46,10 @@ public class Client {
 		// TODO: have different packet objects that have their own getBytes methods
 		byte[] data = message.getBytes(StandardCharsets.US_ASCII);
 		sendData(data);
+	}
+
+	public void stopClient() {
+		socket.close();
+		isRunning = false;
 	}
 }
