@@ -2,6 +2,7 @@ package net.test;
 
 import net.Server;
 
+import java.net.DatagramPacket;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 
@@ -22,8 +23,8 @@ public class ServerTest extends Application {
 		ta.setEditable(false);
 
 		try {
-			server = new Server(61616, (byte[] data) -> {
-				String message = new String(data, StandardCharsets.US_ASCII);
+			server = new Server(61616, (DatagramPacket p) -> {
+				String message = new String(p.getData(), StandardCharsets.US_ASCII);
 				ta.appendText(message + '\n');
 			});
 			server.start();

@@ -7,11 +7,11 @@ import java.net.SocketException;
 
 public class Server extends Thread {
 	private DatagramSocket socket;
-	private Callback<byte[]> onReceive;
+	private Callback<DatagramPacket> onReceive;
 	private volatile boolean isRunning;
 	private UserPool userPool;
 
-	public Server(int port, Callback<byte[]> onReceive) throws SocketException {
+	public Server(int port, Callback<DatagramPacket> onReceive) throws SocketException {
 		this.socket = new DatagramSocket(port);
 		this.onReceive = onReceive;
 		this.userPool = new UserPool();
@@ -25,10 +25,9 @@ public class Server extends Thread {
 
 			try {
 				socket.receive(packet);
-				byte[] data = packet.getData();
-				// TODO: this callback can just be an abstract method, and we should also just pass the whole packet, since it includes things like ip/port
+				// TODO: this callback can just be an abstract method
 				// TODO: add packet types and parsing packets
-				onReceive.execute(data);
+				onReceive.execute(packet);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
