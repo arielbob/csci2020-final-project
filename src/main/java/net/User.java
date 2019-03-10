@@ -4,15 +4,31 @@ import java.net.InetAddress;
 import java.util.UUID;
 
 public class User {
-	private InetAddress ip;
+	private InetAddress address;
 	private int port;
 	private String username;
 	private UUID id; // we have this so we can send the data of one person to another without sharing IPs, but still having some identifier
 
-	public User(InetAddress ip, int port, String username) {
-		this.ip = ip;
+	public User(InetAddress address, int port, String username) {
+		this.address = address;
 		this.port = port;
 		this.username = username;
 		this.id = UUID.randomUUID();
+	}
+
+	public InetAddress getAddress() {
+		return address;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public UUID getId() {
+		return id;
 	}
 }
