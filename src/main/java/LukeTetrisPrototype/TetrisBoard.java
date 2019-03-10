@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
+import java.util.Random;
 
 public class TetrisBoard {
     Pane pane = new Pane();
@@ -36,8 +37,9 @@ public class TetrisBoard {
     }
 
     public void spawnTetrimino() {
-        IBlock tetrimino = new IBlock();
+        //IBlock tetrimino = new IBlock();
         //LBlock tetrimino = new LBlock();
+        Tetrimino tetrimino = pickRandomBlock(blockSet);
         currentBlock = tetrimino;
         int[][] pieceArray = tetrimino.rotationState[0];
         int i = 0;
@@ -61,7 +63,6 @@ public class TetrisBoard {
 
             if (dir.equals("verti")) {
                 if (y > boardHeight - 1 || 1 == boardState[y][x]) {
-                    //setColumnHeightArray();
                     setBoardState();
                     checkForFilledRows();
                     spawnTetrimino();
@@ -130,4 +131,10 @@ public class TetrisBoard {
             }
         }
     }
+
+    public Tetrimino pickRandomBlock(Tetrimino[] blockSet) {
+        int rand = new Random().nextInt(blockSet.length);
+        return blockSet[rand];
+    }
+
 }
