@@ -9,10 +9,12 @@ public class Server extends Thread {
 	private DatagramSocket socket;
 	private Callback<byte[]> onReceive;
 	private volatile boolean isRunning;
+	private UserPool userPool;
 
 	public Server(int port, Callback<byte[]> onReceive) throws SocketException {
 		this.socket = new DatagramSocket(port);
 		this.onReceive = onReceive;
+		this.userPool = new UserPool();
 	}
 
 	public void run() {
@@ -25,6 +27,7 @@ public class Server extends Thread {
 				socket.receive(packet);
 				byte[] data = packet.getData();
 				// TODO: this callback can just be an abstract method, and we should also just pass the whole packet, since it includes things like ip/port
+				// TODO: add packet types and parsing packets
 				onReceive.execute(data);
 			} catch (IOException e) {
 				e.printStackTrace();
