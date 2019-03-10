@@ -36,7 +36,7 @@ public class TetrisBoard {
         spawnTetrimino();
     }
 
-    public void spawnTetrimino() {
+    private void spawnTetrimino() {
         Tetrimino tetrimino = pickRandomBlock(blockSet);
         currentBlock = tetrimino;
         int[][] pieceArray = tetrimino.rotationState[0];
@@ -88,7 +88,11 @@ public class TetrisBoard {
         }
     }
 
-    public void setBoardState() {
+    public void rotateTetrimino() {
+        System.out.println("Rotate");
+    }
+
+    private void setBoardState() {
         for (int[] pair : occupiedTiles) {
             int y = pair[0];
             int x = pair[1];
@@ -96,7 +100,7 @@ public class TetrisBoard {
         }
     }
 
-    public void checkForFilledRows() {
+    private void checkForFilledRows() {
         for (int r = 0; r < boardArray.length; r++) {
             int filledTileCount = 0;
             for (int c = 0; c < boardArray[r].length; c++) {
@@ -110,7 +114,7 @@ public class TetrisBoard {
         }
     }
 
-    public void clearLine(int rowIndex) {
+    private void clearLine(int rowIndex) {
         for (int c = 0; c < boardArray[rowIndex].length; c++) {
             boardArray[rowIndex][c].setFill(Color.WHITE);
             boardState[rowIndex][c] = 0;
@@ -130,7 +134,7 @@ public class TetrisBoard {
         }
     }
 
-    public Tetrimino pickRandomBlock(Tetrimino[] blockSet) {
+    private Tetrimino pickRandomBlock(Tetrimino[] blockSet) {
         int rand = new Random().nextInt(blockSet.length);
         return blockSet[rand];
     }

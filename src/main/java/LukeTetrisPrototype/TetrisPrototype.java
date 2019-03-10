@@ -43,6 +43,9 @@ public class TetrisPrototype extends Application {
                 int[][] movingTiles = setNewBlockLocation("down");
                 board.moveTetrimino(movingTiles, "verti");
             }
+            if (e.getCode() == KeyCode.SPACE) {
+                board.rotateTetrimino();
+            }
         });
 
         primaryStage.setTitle("Tetris Prototype");
