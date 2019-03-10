@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 
 public class SBlock extends Tetrimino {
     public SBlock() {
-        paint = Color.GREEN;
+        paint = Color.web("#00ff1d");//Color.GREEN;
         rotationState[0] = new int[][] {
             {0, 1, 1},
             {1, 1, 0},
