@@ -1,10 +1,10 @@
 package LukeTetrisPrototype;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
+//import javafx.application.Application;
+//import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
+//import javafx.scene.control.Label;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
@@ -12,13 +12,15 @@ import javafx.scene.paint.Color;
 public class TetrisBoard {
     Pane pane = new Pane();
     int boardWidth = 10;
-    int boardHeight = 25;
+    int boardHeight = 24;
     int[] columnHeightArray = new int[boardWidth];
     //int[][] boardArray = new int[boardHeight][boardWidth];
     Rectangle[][] boardArray = new Rectangle[boardHeight][boardWidth];
     double tileSize = 15;
     int occupiedTileY;
     int occupiedTileX;
+    int[][] occupiedTiles = new int[4][2];
+    Tetrimino currentBlock;
 
     public TetrisBoard() {
         for (int r = 0; r < boardArray.length; r++) {
@@ -37,6 +39,40 @@ public class TetrisBoard {
         }
 
         spawnPiece();
+        spawnTetrimino();
+    }
+
+    public void spawnTetrimino() {
+        LBlock tetrimino = new LBlock();
+        currentBlock = tetrimino;
+        int[][] pieceArray = tetrimino.rotationState[0];
+        for (int r = 0; r < pieceArray.length; r++) {
+            int i = 0;
+            for (int c = 0; c < pieceArray[r].length; c++) {
+                if (1 == pieceArray[r][c]) {
+                    // draw each piece
+                    boardArray[r][c].setFill(tetrimino.paint);
+                    occupiedTiles[i][0] = r;
+                    occupiedTiles[i][1] = c;
+                    i++;
+                }
+            }
+        }
+    }
+
+    public void moveTetrimino(int[][] movingTiles) {
+        for (int pair = 0; pair < occupiedTiles.length; pair++) {
+            int y = occupiedTiles[pair][0];
+            int x = occupiedTiles[pair][1];
+            boardArray[y][x].setFill(Color.WHITE);
+        }
+        for (int pair = 0; pair < movingTiles.length; pair++) {
+            int y = movingTiles[pair][0];
+            int x = movingTiles[pair][1];
+            boardArray[y][x].setFill(currentBlock.paint);
+            occupiedTiles[pair][0] = movingTiles[pair][0];
+            occupiedTiles[pair][1] = movingTiles[pair][1];
+        }
     }
 
     public void spawnPiece() {
