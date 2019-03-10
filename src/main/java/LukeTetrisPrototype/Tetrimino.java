@@ -1,10 +1,5 @@
 package LukeTetrisPrototype;
 
-//import javafx.application.Application;
-//import javafx.scene.Scene;
-//import javafx.scene.layout.Pane;
-//import javafx.stage.Stage;
-//import javafx.scene.control.Label;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;

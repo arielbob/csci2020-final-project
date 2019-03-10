@@ -12,7 +12,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class TetrisPrototype extends Application {
-    int[][] movingTiles = new int[4][2];
     TetrisBoard board = new TetrisBoard();
 
     public static void main(String[] args) {
@@ -28,19 +27,20 @@ public class TetrisPrototype extends Application {
         pane.getChildren().add(board.pane);
 
         scene.setOnKeyPressed(e -> {
+            //setMovingTilesLocation();
             if (e.getCode() == KeyCode.LEFT) {
-                board.setOccupied(board.occupiedTileY, board.occupiedTileX-1);
-                setNewBlockLocation("left");
+                //board.setOccupied(board.occupiedTileY, board.occupiedTileX-1);
+                int[][] movingTiles = setNewBlockLocation("left");
                 board.moveTetrimino(movingTiles);
             }
             if (e.getCode() == KeyCode.RIGHT) {
-                board.setOccupied(board.occupiedTileY, board.occupiedTileX+1);
-                setNewBlockLocation("right");
+                //board.setOccupied(board.occupiedTileY, board.occupiedTileX+1);
+                int[][] movingTiles = setNewBlockLocation("right");
                 board.moveTetrimino(movingTiles);
             }
             if (e.getCode() == KeyCode.DOWN) {
-                board.setOccupied(board.occupiedTileY+1, board.occupiedTileX);
-                setNewBlockLocation("down");
+                //board.setOccupied(board.occupiedTileY+1, board.occupiedTileX);
+                int[][] movingTiles = setNewBlockLocation("down");
                 board.moveTetrimino(movingTiles);
             }
         });
@@ -50,7 +50,7 @@ public class TetrisPrototype extends Application {
         primaryStage.show();
     }
 
-    public void setNewBlockLocation(String direction) {
+    public int[][] setNewBlockLocation(String direction) {
         int dir = 0;
         int xory = 0;
         if (direction.equals("left")) {
@@ -66,6 +66,7 @@ public class TetrisPrototype extends Application {
             dir = 1;
         }
 
+        int[][] movingTiles = new int[4][2];
         for (int pair = 0; pair < board.occupiedTiles.length; pair++) {
             for (int xy = 0; xy < board.occupiedTiles[pair].length; xy++) {
                 movingTiles[pair][xy] = board.occupiedTiles[pair][xy];
@@ -74,5 +75,13 @@ public class TetrisPrototype extends Application {
                 }
             }
         }
+
+        for (int pair = 0; pair < board.occupiedTiles.length; pair++) {
+            System.out.println("occupiedTiles" + pair + ": " + board.occupiedTiles[pair][0] + ", " + board.occupiedTiles[pair][1]);
+        }
+        for (int pair = 0; pair < movingTiles.length; pair++) {
+            System.out.println("movingTiles" + pair + ": " + movingTiles[pair][0] + ", " + movingTiles[pair][1]);
+        }
+        return movingTiles;
     }
 }

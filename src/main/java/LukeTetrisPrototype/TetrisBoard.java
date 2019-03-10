@@ -1,10 +1,7 @@
 package LukeTetrisPrototype;
 
-//import javafx.application.Application;
-//import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-//import javafx.scene.control.Label;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
@@ -35,25 +32,27 @@ public class TetrisBoard {
         }
 
         for (int i = 0; i < columnHeightArray.length; i++) {
-            columnHeightArray[i] = boardHeight;
+            columnHeightArray[i] = boardHeight - 1;
         }
 
-        spawnPiece();
+        //spawnPiece();
         spawnTetrimino();
     }
 
     public void spawnTetrimino() {
+        //IBlock tetrimino = new IBlock();
         LBlock tetrimino = new LBlock();
         currentBlock = tetrimino;
-        int[][] pieceArray = tetrimino.rotationState[0];
-        for (int r = 0; r < pieceArray.length; r++) {
-            int i = 0;
-            for (int c = 0; c < pieceArray[r].length; c++) {
-                if (1 == pieceArray[r][c]) {
+        int[][] pieceArray = tetrimino.rotationState[1];
+        int i = 0;
+        for (int y = 0; y < pieceArray.length; y++) {
+            for (int x = 0; x < pieceArray[y].length; x++) {
+                if (1 == pieceArray[y][x]) {
                     // draw each piece
-                    boardArray[r][c].setFill(tetrimino.paint);
-                    occupiedTiles[i][0] = r;
-                    occupiedTiles[i][1] = c;
+                    boardArray[y][x].setFill(tetrimino.paint);
+                    occupiedTiles[i][0] = y;
+                    occupiedTiles[i][1] = x;
+                    System.out.println("occupiedTile" + i + ": " + y + ", " + x);
                     i++;
                 }
             }
@@ -61,12 +60,13 @@ public class TetrisBoard {
     }
 
     public void moveTetrimino(int[][] movingTiles) {
-        // Prevents block from moving off the grid.
-        for (int pair = 0; pair < movingTiles.length; pair++) {
-            int y = movingTiles[pair][0];
-            int x = movingTiles[pair][1];
-            if (y >= columnHeightArray[occupiedTiles[pair][1]]) {
-                // TODO - setColumnHeightArray(movingTiles);
+        for (int[] pair : movingTiles) {
+            int y = pair[0];
+            int x = pair[1];
+            if (y > columnHeightArray[pair[1]]) {
+                setColumnHeightArray();
+                checkForFilledRows();
+                spawnTetrimino();
                 return;
             }
             if (x < 0 || x >= boardArray[0].length) {
@@ -88,8 +88,16 @@ public class TetrisBoard {
         }
     }
 
+    public void setColumnHeightArray() {
+        for (int[] pair : occupiedTiles) {
+            if (pair[0] <= columnHeightArray[pair[1]]) {
+                columnHeightArray[pair[1]] = pair[0] - 1;
+            }
+        }
+    }
+
     public void spawnPiece() {
-        setOccupied(0, 5);
+        setOccupied(3, 1);
     }
 
     public void setOccupied(int y, int x) {
