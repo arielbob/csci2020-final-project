@@ -94,7 +94,7 @@ public class TetrisBoard {
     }
 
     public void rotateTetrimino() {
-        System.out.println("TODO: Wall Kicks");
+        System.out.println("TODO: Check if rotation is possible");
 
         int wallKick = checkWallKick();
         displaceX += wallKick;
