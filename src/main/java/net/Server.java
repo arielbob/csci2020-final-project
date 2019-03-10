@@ -1,5 +1,8 @@
 package net;
 
+import net.user.User;
+import net.user.UserPool;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
