@@ -11,13 +11,13 @@ import java.util.HashMap;
 
 public class Server extends Thread {
 	private DatagramSocket socket;
-	private Callback<DatagramPacket> onReceive;
+	private Callback<DatagramPacket> receiveHandler;
 	private volatile boolean isRunning;
 	private UserPool userPool;
 
-	public Server(int port, Callback<DatagramPacket> onReceive) throws SocketException {
+	public Server(int port, Callback<DatagramPacket> receiveHandler) throws SocketException {
 		this.socket = new DatagramSocket(port);
-		this.onReceive = onReceive;
+		this.receiveHandler = receiveHandler;
 		this.userPool = new UserPool();
 	}
 
@@ -29,9 +29,8 @@ public class Server extends Thread {
 
 			try {
 				socket.receive(packet);
-				// TODO: this callback can just be an abstract method
 				// TODO: add packet types and parsing packets
-				onReceive.execute(packet);
+				receiveHandler.execute(packet);
 				userPool.addUser(packet.getAddress(), packet.getPort(), "user");
 				sendData(packet.getData(), userPool.getUsers());
 			} catch (IOException e) {

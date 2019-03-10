@@ -11,14 +11,14 @@ public class Client extends Thread {
 	private InetAddress address;
 	private int port;
 	private DatagramSocket socket;
-	private Callback<DatagramPacket> onReceive;
+	private Callback<DatagramPacket> receiveHandler;
 	private volatile boolean isRunning;
 
-	public Client(InetAddress address, int port, Callback<DatagramPacket> onReceive) throws SocketException {
+	public Client(InetAddress address, int port, Callback<DatagramPacket> receiveHandler) throws SocketException {
 		this.address = address;
 		this.port = port;
 		this.socket = new DatagramSocket();
-		this.onReceive = onReceive;
+		this.receiveHandler = receiveHandler;
 	}
 
 	public void run() {
@@ -29,7 +29,7 @@ public class Client extends Thread {
 
 			try {
 				socket.receive(packet);
-				onReceive.execute(packet);
+				receiveHandler.execute(packet);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
