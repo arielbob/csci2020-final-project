@@ -9,6 +9,10 @@ public class Tetrimino {
     int[][][] rotationsArray = new int[4][][];
     private int rotationState = 0;
 
+    public int getRotationState() {
+        return rotationState;
+    }
+
     public void setRotationState(int newState) {
         rotationState = newState % 4;
     }

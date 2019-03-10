@@ -45,7 +45,7 @@ public class TetrisBoard {
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {
                 if (1 == pieceArray[y][x]) {
-                    // draw each piece
+                    // Draw each piece of the block
                     boardArray[y][x].setFill(currentBlock.paint);
                     occupiedTiles[i][0] = y;
                     occupiedTiles[i][1] = x;
@@ -74,12 +74,12 @@ public class TetrisBoard {
                 }
             }
         }
-
-        for (int pair = 0; pair < occupiedTiles.length; pair++) {
-            int y = occupiedTiles[pair][0];
-            int x = occupiedTiles[pair][1];
-            boardArray[y][x].setFill(Color.WHITE);
+        
+        // Erases the current block.
+        for (int[] pair : occupiedTiles) {
+            boardArray[pair[0]][pair[1]].setFill(Color.WHITE);
         }
+        // Redraws the current block in its new location.
         for (int pair = 0; pair < movingTiles.length; pair++) {
             int y = movingTiles[pair][0];
             int x = movingTiles[pair][1];
@@ -91,7 +91,9 @@ public class TetrisBoard {
 
     public void rotateTetrimino() {
         System.out.println("TODO: rotate");
-        int[][] pieceArray = currentBlock.rotationsArray[0];
+        int newRotationState = currentBlock.getRotationState() + 1;
+        currentBlock.setRotationState(newRotationState);
+        int[][] pieceArray = currentBlock.rotationsArray[newRotationState];
     }
 
     private void setBoardState() {
