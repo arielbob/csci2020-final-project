@@ -95,21 +95,48 @@ public class TetrisBoard {
 
     public void rotateTetrimino() {
         System.out.println("TODO: Wall Kicks");
+
+        int wallKick = checkWallKick();
+        displaceX += wallKick;
+
         currentBlock.setRotationState(currentBlock.getRotationState() + 1);
         int[][] pieceArray = currentBlock.rotationsArray[currentBlock.getRotationState()];
         int i = 0;
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {
+                int newXPos = x + displaceX;
                 if (1 == pieceArray[y][x]) {
-                    boardArray[y + displaceY][x + displaceX].setFill(currentBlock.paint);
+                    boardArray[y + displaceY][newXPos].setFill(currentBlock.paint);
                     occupiedTiles[i][0] = y + displaceY;
-                    occupiedTiles[i][1] = x + displaceX;
+                    occupiedTiles[i][1] = newXPos;
                     i++;
                 } else {
-                    boardArray[y + displaceY][x + displaceX].setFill(Color.WHITE);
+                    if (!(newXPos < 0 || newXPos >= boardWidth)) {
+                        boardArray[y + displaceY][newXPos].setFill(Color.WHITE);
+                    }
                 }
             }
         }
+    }
+
+    private int checkWallKick() {
+        int wallKickState = 0;
+        int rotationState = (currentBlock.getRotationState()+1) % 4;
+        int[][] pieceArray = currentBlock.rotationsArray[rotationState];
+        for (int y = 0; y < pieceArray.length; y++) {
+            for (int x = 0; x < pieceArray[y].length; x++) {
+                if (1 == pieceArray[y][x]) {
+                    int newXPos = x + displaceX;
+                    if (newXPos >= boardWidth) {
+                        wallKickState = -1;
+                    }
+                    else if (newXPos < 0) {
+                        wallKickState = 1;
+                    }
+                }
+            }
+        }
+        return wallKickState;
     }
 
     private void setBoardState() {
