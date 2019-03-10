@@ -11,7 +11,6 @@ public class TetrisBoard {
     Pane pane = new Pane();
     int boardWidth = 10;
     int boardHeight = 24;
-    //int[] columnHeightArray = new int[boardWidth];
     int[][] boardState = new int[boardHeight][boardWidth];
     Rectangle[][] boardArray = new Rectangle[boardHeight][boardWidth];
     double tileSize = 15;
@@ -19,7 +18,8 @@ public class TetrisBoard {
     int occupiedTileX;
     int[][] occupiedTiles = new int[4][2];
     Tetrimino currentBlock;
-    Tetrimino[] blockSet = {new IBlock(), new JBlock()};
+    Tetrimino[] blockSet = {new IBlock(), new JBlock(), new LBlock(),
+        new OBlock(), new SBlock(), new TBlock(), new ZBlock()};
 
     public TetrisBoard() {
         for (int r = 0; r < boardArray.length; r++) {
@@ -37,8 +37,6 @@ public class TetrisBoard {
     }
 
     public void spawnTetrimino() {
-        //IBlock tetrimino = new IBlock();
-        //LBlock tetrimino = new LBlock();
         Tetrimino tetrimino = pickRandomBlock(blockSet);
         currentBlock = tetrimino;
         int[][] pieceArray = tetrimino.rotationState[0];
