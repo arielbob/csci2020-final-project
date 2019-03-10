@@ -59,17 +59,17 @@ public class TetrisBoard {
         }
     }
 
-    public void moveTetrimino(int[][] movingTiles) {
+    public void moveTetrimino(int[][] movingTiles, String dir) {
         for (int[] pair : movingTiles) {
             int y = pair[0];
             int x = pair[1];
-            if (y > columnHeightArray[pair[1]]) {
+            if (dir.equals("verti") && y > columnHeightArray[pair[1]]) {
                 setColumnHeightArray();
                 checkForFilledRows();
                 spawnTetrimino();
                 return;
             }
-            if (x < 0 || x >= boardArray[0].length) {
+            if (x < 0 || x >= boardArray[0].length)) {
                 return;
             }
         }

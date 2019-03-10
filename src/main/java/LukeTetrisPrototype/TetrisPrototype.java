@@ -31,17 +31,17 @@ public class TetrisPrototype extends Application {
             if (e.getCode() == KeyCode.LEFT) {
                 //board.setOccupied(board.occupiedTileY, board.occupiedTileX-1);
                 int[][] movingTiles = setNewBlockLocation("left");
-                board.moveTetrimino(movingTiles);
+                board.moveTetrimino(movingTiles, "hori");
             }
             if (e.getCode() == KeyCode.RIGHT) {
                 //board.setOccupied(board.occupiedTileY, board.occupiedTileX+1);
                 int[][] movingTiles = setNewBlockLocation("right");
-                board.moveTetrimino(movingTiles);
+                board.moveTetrimino(movingTiles, "hori");
             }
             if (e.getCode() == KeyCode.DOWN) {
                 //board.setOccupied(board.occupiedTileY+1, board.occupiedTileX);
                 int[][] movingTiles = setNewBlockLocation("down");
-                board.moveTetrimino(movingTiles);
+                board.moveTetrimino(movingTiles, "verti");
             }
         });
 
@@ -74,13 +74,6 @@ public class TetrisPrototype extends Application {
                     movingTiles[pair][xy] += dir;
                 }
             }
-        }
-
-        for (int pair = 0; pair < board.occupiedTiles.length; pair++) {
-            System.out.println("occupiedTiles" + pair + ": " + board.occupiedTiles[pair][0] + ", " + board.occupiedTiles[pair][1]);
-        }
-        for (int pair = 0; pair < movingTiles.length; pair++) {
-            System.out.println("movingTiles" + pair + ": " + movingTiles[pair][0] + ", " + movingTiles[pair][1]);
         }
         return movingTiles;
     }
