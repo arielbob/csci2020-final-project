@@ -61,6 +61,14 @@ public class TetrisBoard {
     }
 
     public void moveTetrimino(int[][] movingTiles) {
+        for (int pair = 0; pair < movingTiles.length; pair++) {
+            int y = movingTiles[pair][0];
+            int x = movingTiles[pair][1];
+            if (x < 0 || x >= boardArray[0].length) {
+                return;
+            }
+        }
+
         for (int pair = 0; pair < occupiedTiles.length; pair++) {
             int y = occupiedTiles[pair][0];
             int x = occupiedTiles[pair][1];
