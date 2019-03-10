@@ -61,9 +61,14 @@ public class TetrisBoard {
     }
 
     public void moveTetrimino(int[][] movingTiles) {
+        // Prevents block from moving off the grid.
         for (int pair = 0; pair < movingTiles.length; pair++) {
             int y = movingTiles[pair][0];
             int x = movingTiles[pair][1];
+            if (y >= columnHeightArray[occupiedTiles[pair][1]]) {
+                // TODO - setColumnHeightArray(movingTiles);
+                return;
+            }
             if (x < 0 || x >= boardArray[0].length) {
                 return;
             }
