@@ -14,9 +14,9 @@ public class TetrisBoard {
     int[][] boardState = new int[boardHeight][boardWidth];
     Rectangle[][] boardArray = new Rectangle[boardHeight][boardWidth];
     double tileSize = 15;
-    int occupiedTileY;
-    int occupiedTileX;
     int[][] occupiedTiles = new int[4][2];
+    int displaceY = 0;
+    int displaceX = 0;
     Tetrimino currentBlock;
     Tetrimino[] blockSet = {new IBlock(), new JBlock(), new LBlock(),
         new OBlock(), new SBlock(), new TBlock(), new ZBlock()};
@@ -37,18 +37,19 @@ public class TetrisBoard {
     }
 
     private void spawnTetrimino() {
-        //Tetrimino tetrimino = pickRandomBlock(blockSet);
         currentBlock = pickRandomBlock(blockSet);
         int[][] pieceArray = currentBlock.rotationsArray[0];
         currentBlock.setRotationState(0);
+        displaceY = 0;
+        displaceX = 0;
         int i = 0;
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {
                 if (1 == pieceArray[y][x]) {
                     // Draw each piece of the block
-                    boardArray[y][x].setFill(currentBlock.paint);
-                    occupiedTiles[i][0] = y;
-                    occupiedTiles[i][1] = x;
+                    boardArray[y + displaceY][x + displaceX].setFill(currentBlock.paint);
+                    occupiedTiles[i][0] = y + displaceY;
+                    occupiedTiles[i][1] = x + displaceX;
                     i++;
                 }
             }
@@ -74,7 +75,10 @@ public class TetrisBoard {
                 }
             }
         }
-        
+
+        displaceY += movingTiles[0][0] - occupiedTiles[0][0];
+        displaceX += movingTiles[0][1] - occupiedTiles[0][1];
+
         // Erases the current block.
         for (int[] pair : occupiedTiles) {
             boardArray[pair[0]][pair[1]].setFill(Color.WHITE);
@@ -90,10 +94,22 @@ public class TetrisBoard {
     }
 
     public void rotateTetrimino() {
-        System.out.println("TODO: rotate");
-        int newRotationState = currentBlock.getRotationState() + 1;
-        currentBlock.setRotationState(newRotationState);
-        int[][] pieceArray = currentBlock.rotationsArray[newRotationState];
+        System.out.println("TODO: Wall Kicks");
+        currentBlock.setRotationState(currentBlock.getRotationState() + 1);
+        int[][] pieceArray = currentBlock.rotationsArray[currentBlock.getRotationState()];
+        int i = 0;
+        for (int y = 0; y < pieceArray.length; y++) {
+            for (int x = 0; x < pieceArray[y].length; x++) {
+                if (1 == pieceArray[y][x]) {
+                    boardArray[y + displaceY][x + displaceX].setFill(currentBlock.paint);
+                    occupiedTiles[i][0] = y + displaceY;
+                    occupiedTiles[i][1] = x + displaceX;
+                    i++;
+                } else {
+                    boardArray[y + displaceY][x + displaceX].setFill(Color.WHITE);
+                }
+            }
+        }
     }
 
     private void setBoardState() {
