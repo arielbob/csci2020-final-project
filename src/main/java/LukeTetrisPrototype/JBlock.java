@@ -3,8 +3,8 @@ package LukeTetrisPrototype;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
 
-public class LBlock extends Tetrimino {
-    public LBlock() {
+public class JBlock extends Tetrimino {
+    public JBlock() {
         paint = Color.BLUE;
         rotationState[0] = new int[][] {
             {1, 0, 0},

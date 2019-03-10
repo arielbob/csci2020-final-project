@@ -10,8 +10,7 @@ public class TetrisBoard {
     Pane pane = new Pane();
     int boardWidth = 10;
     int boardHeight = 24;
-    int[] columnHeightArray = new int[boardWidth];
-    //int[][] boardArray = new int[boardHeight][boardWidth];
+    //int[] columnHeightArray = new int[boardWidth];
     int[][] boardState = new int[boardHeight][boardWidth];
     Rectangle[][] boardArray = new Rectangle[boardHeight][boardWidth];
     double tileSize = 15;
@@ -19,6 +18,7 @@ public class TetrisBoard {
     int occupiedTileX;
     int[][] occupiedTiles = new int[4][2];
     Tetrimino currentBlock;
+    Tetrimino[] blockSet = {new IBlock(), new JBlock()};
 
     public TetrisBoard() {
         for (int r = 0; r < boardArray.length; r++) {
@@ -32,11 +32,6 @@ public class TetrisBoard {
             }
         }
 
-        for (int i = 0; i < columnHeightArray.length; i++) {
-            columnHeightArray[i] = boardHeight - 1;
-        }
-
-        //spawnPiece();
         spawnTetrimino();
     }
 
@@ -44,7 +39,7 @@ public class TetrisBoard {
         IBlock tetrimino = new IBlock();
         //LBlock tetrimino = new LBlock();
         currentBlock = tetrimino;
-        int[][] pieceArray = tetrimino.rotationState[1];
+        int[][] pieceArray = tetrimino.rotationState[0];
         int i = 0;
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {
@@ -63,7 +58,7 @@ public class TetrisBoard {
         for (int[] pair : movingTiles) {
             int y = pair[0];
             int x = pair[1];
-            //if (dir.equals("verti") && y > columnHeightArray[pair[1]]) {
+
             if (dir.equals("verti")) {
                 if (y > boardHeight - 1 || 1 == boardState[y][x]) {
                     //setColumnHeightArray();
@@ -94,44 +89,12 @@ public class TetrisBoard {
         }
     }
 
-    public void setColumnHeightArray() {
-        for (int[] pair : occupiedTiles) {
-            if (pair[0] <= columnHeightArray[pair[1]]) {
-                columnHeightArray[pair[1]] = pair[0] - 1;
-            }
-        }
-    }
-
     public void setBoardState() {
         for (int[] pair : occupiedTiles) {
             int y = pair[0];
             int x = pair[1];
             boardState[y][x] = 1;
         }
-    }
-
-    public void spawnPiece() {
-        setOccupied(3, 1);
-    }
-
-    public void setOccupied(int y, int x) {
-        if (y >= columnHeightArray[occupiedTileX]) {
-            // Freeze the shape in place then spawn a new one
-            columnHeightArray[occupiedTileX] -= 1;
-            occupiedTileY = 0;
-            occupiedTileX = 5;
-            checkForFilledRows();
-            spawnPiece();
-            return;
-        }
-        if (x < 0 || x >= boardArray[0].length) {
-            return;
-        }
-
-        boardArray[occupiedTileY][occupiedTileX].setFill(Color.WHITE);
-        occupiedTileY = y;
-        occupiedTileX = x;
-        boardArray[y][x].setFill(Color.ORANGE);
     }
 
     public void checkForFilledRows() {
@@ -152,9 +115,6 @@ public class TetrisBoard {
         for (int c = 0; c < boardArray[rowIndex].length; c++) {
             boardArray[rowIndex][c].setFill(Color.WHITE);
             boardState[rowIndex][c] = 0;
-            // if (columnHeightArray[c] < boardArray.length) {
-            //     columnHeightArray[c] += 1;
-            // }
         }
 
         // Shifts all the colored blocks down one row.
