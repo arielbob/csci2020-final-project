@@ -14,15 +14,19 @@ public class StartInterface extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-    primaryStage.setTitle("MultiTetris7");
+    GridPane root = new GridPane();
+		root.setAlignment(Pos.CENTER);
+    root.setPadding(new Insets(100));
+    root.setHgap(16);
+    root.setVgap(8);
 
-    Pane root = new Pane();
+    Button soloBtn = new Button("      SOLO      ");
+    soloBtn.setAlignment(Pos.CENTER);
+    root.add(soloBtn, 0, 0);
 
-		Button soloBtn = new Button("SOLO");
-		//GridPane.setHalignment(btn, HPos.CENTRE);
-		//btn.setDefaultButton(true);
-    soloBtn.setLayoutX(250);
-    soloBtn.setLayoutY(220);
+    Button multiBtn = new Button("MULTIPLAYER");
+    multiBtn.setAlignment(Pos.CENTER);
+    root.add(multiBtn, 0, 1);
 
 		//action handler for when button is clicked
 		soloBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -32,8 +36,9 @@ public class StartInterface extends Application {
 			}
 		});
 
-    root.getChildren().add(soloBtn);
-    primaryStage.setScene(new Scene(root, 300, 250));
+    Scene firstscene = new Scene(root);
+    primaryStage.setTitle("MultiTetris7");
+    primaryStage.setScene(firstscene);
     primaryStage.show();
 
 
