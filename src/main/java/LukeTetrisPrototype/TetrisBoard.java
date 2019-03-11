@@ -6,6 +6,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
 import java.util.Random;
+import java.util.Arrays;
 
 public class TetrisBoard {
     Pane pane = new Pane();
@@ -103,6 +104,11 @@ public class TetrisBoard {
             return;
         }
 
+        // Erase the current shape so it can be redrawn.
+        for (int[] tile : occupiedTiles) {
+            boardArray[tile[0]][tile[1]].setFill(Color.WHITE);
+        }
+
         int[][] pieceArray = currentBlock.rotationsArray[newRotationState];
         currentBlock.setRotationState(newRotationState);
         displaceX += wallKick;
@@ -118,13 +124,6 @@ public class TetrisBoard {
                     occupiedTiles[i][0] = newYPos;
                     occupiedTiles[i][1] = newXPos;
                     i++;
-                }
-                else {
-                    if (!(newXPos < 0 || newXPos >= boardWidth)) {
-                        if (0 == boardState[newYPos][newXPos]) {
-                            boardArray[newYPos][newXPos].setFill(Color.WHITE);
-                        }
-                    }
                 }
             }
         }
@@ -155,16 +154,16 @@ public class TetrisBoard {
                 if (1 == pieceArray[y][x]) {
                     int newYPos = y + displaceY;
                     int newXPos = x + displaceX;
-                    if (newXPos >= boardWidth) {
+                    if (newXPos >= boardWidth || newXPos >= 0 && newYPos < boardHeight && 1 == boardState[newYPos][newXPos] && x >= 2) {
                         if (currentBlock instanceof IBlock && 0 == rotationState && boardWidth - 2 == displaceX) {
                             return -2;
                         } else {
                             wallKickState = -1;
                         }
                     }
-                    else if (newXPos < 0) {
+                    else if (newXPos < 0 || newYPos < boardHeight && 1 == boardState[newYPos][newXPos] && x <= 1) {
                         if (currentBlock instanceof IBlock && 2 == rotationState && -2 == displaceX) {
-                            wallKickState = 2;
+                            return 2;
                         } else {
                             wallKickState = 1;
                         }
