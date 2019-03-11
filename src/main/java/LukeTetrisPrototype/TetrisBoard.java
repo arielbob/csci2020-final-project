@@ -98,14 +98,15 @@ public class TetrisBoard {
         System.out.println("TODO: Check for wall kicks against other tiles");
         System.out.println("TODO: Check for floor kicks");
 
-        if (!isRotationPossible()) {
-            return;
-        }
+        int newRotationState = (currentBlock.getRotationState() + 1) % 4;
 
         int wallKick = checkWallKick();
+        if (!isRotationPossible(newRotationState, wallKick)) {
+            return;
+        }
         displaceX += wallKick;
 
-        currentBlock.setRotationState(currentBlock.getRotationState() + 1);
+        currentBlock.setRotationState(newRotationState);
         int[][] pieceArray = currentBlock.rotationsArray[currentBlock.getRotationState()];
         int i = 0;
         for (int y = 0; y < pieceArray.length; y++) {
@@ -116,7 +117,8 @@ public class TetrisBoard {
                     occupiedTiles[i][0] = y + displaceY;
                     occupiedTiles[i][1] = newXPos;
                     i++;
-                } else {
+                }
+                else {
                     if (!(newXPos < 0 || newXPos >= boardWidth)) {
                         if (boardState[y + displaceY][newXPos] == 0) {
                             boardArray[y + displaceY][newXPos].setFill(Color.WHITE);
@@ -127,9 +129,29 @@ public class TetrisBoard {
         }
     }
 
-    // May want to pass in rotation state.
-    private boolean isRotationPossible() {
-        // if instanceof OBlock: true
+    private boolean isRotationPossible(int newRotationState, int wallKick) {
+        if (currentBlock instanceof OBlock) {
+            return true;
+        }
+        else if (currentBlock instanceof IBlock) {
+            int checkY = displaceY;
+            int checkX = displaceX + wallKick;
+            if (1 == newRotationState || 3 == newRotationState) {
+                return true;
+            }
+            else if (0 == newRotationState) {
+                checkY += 1;
+            }
+            else if (2 == newRotationState) {
+                checkY += 2;
+            }
+            for (int i = 0; i < 4; i++) {
+                System.out.println("Checking " + checkY + ", " + checkX + i);
+                if (1 == boardState[checkY][checkX + i]) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
