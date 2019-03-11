@@ -135,7 +135,9 @@ public class TetrisBoard {
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {
                 if (1 == pieceArray[y][x]) {
-                    if (1 == boardState[y + displaceY][x + displaceX + wallKick]) {
+                    int newY = y + displaceY;
+                    int newX = x + displaceX + wallKick;
+                    if (newY >= boardState.length || 1 == boardState[newY][newX]) {
                         return false;
                     }
                 }
@@ -151,6 +153,7 @@ public class TetrisBoard {
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {
                 if (1 == pieceArray[y][x]) {
+                    int newYPos = y + displaceY;
                     int newXPos = x + displaceX;
                     if (newXPos >= boardWidth) {
                         if (currentBlock instanceof IBlock && 0 == rotationState) {
@@ -218,5 +221,4 @@ public class TetrisBoard {
         int rand = new Random().nextInt(blockSet.length);
         return blockSet[rand];
     }
-
 }
