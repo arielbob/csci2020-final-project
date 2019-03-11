@@ -1,13 +1,16 @@
 package net.test;
 
 import net.Client;
+import net.packet.MessagePacket;
+import net.packet.Packet;
+import net.packet.PacketType;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -28,10 +31,7 @@ public class ClientTest extends Application {
 		ta.setEditable(false);
 
 		try {
-			client = new Client(InetAddress.getByName("localhost"), 61616, (DatagramPacket p) -> {
-				String message = new String(p.getData(), StandardCharsets.US_ASCII);
-				ta.appendText(message + '\n');
-			});
+			client = new Client(InetAddress.getByName("localhost"), 61616, ClientTest::parsePacket);
 			client.start();
 		} catch (UnknownHostException | SocketException e) {
 			e.printStackTrace();
@@ -74,5 +74,15 @@ public class ClientTest extends Application {
 		primaryStage.setOnCloseRequest(event -> {
 			client.stopClient();
 		});
+	}
+
+	private static void parsePacket(DatagramPacket packet) {
+		PacketType type = PacketType.lookupPacket(packet);
+
+		switch (type) {
+			case MESSAGE:
+				MessagePacket messagePacket = new MessagePacket(packet);
+				ta.appendText(messagePacket.getId() + ": " + messagePacket.getMessage() + '\n');
+		}
 	}
 }

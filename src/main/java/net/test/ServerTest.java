@@ -14,6 +14,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+// TODO: add parsing packets
+// packet parsing should be hidden away in a Server subclass i.e. TetrisServer
 public class ServerTest extends Application {
 	private static Server server;
 	private static TextArea ta;
@@ -25,7 +27,7 @@ public class ServerTest extends Application {
 		try {
 			server = new Server(61616, (DatagramPacket p) -> {
 				String message = new String(p.getData(), StandardCharsets.US_ASCII);
-				ta.appendText(message + '\n');
+				ta.appendText("[PACKET DATA]: " + message + '\n');
 			});
 			server.start();
 		} catch (SocketException e) {

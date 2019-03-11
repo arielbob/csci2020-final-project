@@ -1,11 +1,14 @@
 package net;
 
+import net.packet.MessagePacket;
+import net.packet.Packet;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 public class Client extends Thread {
 	private InetAddress address;
@@ -41,11 +44,15 @@ public class Client extends Thread {
 		socket.send(packet);
 	}
 
+	private void sendPacket(Packet packet) throws IOException{
+		sendData(packet.getBytes());
+	}
+
 	// TODO: move all tetris specific methods to a Client subclass, instead of in Client itself
 	public void sendMessage(String message) throws IOException {
-		// TODO: have different packet objects that have their own getBytes methods
-		byte[] data = message.getBytes(StandardCharsets.US_ASCII);
-		sendData(data);
+		// TODO: add packet that gives clients their UUID when they join
+		MessagePacket packet = new MessagePacket(UUID.randomUUID(), message);
+		sendPacket(packet);
 	}
 
 	public void stopClient() {
