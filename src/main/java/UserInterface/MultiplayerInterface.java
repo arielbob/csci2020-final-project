@@ -9,7 +9,7 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-public class StartInterface extends Application {
+public class MultiplayerInterface extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -46,8 +46,7 @@ public class StartInterface extends Application {
     multiBtn.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
-        //MultiplayerInterface multiroot = new MultiplayerInterface();
-        //multiroot.launch();
+
       }
     });
 
