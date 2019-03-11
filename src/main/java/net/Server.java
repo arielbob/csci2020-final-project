@@ -29,7 +29,6 @@ public class Server extends Thread {
 
 			try {
 				socket.receive(packet);
-				// TODO: add packet types and parsing packets
 				receiveHandler.execute(packet);
 				userPool.addUser(packet.getAddress(), packet.getPort(), "user");
 				sendData(packet.getData(), userPool.getUsers());
