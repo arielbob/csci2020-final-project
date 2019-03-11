@@ -95,7 +95,6 @@ public class TetrisBoard {
     }
 
     public void rotateTetrimino() {
-        System.out.println("TODO: Check for wall kicks against other tiles");
         System.out.println("TODO: Check for floor kicks");
 
         int newRotationState = (currentBlock.getRotationState() + 1) % 4;
@@ -147,26 +146,21 @@ public class TetrisBoard {
 
     private int checkWallKick() {
         int wallKickState = 0;
+        int xTracker = 0;
         int rotationState = (currentBlock.getRotationState()+1) % 4;
         int[][] pieceArray = currentBlock.rotationsArray[rotationState];
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {
                 if (1 == pieceArray[y][x]) {
-                    int newYPos = y + displaceY;
-                    int newXPos = x + displaceX;
-                    if (newXPos >= boardWidth || newXPos >= 0 && newYPos < boardHeight && 1 == boardState[newYPos][newXPos] && x >= 2) {
-                        if (currentBlock instanceof IBlock && 0 == rotationState && boardWidth - 2 == displaceX) {
-                            return -2;
-                        } else {
-                            wallKickState = -1;
-                        }
+                    int newY = y + displaceY;
+                    int newX = x + displaceX;
+                    if (newX >= boardWidth && newX != xTracker || newX >= 0 && newY < boardHeight && 1 == boardState[newY][newX] && x >= 2) {
+                        wallKickState -= 1;
+                        xTracker = newX;
                     }
-                    else if (newXPos < 0 || newYPos < boardHeight && 1 == boardState[newYPos][newXPos] && x <= 1) {
-                        if (currentBlock instanceof IBlock && 2 == rotationState && -2 == displaceX) {
-                            return 2;
-                        } else {
-                            wallKickState = 1;
-                        }
+                    else if (newX < 0 && newX != xTracker || newY < boardHeight && 1 == boardState[newY][newX] && x <= 1) {
+                        wallKickState += 1;
+                        xTracker = newX;
                     }
                 }
             }
