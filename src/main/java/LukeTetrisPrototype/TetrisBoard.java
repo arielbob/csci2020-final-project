@@ -94,34 +94,35 @@ public class TetrisBoard {
     }
 
     public void rotateTetrimino() {
-        System.out.println("TODO: Check if rotation is possible");
         System.out.println("TODO: Check for wall kicks against other tiles");
         System.out.println("TODO: Check for floor kicks");
 
         int newRotationState = (currentBlock.getRotationState() + 1) % 4;
-
         int wallKick = checkWallKick();
         if (!isRotationPossible(newRotationState, wallKick)) {
             return;
         }
-        displaceX += wallKick;
 
+        int[][] pieceArray = currentBlock.rotationsArray[newRotationState];
         currentBlock.setRotationState(newRotationState);
-        int[][] pieceArray = currentBlock.rotationsArray[currentBlock.getRotationState()];
+        displaceX += wallKick;
         int i = 0;
+
+        // Applies rotation after checking if it's possible.
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {
+                int newYPos = y + displaceY;
                 int newXPos = x + displaceX;
                 if (1 == pieceArray[y][x]) {
-                    boardArray[y + displaceY][newXPos].setFill(currentBlock.paint);
-                    occupiedTiles[i][0] = y + displaceY;
+                    boardArray[newYPos][newXPos].setFill(currentBlock.paint);
+                    occupiedTiles[i][0] = newYPos;
                     occupiedTiles[i][1] = newXPos;
                     i++;
                 }
                 else {
                     if (!(newXPos < 0 || newXPos >= boardWidth)) {
-                        if (boardState[y + displaceY][newXPos] == 0) {
-                            boardArray[y + displaceY][newXPos].setFill(Color.WHITE);
+                        if (0 == boardState[newYPos][newXPos]) {
+                            boardArray[newYPos][newXPos].setFill(Color.WHITE);
                         }
                     }
                 }
@@ -130,40 +131,14 @@ public class TetrisBoard {
     }
 
     private boolean isRotationPossible(int newRotationState, int wallKick) {
-        if (currentBlock instanceof OBlock) {
-            return true;
-        }
-        int checkY = displaceY; // May want to add floor kick later.
-        int checkX = displaceX + wallKick;
-        int checkWidth = 0;
-        if (currentBlock instanceof IBlock) {
-            if (1 == newRotationState || 3 == newRotationState) {
-                return true;
-            }
-            else if (0 == newRotationState) {
-                checkY += 1;
-            }
-            else if (2 == newRotationState) {
-                checkY += 2;
-            }
-            checkWidth = 4;
-        }
-        else if (currentBlock instanceof SBlock) {
-            if (1 == newRotationState || 3 == newRotationState) {
-                return true;
-            }
-            else if (0 == newRotationState) {
-                checkX += 2;
-            }
-            else if (2 == newRotationState) {
-                checkY += 2;
-            }
-            checkWidth = 1;
-        }
-
-        for (int i = 0; i < checkWidth; i++) {
-            if (1 == boardState[checkY][checkX + i]) {
-                return false;
+        int[][] pieceArray = currentBlock.rotationsArray[newRotationState];
+        for (int y = 0; y < pieceArray.length; y++) {
+            for (int x = 0; x < pieceArray[y].length; x++) {
+                if (1 == pieceArray[y][x]) {
+                    if (1 == boardState[y + displaceY][x + displaceX + wallKick]) {
+                        return false;
+                    }
+                }
             }
         }
         return true;
