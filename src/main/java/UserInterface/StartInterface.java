@@ -16,11 +16,14 @@ public class StartInterface extends Application {
 
     GridPane root = new GridPane();
 		root.setAlignment(Pos.CENTER);
-    root.setPadding(new Insets(100));
-    root.setHgap(16);
-    root.setVgap(8);
+    root.setMinWidth(150);
+    root.setMaxWidth(150);
+    root.setMinHeight(150);
+    root.setMaxHeight(150);
+    //root.setHgap(30);
+    root.setVgap(20);
 
-    Button soloBtn = new Button("      SOLO      ");
+    Button soloBtn = new Button("       SOLO       ");
     soloBtn.setAlignment(Pos.CENTER);
     root.add(soloBtn, 0, 0);
 
