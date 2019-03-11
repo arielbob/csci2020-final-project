@@ -133,9 +133,10 @@ public class TetrisBoard {
         if (currentBlock instanceof OBlock) {
             return true;
         }
-        else if (currentBlock instanceof IBlock) {
-            int checkY = displaceY;
-            int checkX = displaceX + wallKick;
+        int checkY = displaceY; // May want to add floor kick later.
+        int checkX = displaceX + wallKick;
+        int checkWidth = 0;
+        if (currentBlock instanceof IBlock) {
             if (1 == newRotationState || 3 == newRotationState) {
                 return true;
             }
@@ -145,11 +146,24 @@ public class TetrisBoard {
             else if (2 == newRotationState) {
                 checkY += 2;
             }
-            for (int i = 0; i < 4; i++) {
-                System.out.println("Checking " + checkY + ", " + checkX + i);
-                if (1 == boardState[checkY][checkX + i]) {
-                    return false;
-                }
+            checkWidth = 4;
+        }
+        else if (currentBlock instanceof SBlock) {
+            if (1 == newRotationState || 3 == newRotationState) {
+                return true;
+            }
+            else if (0 == newRotationState) {
+                checkX += 2;
+            }
+            else if (2 == newRotationState) {
+                checkY += 2;
+            }
+            checkWidth = 1;
+        }
+
+        for (int i = 0; i < checkWidth; i++) {
+            if (1 == boardState[checkY][checkX + i]) {
+                return false;
             }
         }
         return true;
