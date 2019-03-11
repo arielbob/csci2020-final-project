@@ -95,8 +95,12 @@ public class TetrisBoard {
 
     public void rotateTetrimino() {
         System.out.println("TODO: Check if rotation is possible");
+        System.out.println("TODO: Check for wall kicks against other tiles");
+        System.out.println("TODO: Check for floor kicks");
 
-        // isRotationPossible();
+        if (!isRotationPossible()) {
+            return;
+        }
 
         int wallKick = checkWallKick();
         displaceX += wallKick;
@@ -121,6 +125,12 @@ public class TetrisBoard {
                 }
             }
         }
+    }
+
+    // May want to pass in rotation state.
+    private boolean isRotationPossible() {
+        // if instanceof OBlock: true
+        return true;
     }
 
     private int checkWallKick() {
