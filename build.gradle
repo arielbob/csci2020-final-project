@@ -41,3 +41,9 @@ task runClientTest(type: JavaExec) {
     main = "net.test.ClientTest"
     jvmArgs = ["--module-path", classpath.asPath, "--add-modules", "javafx.controls" ]
 }
+
+task runUI(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = "UserInterface.StartInterface"
+    jvmArgs = ["--module-path", classpath.asPath, "--add-modules", "javafx.controls" ]
+}
