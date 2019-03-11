@@ -112,7 +112,9 @@ public class TetrisBoard {
                     i++;
                 } else {
                     if (!(newXPos < 0 || newXPos >= boardWidth)) {
-                        boardArray[y + displaceY][newXPos].setFill(Color.WHITE);
+                        if (boardState[y + displaceY][newXPos] == 0) {
+                            boardArray[y + displaceY][newXPos].setFill(Color.WHITE);
+                        }
                     }
                 }
             }
