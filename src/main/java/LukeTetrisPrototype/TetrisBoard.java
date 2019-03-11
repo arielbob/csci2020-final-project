@@ -70,7 +70,7 @@ public class TetrisBoard {
                 }
             }
             if (dir.equals("hori")) {
-                if (x < 0 || x >= boardArray[0].length || 1 == boardState[y][x]) {
+                if (x < 0 || x >= boardWidth || 1 == boardState[y][x]) {
                     return;
                 }
             }
@@ -156,14 +156,14 @@ public class TetrisBoard {
                     int newYPos = y + displaceY;
                     int newXPos = x + displaceX;
                     if (newXPos >= boardWidth) {
-                        if (currentBlock instanceof IBlock && 0 == rotationState) {
-                            wallKickState = -2;
+                        if (currentBlock instanceof IBlock && 0 == rotationState && boardWidth - 2 == displaceX) {
+                            return -2;
                         } else {
                             wallKickState = -1;
                         }
                     }
                     else if (newXPos < 0) {
-                        if (currentBlock instanceof IBlock && 2 == rotationState) {
+                        if (currentBlock instanceof IBlock && 2 == rotationState && -2 == displaceX) {
                             wallKickState = 2;
                         } else {
                             wallKickState = 1;
