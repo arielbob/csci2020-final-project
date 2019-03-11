@@ -96,6 +96,8 @@ public class TetrisBoard {
     public void rotateTetrimino() {
         System.out.println("TODO: Check if rotation is possible");
 
+        // isRotationPossible();
+
         int wallKick = checkWallKick();
         displaceX += wallKick;
 
@@ -130,10 +132,18 @@ public class TetrisBoard {
                 if (1 == pieceArray[y][x]) {
                     int newXPos = x + displaceX;
                     if (newXPos >= boardWidth) {
-                        wallKickState = -1;
+                        if (currentBlock instanceof IBlock && 0 == rotationState) {
+                            wallKickState = -2;
+                        } else {
+                            wallKickState = -1;
+                        }
                     }
                     else if (newXPos < 0) {
-                        wallKickState = 1;
+                        if (currentBlock instanceof IBlock && 2 == rotationState) {
+                            wallKickState = 2;
+                        } else {
+                            wallKickState = 1;
+                        }
                     }
                 }
             }
