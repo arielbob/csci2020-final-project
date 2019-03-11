@@ -62,7 +62,7 @@ public class TetrisBoard {
             int y = pair[0];
             int x = pair[1];
 
-            if (dir.equals("verti")) {
+            if (dir.equals("vertical")) {
                 if (y > boardHeight - 1 || 1 == boardState[y][x]) {
                     setBoardState();
                     checkForFilledRows();
@@ -70,7 +70,7 @@ public class TetrisBoard {
                     return;
                 }
             }
-            if (dir.equals("hori")) {
+            if (dir.equals("horizontal")) {
                 if (x < 0 || x >= boardWidth || 1 == boardState[y][x]) {
                     return;
                 }

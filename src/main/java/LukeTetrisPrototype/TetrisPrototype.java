@@ -27,21 +27,17 @@ public class TetrisPrototype extends Application {
         pane.getChildren().add(board.pane);
 
         scene.setOnKeyPressed(e -> {
-            //setMovingTilesLocation();
             if (e.getCode() == KeyCode.LEFT) {
-                //board.setOccupied(board.occupiedTileY, board.occupiedTileX-1);
                 int[][] movingTiles = setNewBlockLocation("left");
-                board.moveTetrimino(movingTiles, "hori");
+                board.moveTetrimino(movingTiles, "horizontal");
             }
             if (e.getCode() == KeyCode.RIGHT) {
-                //board.setOccupied(board.occupiedTileY, board.occupiedTileX+1);
                 int[][] movingTiles = setNewBlockLocation("right");
-                board.moveTetrimino(movingTiles, "hori");
+                board.moveTetrimino(movingTiles, "horizontal");
             }
             if (e.getCode() == KeyCode.DOWN) {
-                //board.setOccupied(board.occupiedTileY+1, board.occupiedTileX);
                 int[][] movingTiles = setNewBlockLocation("down");
-                board.moveTetrimino(movingTiles, "verti");
+                board.moveTetrimino(movingTiles, "vertical");
             }
             if (e.getCode() == KeyCode.SPACE) {
                 board.rotateTetrimino();
