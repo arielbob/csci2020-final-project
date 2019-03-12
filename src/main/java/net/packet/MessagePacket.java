@@ -34,18 +34,7 @@ public class MessagePacket extends Packet {
 
 	@Override
 	public byte[] getBytes() {
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		// TODO: extract this part to a separate method
-		output.write(PacketType.MESSAGE.id);
-		output.write(0x1F);
-		try {
-			if (id != null) output.write(id.toString().getBytes());
-			output.write(0x1F);
-			output.write(message.getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return output.toByteArray();
+		String[] entries = {id.toString(), message};
+		return createByteArray(PacketType.MESSAGE, entries);
 	}
 }

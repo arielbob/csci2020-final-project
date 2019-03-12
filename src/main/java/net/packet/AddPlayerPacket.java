@@ -22,17 +22,7 @@ public class AddPlayerPacket extends Packet {
 
 	@Override
 	public byte[] getBytes() {
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		output.write(PacketType.ADD_PLAYER.id);
-		output.write(0x1F);
-		try {
-			if (id != null) output.write(id.toString().getBytes());
-			output.write(0x1F);
-			output.write(username.getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return output.toByteArray();
+		String[] entries = {id.toString(), username};
+		return createByteArray(PacketType.ADD_PLAYER, entries);
 	}
 }

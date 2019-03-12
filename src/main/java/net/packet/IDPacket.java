@@ -23,16 +23,7 @@ public class IDPacket extends Packet {
 
 	@Override
 	public byte[] getBytes() {
-		// TODOo: replace this with something else since try/catch is slow
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		output.write(PacketType.ID.id);
-		output.write(0x1F);
-		try {
-			output.write(id.toString().getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return output.toByteArray();
+		String[] entries = {id.toString()};
+		return createByteArray(PacketType.ID, entries);
 	}
 }
