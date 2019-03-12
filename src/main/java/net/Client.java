@@ -1,5 +1,6 @@
 package net;
 
+import net.Callback;
 import net.packet.MessagePacket;
 import net.packet.Packet;
 
@@ -44,15 +45,8 @@ public class Client extends Thread {
 		socket.send(packet);
 	}
 
-	private void sendPacket(Packet packet) throws IOException{
+	void sendPacket(Packet packet) throws IOException{
 		sendData(packet.getBytes());
-	}
-
-	// TODO: move all tetris specific methods to a Client subclass, instead of in Client itself
-	public void sendMessage(String message) throws IOException {
-		// TODO: add packet that gives clients their UUID when they join
-		MessagePacket packet = new MessagePacket(UUID.randomUUID(), message);
-		sendPacket(packet);
 	}
 
 	public void stopClient() {

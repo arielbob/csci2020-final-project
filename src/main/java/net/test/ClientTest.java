@@ -1,8 +1,7 @@
 package net.test;
 
-import net.Client;
+import net.TetrisClient;
 import net.packet.MessagePacket;
-import net.packet.Packet;
 import net.packet.PacketType;
 
 import java.io.IOException;
@@ -10,7 +9,6 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.UUID;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -23,7 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class ClientTest extends Application {
-	private static Client client;
+	private static TetrisClient client;
 	private static TextArea ta;
 
 	public static void main(String[] args) {
@@ -31,7 +29,7 @@ public class ClientTest extends Application {
 		ta.setEditable(false);
 
 		try {
-			client = new Client(InetAddress.getByName("localhost"), 61616, ClientTest::parsePacket);
+			client = new TetrisClient(InetAddress.getByName("localhost"), 61616, ClientTest::parsePacket);
 			client.start();
 		} catch (UnknownHostException | SocketException e) {
 			e.printStackTrace();
