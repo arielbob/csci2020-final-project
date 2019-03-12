@@ -3,7 +3,7 @@ package net.packet;
 import java.net.DatagramPacket;
 
 public enum PacketType {
-	INVALID(-0x01), MESSAGE(0x00);
+	INVALID(-0x01), ID(0x00), MESSAGE(0x01);
 
 	public int id;
 
