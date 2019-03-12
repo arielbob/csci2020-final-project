@@ -156,13 +156,15 @@ public class TetrisBoard {
                 if (1 == pieceArray[y][x]) {
                     int newY = y + displaceY;
                     int newX = x + displaceX;
-                    if (newX >= boardWidth && newX != xTracker || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX] && x >= 2) {
-                        wallKickState--;
-                        xTracker = newX;
-                    }
-                    else if (newX < 0 && newX != xTracker || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX] && x <= 1) {
-                        wallKickState++;
-                        xTracker = newX;
+                    if (newX != xTracker) {
+                        if (newX >= boardWidth || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX] && x >= 2) {
+                            wallKickState--;
+                            xTracker = newX;
+                        }
+                        else if (newX < 0 || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX] && x <= 1) {
+                            wallKickState++;
+                            xTracker = newX;
+                        }
                     }
                 }
             }
