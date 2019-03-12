@@ -41,6 +41,12 @@ public abstract class Server extends Thread {
 		sendData(packet.getBytes(), user);
 	}
 
+	protected void sendPacket(Packet packet, HashMap<String, User> users) throws IOException {
+		for (User user : users.values()) {
+			sendPacket(packet, user);
+		}
+	}
+
 	protected void sendData(byte[] data, User user) throws IOException {
 		DatagramPacket packet = new DatagramPacket(data, data.length, user.getAddress(), user.getPort());
 		socket.send(packet);
