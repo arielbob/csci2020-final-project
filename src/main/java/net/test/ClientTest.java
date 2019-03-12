@@ -29,7 +29,7 @@ public class ClientTest extends Application {
 		ta.setEditable(false);
 
 		try {
-			client = new TetrisClient(InetAddress.getByName("localhost"), 61616, ClientTest::parsePacket);
+			client = new TetrisClient(InetAddress.getByName("localhost"), 61616);
 			client.start();
 		} catch (UnknownHostException | SocketException e) {
 			e.printStackTrace();
@@ -40,6 +40,8 @@ public class ClientTest extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		client.setView(this);
+
 		VBox pane = new VBox();
 		pane.setPadding(new Insets(10));
 		pane.setSpacing(10);
@@ -74,13 +76,7 @@ public class ClientTest extends Application {
 		});
 	}
 
-	private static void parsePacket(DatagramPacket packet) {
-		PacketType type = PacketType.lookupPacket(packet);
-
-		switch (type) {
-			case MESSAGE:
-				MessagePacket messagePacket = new MessagePacket(packet);
-				ta.appendText(messagePacket.getId() + ": " + messagePacket.getMessage() + '\n');
-		}
+	public void appendText(String text) {
+		ta.appendText(text);
 	}
 }

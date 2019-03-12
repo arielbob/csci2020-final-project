@@ -10,7 +10,7 @@ public class IDPacket extends Packet {
 
 	public IDPacket(DatagramPacket packet) {
 		String[] data = getDataEntries(packet);
-		this.id = UUID.fromString(data[1]);
+		this.id = UUID.fromString(data[1].trim());
 	}
 
 	public IDPacket(UUID id) {

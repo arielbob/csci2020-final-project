@@ -1,7 +1,10 @@
 package net.client;
 
 import net.Callback;
+import net.packet.IDPacket;
 import net.packet.MessagePacket;
+import net.packet.PacketType;
+import net.test.ClientTest;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -10,16 +13,16 @@ import java.net.SocketException;
 import java.util.UUID;
 
 public class TetrisClient extends Client {
-	private Callback<DatagramPacket> receiveHandler;
 	private UUID id;
+	private ClientTest view;
 
-	// receiveHandler is a callback that allows the owner class to access packets when they come in
-	// it should be replaced by a controller object that can modify the view so that packet
-	// parsing can be hidden inside TetrisClient rather than having parsing being coupled with a
-	// view object
-	public TetrisClient(InetAddress address, int port, Callback<DatagramPacket> receiveHandler) throws SocketException {
+	public TetrisClient(InetAddress address, int port) throws SocketException {
 		super(address, port);
-		this.receiveHandler = receiveHandler;
+		this.view = view;
+	}
+
+	public void setView(ClientTest view) {
+		this.view = view;
 	}
 
 	public void sendMessage(String message) throws IOException {
@@ -30,6 +33,17 @@ public class TetrisClient extends Client {
 
 	@Override
 	void receivePacket(DatagramPacket packet) throws IOException {
-		receiveHandler.execute(packet);
+		PacketType type = PacketType.lookupPacket(packet);
+
+		switch (type) {
+			case ID:
+				IDPacket idPacket = new IDPacket(packet);
+				this.id = idPacket.getID();
+				break;
+			case MESSAGE:
+				MessagePacket messagePacket = new MessagePacket(packet);
+				view.appendText(messagePacket.getId() + ": " + messagePacket.getMessage() + '\n');
+				break;
+		}
 	}
 }
