@@ -1,27 +1,32 @@
 package net.server;
 
-import net.Callback;
 import net.packet.IDPacket;
+import net.test.ServerTest;
 import net.user.User;
 import net.user.UserPool;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.SocketException;
+import java.nio.charset.StandardCharsets;
 
 public class TetrisServer extends Server {
 	private UserPool userPool;
-	private Callback<DatagramPacket> receiveHandler;
+	private ServerTest view;
 
-	public TetrisServer(int port, Callback<DatagramPacket> receiveHandler) throws SocketException {
+	public TetrisServer(int port) throws SocketException {
 		super(port);
-		this.receiveHandler = receiveHandler;
 		this.userPool = new UserPool();
+	}
+
+	public void setView(ServerTest view) {
+		this.view = view;
 	}
 
 	@Override
 	void receivePacket(DatagramPacket packet) throws IOException {
-		receiveHandler.execute(packet);
+		view.appendText("[PACKET DATA]: " + new String(packet.getData(), StandardCharsets.US_ASCII) + '\n');
+
 		User createdUser = userPool.addUser(packet.getAddress(), packet.getPort(), "user");
 		if (createdUser != null) {
 			IDPacket idPacket = new IDPacket(createdUser.getId());

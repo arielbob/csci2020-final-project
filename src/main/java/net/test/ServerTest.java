@@ -1,10 +1,6 @@
 package net.test;
 
-import net.server.Server;
-
-import java.net.DatagramPacket;
 import java.net.SocketException;
-import java.nio.charset.StandardCharsets;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -16,7 +12,6 @@ import javafx.stage.Stage;
 import net.server.TetrisServer;
 
 // TODO: add parsing packets
-// packet parsing should be hidden away in a Server subclass i.e. TetrisServer
 public class ServerTest extends Application {
 	private static TetrisServer server;
 	private static TextArea ta;
@@ -26,10 +21,7 @@ public class ServerTest extends Application {
 		ta.setEditable(false);
 
 		try {
-			server = new TetrisServer(61616, (DatagramPacket p) -> {
-				String message = new String(p.getData(), StandardCharsets.US_ASCII);
-				ta.appendText("[PACKET DATA]: " + message + '\n');
-			});
+			server = new TetrisServer(61616);
 			server.start();
 		} catch (SocketException e) {
 			e.printStackTrace();
@@ -40,6 +32,8 @@ public class ServerTest extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		server.setView(this);
+
 		VBox pane = new VBox();
 		pane.setPadding(new Insets(10));
 		pane.setSpacing(10);
@@ -58,4 +52,7 @@ public class ServerTest extends Application {
 		});
 	}
 
+	public void appendText(String text) {
+		ta.appendText(text);
+	}
 }
