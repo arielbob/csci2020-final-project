@@ -1,5 +1,7 @@
 package net;
 
+import net.packet.IDPacket;
+import net.packet.Packet;
 import net.user.User;
 import net.user.UserPool;
 
@@ -30,12 +32,20 @@ public class Server extends Thread {
 			try {
 				socket.receive(packet);
 				receiveHandler.execute(packet);
-				userPool.addUser(packet.getAddress(), packet.getPort(), "user");
+				User createdUser = userPool.addUser(packet.getAddress(), packet.getPort(), "user");
+				if (createdUser != null) {
+					IDPacket idPacket = new IDPacket(createdUser.getId());
+					sendPacket(idPacket, createdUser);
+				}
 				sendData(packet.getData(), userPool.getUsers());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	void sendPacket(Packet packet, User user) throws IOException{
+		sendData(packet.getBytes(), user);
 	}
 
 	private void sendData(byte[] data, User user) throws IOException {
