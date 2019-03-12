@@ -1,4 +1,4 @@
-package net;
+package net.server;
 
 import net.packet.IDPacket;
 import net.packet.Packet;
@@ -11,16 +11,12 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.HashMap;
 
-public class Server extends Thread {
+public abstract class Server extends Thread {
 	private DatagramSocket socket;
-	private Callback<DatagramPacket> receiveHandler;
 	private volatile boolean isRunning;
-	private UserPool userPool;
 
-	public Server(int port, Callback<DatagramPacket> receiveHandler) throws SocketException {
+	public Server(int port) throws SocketException {
 		this.socket = new DatagramSocket(port);
-		this.receiveHandler = receiveHandler;
-		this.userPool = new UserPool();
 	}
 
 	public void run() {
@@ -31,29 +27,26 @@ public class Server extends Thread {
 
 			try {
 				socket.receive(packet);
-				receiveHandler.execute(packet);
-				User createdUser = userPool.addUser(packet.getAddress(), packet.getPort(), "user");
-				if (createdUser != null) {
-					IDPacket idPacket = new IDPacket(createdUser.getId());
-					sendPacket(idPacket, createdUser);
-				}
-				sendData(packet.getData(), userPool.getUsers());
+				receivePacket(packet);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	void sendPacket(Packet packet, User user) throws IOException{
+	// method that handles receiving packets
+	abstract void receivePacket(DatagramPacket packet) throws IOException;
+
+	protected void sendPacket(Packet packet, User user) throws IOException{
 		sendData(packet.getBytes(), user);
 	}
 
-	private void sendData(byte[] data, User user) throws IOException {
+	protected void sendData(byte[] data, User user) throws IOException {
 		DatagramPacket packet = new DatagramPacket(data, data.length, user.getAddress(), user.getPort());
 		socket.send(packet);
 	}
 
-	private void sendData(byte[] data, HashMap<String, User> users) throws IOException {
+	protected void sendData(byte[] data, HashMap<String, User> users) throws IOException {
 		for (User user : users.values()) {
 			sendData(data, user);
 		}
