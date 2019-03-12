@@ -22,7 +22,6 @@ public class TetrisClient extends Client {
 
 	public TetrisClient(InetAddress address, int port) throws SocketException {
 		super(address, port);
-		this.view = view;
 	}
 
 	public void setView(ClientTest view) {

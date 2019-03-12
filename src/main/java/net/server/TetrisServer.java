@@ -30,6 +30,20 @@ public class TetrisServer extends Server {
 		this.view = view;
 	}
 
+	public void startGame() {
+		// probably reset the game state
+		if (userPool.getUsers().size() > 1 && state == ServerState.WAITING) {
+			this.state = ServerState.IN_PROGRESS;
+			// send start game packet
+			// start game loop
+		}
+	}
+
+	public void endGame() {
+		this.state = ServerState.WAITING;
+		// send end game packet
+	}
+
 	@Override
 	void receivePacket(DatagramPacket packet) throws IOException {
 		view.appendText("[PACKET DATA]: " + new String(packet.getData(), StandardCharsets.US_ASCII) + '\n');
