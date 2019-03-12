@@ -11,21 +11,24 @@ public class UserPool {
 		users = new HashMap<String, User>();
 	}
 
-	// returns the new user object if a user is created, else null
-	public User addUser(InetAddress ip, int port, String username) {
-		String key = ip.toString() + ":" + Integer.toString(port);
-		User user = new User(ip, port, username);
-
-		if (!users.containsKey(key)) {
-			users.put(key, new User(ip, port, username));
-			System.out.println(users.toString());
-			return user;
-		}
-
-		return null;
-	}
-
 	public HashMap<String, User> getUsers() {
 		return users;
+	}
+
+	public User findUserByIp(InetAddress ip, int port) {
+		return users.get(createKeyString(ip, port));
+	}
+
+	public User addUser(InetAddress ip, int port, String username) {
+		String key = createKeyString(ip, port);
+		User user = new User(ip, port, username);
+
+		users.put(key, new User(ip, port, username));
+		System.out.println(users.toString());
+		return user;
+	}
+
+	private String createKeyString(InetAddress ip, int port) {
+		return ip.toString() + ":" + Integer.toString(port);
 	}
 }

@@ -27,7 +27,7 @@ public class TetrisClient extends Client {
 
 	public void sendMessage(String message) throws IOException {
 		// TODO: add packet that gives clients their UUID when they join
-		MessagePacket packet = new MessagePacket(UUID.randomUUID(), message);
+		MessagePacket packet = new MessagePacket(this.id, message);
 		sendPacket(packet);
 	}
 

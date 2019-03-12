@@ -11,13 +11,17 @@ public class MessagePacket extends Packet {
 
 	public MessagePacket(DatagramPacket packet) {
 		String[] data = getDataEntries(packet);
-		this.id = UUID.fromString(data[1]);
+		if (data[1].length() > 0) this.id = UUID.fromString(data[1]);
 		this.message = data[2];
 	}
 
 	public MessagePacket(UUID id, String message) {
 		this.id = id;
 		this.message = message;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
 	}
 
 	public UUID getId() {
@@ -35,7 +39,7 @@ public class MessagePacket extends Packet {
 		output.write(PacketType.MESSAGE.id);
 		output.write(0x1F);
 		try {
-			output.write(id.toString().getBytes());
+			if (id != null) output.write(id.toString().getBytes());
 			output.write(0x1F);
 			output.write(message.getBytes());
 		} catch (IOException e) {

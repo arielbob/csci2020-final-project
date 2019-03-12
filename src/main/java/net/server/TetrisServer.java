@@ -1,12 +1,15 @@
 package net.server;
 
 import net.packet.IDPacket;
+import net.packet.MessagePacket;
+import net.packet.PacketType;
 import net.test.ServerTest;
 import net.user.User;
 import net.user.UserPool;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
+import java.net.InetAddress;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 
@@ -27,11 +30,24 @@ public class TetrisServer extends Server {
 	void receivePacket(DatagramPacket packet) throws IOException {
 		view.appendText("[PACKET DATA]: " + new String(packet.getData(), StandardCharsets.US_ASCII) + '\n');
 
-		User createdUser = userPool.addUser(packet.getAddress(), packet.getPort(), "user");
-		if (createdUser != null) {
-			IDPacket idPacket = new IDPacket(createdUser.getId());
-			sendPacket(idPacket, createdUser);
+		InetAddress packetIp = packet.getAddress();
+		int packetPort = packet.getPort();
+
+		// TODO: might want to replace this with a JoinPacket or something
+		User user = userPool.findUserByIp(packetIp, packetPort);
+		if (user == null) {
+			user = userPool.addUser(packetIp, packetPort, "user");
+			IDPacket idPacket = new IDPacket(user.getId());
+			sendPacket(idPacket, user);
 		}
-		sendData(packet.getData(), userPool.getUsers());
+
+		PacketType type = PacketType.lookupPacket(packet);
+
+		switch(type) {
+			case MESSAGE:
+				MessagePacket messagePacket = new MessagePacket(packet);
+				messagePacket.setId(user.getId());
+				sendData(packet.getData(), userPool.getUsers());
+		}
 	}
 }
