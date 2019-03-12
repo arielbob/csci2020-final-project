@@ -1,7 +1,6 @@
 package net.client;
 
 import net.Callback;
-import net.packet.MessagePacket;
 import net.packet.Packet;
 
 import java.io.IOException;
@@ -9,7 +8,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.UUID;
 
 public class Client extends Thread {
 	private InetAddress address;
