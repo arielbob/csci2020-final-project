@@ -9,11 +9,19 @@ public class User {
 	private String username;
 	private UUID id; // we have this so we can send the data of one person to another without sharing IPs, but still having some identifier
 
+	private int[][] board;
+	private UserState state;
+
 	public User(InetAddress address, int port, String username) {
 		this.address = address;
 		this.port = port;
 		this.username = username;
 		this.id = UUID.randomUUID();
+		this.state = UserState.SPECTATING;
+	}
+
+	public void setState(UserState state) {
+		this.state = state;
 	}
 
 	public InetAddress getAddress() {
