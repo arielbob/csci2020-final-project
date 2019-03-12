@@ -9,13 +9,13 @@ import java.util.Random;
 import java.util.Arrays;
 
 public class TetrisBoard {
-    Pane pane = new Pane();
+    public Pane pane = new Pane();
     int boardWidth = 10;
     int boardHeight = 24;
     int[][] boardState = new int[boardHeight][boardWidth];
     Rectangle[][] boardArray = new Rectangle[boardHeight][boardWidth];
     double tileSize = 15;
-    int[][] occupiedTiles = new int[4][2];
+    public int[][] occupiedTiles = new int[4][2];
     int displaceY = 0;
     int displaceX = 0;
     Tetrimino currentBlock;
