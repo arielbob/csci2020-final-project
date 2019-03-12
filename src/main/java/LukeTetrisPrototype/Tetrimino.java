@@ -6,6 +6,8 @@ import javafx.scene.paint.Color;
 
 public class Tetrimino {
     Paint paint;
+    int spawnPointY = 2;
+    int spawnPointX = 3;
     int[][][] rotationsArray = new int[4][][];
     private int rotationState = 0;
 

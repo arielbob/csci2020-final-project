@@ -27,8 +27,8 @@ public class TetrisBoard {
             for (int c = 0; c < boardArray[r].length; c++) {
                 Rectangle tile = new Rectangle(tileSize, tileSize, Color.WHITE);
                 tile.setStroke(Color.BLACK);
+                tile.setY((r-4)*tileSize);
                 tile.setX(c*tileSize);
-                tile.setY(r*tileSize);
                 boardArray[r][c] = tile;
                 pane.getChildren().add(tile);
             }
@@ -41,8 +41,8 @@ public class TetrisBoard {
         currentBlock = pickRandomBlock(blockSet);
         int[][] pieceArray = currentBlock.rotationsArray[0];
         currentBlock.setRotationState(0);
-        displaceY = 0;
-        displaceX = 0;
+        displaceY = currentBlock.spawnPointY;
+        displaceX = currentBlock.spawnPointX;
         int i = 0;
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {
@@ -131,7 +131,7 @@ public class TetrisBoard {
     private int checkFloorKick() {
         int floorKickState = 0;
         int yTracker = -999;
-        int rotationState = (currentBlock.getRotationState()+1) % 4;
+        int rotationState = (currentBlock.getRotationState() + 1) % 4;
         int[][] pieceArray = currentBlock.rotationsArray[rotationState];
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {
@@ -153,7 +153,7 @@ public class TetrisBoard {
     private int checkWallKick(int floorKick) {
         int wallKickState = 0;
         int xTracker = -999;
-        int rotationState = (currentBlock.getRotationState()+1) % 4;
+        int rotationState = (currentBlock.getRotationState() + 1) % 4;
         int[][] pieceArray = currentBlock.rotationsArray[rotationState];
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {

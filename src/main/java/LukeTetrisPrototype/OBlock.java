@@ -6,6 +6,8 @@ import javafx.scene.paint.Color;
 public class OBlock extends Tetrimino {
     public OBlock() {
         paint = Color.YELLOW;
+        spawnPointY = 2;
+        spawnPointX = 4;
         rotationsArray[0] = new int[][] {
             {1, 1},
             {1, 1}
