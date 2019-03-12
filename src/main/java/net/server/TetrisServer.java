@@ -16,10 +16,12 @@ import java.nio.charset.StandardCharsets;
 public class TetrisServer extends Server {
 	private UserPool userPool;
 	private ServerTest view;
+	private ServerState state;
 
 	public TetrisServer(int port) throws SocketException {
 		super(port);
 		this.userPool = new UserPool();
+		this.state = ServerState.WAITING;
 	}
 
 	public void setView(ServerTest view) {
