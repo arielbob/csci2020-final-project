@@ -148,7 +148,7 @@ public class TetrisBoard {
 
     private int checkWallKick() {
         int wallKickState = 0;
-        int xTracker = -1;
+        int xTracker = -999;
         int rotationState = (currentBlock.getRotationState()+1) % 4;
         int[][] pieceArray = currentBlock.rotationsArray[rotationState];
         for (int y = 0; y < pieceArray.length; y++) {
@@ -156,11 +156,11 @@ public class TetrisBoard {
                 if (1 == pieceArray[y][x]) {
                     int newY = y + displaceY;
                     int newX = x + displaceX;
-                    if (newX >= boardWidth && newX != xTracker || newX >= 0 && newY < boardHeight && 1 == boardState[newY][newX] && x >= 2) {
+                    if (newX >= boardWidth && newX != xTracker || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX] && x >= 2) {
                         wallKickState--;
                         xTracker = newX;
                     }
-                    else if (newX < 0 && newX != xTracker || newX >= 0 && newY < boardHeight && 1 == boardState[newY][newX] && x <= 1) {
+                    else if (newX < 0 && newX != xTracker || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX] && x <= 1) {
                         wallKickState++;
                         xTracker = newX;
                     }
@@ -172,7 +172,7 @@ public class TetrisBoard {
 
     private int checkFloorKick() {
         int floorKickState = 0;
-        int yTracker = -1;
+        int yTracker = -999;
         int rotationState = (currentBlock.getRotationState()+1) % 4;
         int[][] pieceArray = currentBlock.rotationsArray[rotationState];
         for (int y = 0; y < pieceArray.length; y++) {
