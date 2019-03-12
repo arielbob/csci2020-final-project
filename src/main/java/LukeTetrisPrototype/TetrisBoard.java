@@ -95,11 +95,9 @@ public class TetrisBoard {
     }
 
     public void rotateTetrimino() {
-        System.out.println("TODO: Check for floor kicks");
-
         int newRotationState = (currentBlock.getRotationState() + 1) % 4;
-        int wallKick = checkWallKick();
         int floorKick = checkFloorKick();
+        int wallKick = checkWallKick(floorKick);
         if (!isRotationPossible(newRotationState, wallKick, floorKick)) {
             return;
         }
@@ -130,48 +128,6 @@ public class TetrisBoard {
         }
     }
 
-    private boolean isRotationPossible(int newRotationState, int wallKick, int floorKick) {
-        int[][] pieceArray = currentBlock.rotationsArray[newRotationState];
-        for (int y = 0; y < pieceArray.length; y++) {
-            for (int x = 0; x < pieceArray[y].length; x++) {
-                if (1 == pieceArray[y][x]) {
-                    int newY = y + displaceY + floorKick;
-                    int newX = x + displaceX + wallKick;
-                    if (newY >= boardState.length || 1 == boardState[newY][newX]) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
-    private int checkWallKick() {
-        int wallKickState = 0;
-        int xTracker = -999;
-        int rotationState = (currentBlock.getRotationState()+1) % 4;
-        int[][] pieceArray = currentBlock.rotationsArray[rotationState];
-        for (int y = 0; y < pieceArray.length; y++) {
-            for (int x = 0; x < pieceArray[y].length; x++) {
-                if (1 == pieceArray[y][x]) {
-                    int newY = y + displaceY;
-                    int newX = x + displaceX;
-                    if (newX != xTracker) {
-                        if (newX >= boardWidth || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX] && x >= 2) {
-                            wallKickState--;
-                            xTracker = newX;
-                        }
-                        else if (newX < 0 || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX] && x <= 1) {
-                            wallKickState++;
-                            xTracker = newX;
-                        }
-                    }
-                }
-            }
-        }
-        return wallKickState;
-    }
-
     private int checkFloorKick() {
         int floorKickState = 0;
         int yTracker = -999;
@@ -192,6 +148,48 @@ public class TetrisBoard {
             }
         }
         return floorKickState;
+    }
+
+    private int checkWallKick(int floorKick) {
+        int wallKickState = 0;
+        int xTracker = -999;
+        int rotationState = (currentBlock.getRotationState()+1) % 4;
+        int[][] pieceArray = currentBlock.rotationsArray[rotationState];
+        for (int y = 0; y < pieceArray.length; y++) {
+            for (int x = 0; x < pieceArray[y].length; x++) {
+                if (1 == pieceArray[y][x]) {
+                    int newY = y + displaceY + floorKick;
+                    int newX = x + displaceX;
+                    if (newX != xTracker) {
+                        if (newX >= boardWidth || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX] && x >= 2) {
+                            wallKickState--;
+                            xTracker = newX;
+                        }
+                        else if (newX < 0 || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX] && x <= 1) {
+                            wallKickState++;
+                            xTracker = newX;
+                        }
+                    }
+                }
+            }
+        }
+        return wallKickState;
+    }
+
+    private boolean isRotationPossible(int newRotationState, int wallKick, int floorKick) {
+        int[][] pieceArray = currentBlock.rotationsArray[newRotationState];
+        for (int y = 0; y < pieceArray.length; y++) {
+            for (int x = 0; x < pieceArray[y].length; x++) {
+                if (1 == pieceArray[y][x]) {
+                    int newY = y + displaceY + floorKick;
+                    int newX = x + displaceX + wallKick;
+                    if (newY >= boardState.length || 1 == boardState[newY][newX]) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     private void setBoardState() {
