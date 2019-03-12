@@ -32,22 +32,23 @@ public class TetrisServer extends Server {
 
 		InetAddress packetIp = packet.getAddress();
 		int packetPort = packet.getPort();
-
-		// TODO: might want to replace this with a JoinPacket or something
 		User user = userPool.findUserByIp(packetIp, packetPort);
-		if (user == null) {
-			user = userPool.addUser(packetIp, packetPort, "user");
-			IDPacket idPacket = new IDPacket(user.getId());
-			sendPacket(idPacket, user);
-		}
 
 		PacketType type = PacketType.lookupPacket(packet);
 
 		switch(type) {
+			case CONNECT:
+				if (user == null) {
+					user = userPool.addUser(packetIp, packetPort, "user");
+					IDPacket idPacket = new IDPacket(user.getId());
+					sendPacket(idPacket, user);
+				}
+				break;
 			case MESSAGE:
 				MessagePacket messagePacket = new MessagePacket(packet);
 				messagePacket.setId(user.getId());
 				sendData(packet.getData(), userPool.getUsers());
+				break;
 		}
 	}
 }

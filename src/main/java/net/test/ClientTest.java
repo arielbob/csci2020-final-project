@@ -41,6 +41,7 @@ public class ClientTest extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		client.setView(this);
+		client.connect();
 
 		VBox pane = new VBox();
 		pane.setPadding(new Insets(10));
