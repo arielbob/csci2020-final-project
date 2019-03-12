@@ -1,6 +1,5 @@
 package net.client;
 
-import net.Callback;
 import net.packet.Packet;
 
 import java.io.IOException;
@@ -9,18 +8,16 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
-public class Client extends Thread {
+public abstract class Client extends Thread {
 	private InetAddress address;
 	private int port;
 	private DatagramSocket socket;
-	private Callback<DatagramPacket> receiveHandler;
 	private volatile boolean isRunning;
 
-	public Client(InetAddress address, int port, Callback<DatagramPacket> receiveHandler) throws SocketException {
+	public Client(InetAddress address, int port) throws SocketException {
 		this.address = address;
 		this.port = port;
 		this.socket = new DatagramSocket();
-		this.receiveHandler = receiveHandler;
 	}
 
 	public void run() {
@@ -31,12 +28,15 @@ public class Client extends Thread {
 
 			try {
 				socket.receive(packet);
-				receiveHandler.execute(packet);
+				receivePacket(packet);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
+
+	// method that handles receiving packets
+	abstract void receivePacket(DatagramPacket packet) throws IOException;
 
 	private void sendData(byte[] data) throws IOException {
 		DatagramPacket packet = new DatagramPacket(data, data.length, address, port);

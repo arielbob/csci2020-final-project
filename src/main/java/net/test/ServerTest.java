@@ -18,7 +18,7 @@ import net.server.TetrisServer;
 // TODO: add parsing packets
 // packet parsing should be hidden away in a Server subclass i.e. TetrisServer
 public class ServerTest extends Application {
-	private static Server server;
+	private static TetrisServer server;
 	private static TextArea ta;
 
 	public static void main(String[] args) {
