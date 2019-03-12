@@ -10,6 +10,7 @@ import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.scene.input.KeyCode;
 
 public class StartInterface extends Application {
 
