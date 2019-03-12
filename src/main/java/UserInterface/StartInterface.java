@@ -81,8 +81,6 @@ public class StartInterface extends Application {
 			}
 		});
 
-    // multiBtn.setOnAction(e -> window.setScene());
-
     multiBtn.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
