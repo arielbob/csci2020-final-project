@@ -182,9 +182,11 @@ public class TetrisBoard {
                 if (1 == pieceArray[y][x]) {
                     int newY = y + displaceY;
                     int newX = x + displaceX;
-                    if (newY >= boardHeight && newY != yTracker) {
-                        floorKickState--;
-                        yTracker = newY;
+                    if (newY != yTracker) {
+                        if (newY >= boardHeight || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX]) {
+                            floorKickState--;
+                            yTracker = newY;
+                        }
                     }
                 }
             }
