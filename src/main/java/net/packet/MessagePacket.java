@@ -10,7 +10,7 @@ public class MessagePacket extends Packet {
 	private String message;
 
 	public MessagePacket(DatagramPacket packet) {
-		String[] data = getDataString(packet).split("\\x1F");
+		String[] data = getDataEntries(packet);
 		this.id = UUID.fromString(data[1]);
 		this.message = data[2];
 	}

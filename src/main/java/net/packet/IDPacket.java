@@ -9,7 +9,7 @@ public class IDPacket extends Packet {
 	private UUID id;
 
 	private IDPacket(DatagramPacket packet) {
-		String[] data = getDataString(packet).split("\\x1F");
+		String[] data = getDataEntries(packet);
 		this.id = UUID.fromString(data[1]);
 	}
 
