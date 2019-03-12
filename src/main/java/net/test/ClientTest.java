@@ -1,6 +1,6 @@
 package net.test;
 
-import net.TetrisClient;
+import net.client.TetrisClient;
 import net.packet.MessagePacket;
 import net.packet.PacketType;
 

@@ -1,4 +1,4 @@
-package net;
+package net.client;
 
 import net.Callback;
 import net.packet.MessagePacket;
