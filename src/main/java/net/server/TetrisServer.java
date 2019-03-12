@@ -1,11 +1,13 @@
 package net.server;
 
+import net.packet.AddPlayerPacket;
 import net.packet.IDPacket;
 import net.packet.MessagePacket;
 import net.packet.PacketType;
 import net.test.ServerTest;
 import net.user.User;
 import net.user.UserPool;
+import net.user.UserState;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -38,18 +40,28 @@ public class TetrisServer extends Server {
 
 		PacketType type = PacketType.lookupPacket(packet);
 
-		switch(type) {
-			case CONNECT:
-				if (user == null) {
-					user = userPool.addUser(packetIp, packetPort, "user");
-					IDPacket idPacket = new IDPacket(user.getId());
-					sendPacket(idPacket, user);
+		if (type == PacketType.CONNECT) {
+			if (user == null) {
+				user = userPool.addUser(packetIp, packetPort, "user");
+				IDPacket idPacket = new IDPacket(user.getId());
+				sendPacket(idPacket, user);
+			}
+		}
+
+		if (user == null) return;
+
+		switch (type) {
+			case JOIN:
+				if (state == ServerState.WAITING) {
+					user.setState(UserState.JOINED);
+					AddPlayerPacket addPlayerPacket = new AddPlayerPacket(user.getId(), user.getUsername());
+					sendPacket(addPlayerPacket, userPool.getUsers());
 				}
 				break;
 			case MESSAGE:
 				MessagePacket messagePacket = new MessagePacket(packet);
 				messagePacket.setId(user.getId());
-				sendData(packet.getData(), userPool.getUsers());
+				sendPacket(messagePacket, userPool.getUsers());
 				break;
 		}
 	}

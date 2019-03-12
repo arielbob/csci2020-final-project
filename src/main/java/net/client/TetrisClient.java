@@ -1,8 +1,10 @@
 package net.client;
 
 import net.Callback;
+import net.packet.AddPlayerPacket;
 import net.packet.ConnectPacket;
 import net.packet.IDPacket;
+import net.packet.JoinPacket;
 import net.packet.MessagePacket;
 import net.packet.PacketType;
 import net.test.ClientTest;
@@ -32,9 +34,17 @@ public class TetrisClient extends Client {
 		sendPacket(packet);
 	}
 
-	public void sendMessage(String message) throws IOException {
-		MessagePacket packet = new MessagePacket(this.id, message);
+	public void joinGame() throws IOException {
+		JoinPacket packet = new JoinPacket();
 		sendPacket(packet);
+	}
+
+	// TODO: add TetrisClient states
+	public void sendMessage(String message) throws IOException {
+		if (this.id != null) {
+			MessagePacket packet = new MessagePacket(this.id, message);
+			sendPacket(packet);
+		}
 	}
 
 	@Override
@@ -46,6 +56,10 @@ public class TetrisClient extends Client {
 				IDPacket idPacket = new IDPacket(packet);
 				this.id = idPacket.getID();
 				view.appendText("CONNECTED WITH ID " + this.id.toString() + '\n');
+				break;
+			case ADD_PLAYER:
+				AddPlayerPacket addPlayerPacket = new AddPlayerPacket(packet);
+				view.appendText("PLAYER JOINED " + addPlayerPacket.getId() + '\n');
 				break;
 			case MESSAGE:
 				MessagePacket messagePacket = new MessagePacket(packet);

@@ -23,7 +23,7 @@ public class UserPool {
 		String key = createKeyString(ip, port);
 		User user = new User(ip, port, username);
 
-		users.put(key, new User(ip, port, username));
+		users.put(key, user);
 		System.out.println(users.toString());
 		return user;
 	}

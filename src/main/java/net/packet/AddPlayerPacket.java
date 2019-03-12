@@ -20,6 +20,14 @@ public class AddPlayerPacket extends Packet {
 		this.username = username;
 	}
 
+	public UUID getId() {
+		return id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
 	@Override
 	public byte[] getBytes() {
 		String[] entries = {id.toString(), username};

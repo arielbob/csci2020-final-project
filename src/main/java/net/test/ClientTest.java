@@ -42,6 +42,7 @@ public class ClientTest extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		client.setView(this);
 		client.connect();
+		client.joinGame();
 
 		VBox pane = new VBox();
 		pane.setPadding(new Insets(10));
