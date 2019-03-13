@@ -9,9 +9,15 @@ public class User {
 	private int[][] board;
 	private UserState state;
 
-	public User(String username) {
+	public User(UUID id, String username) {
+		this.id = id;
 		this.username = username;
+		this.state = UserState.SPECTATING;
+	}
+
+	public User(String username) {
 		this.id = UUID.randomUUID();
+		this.username = username;
 		this.state = UserState.SPECTATING;
 	}
 

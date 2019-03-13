@@ -2,6 +2,7 @@ package net.user;
 
 import java.net.InetAddress;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class UserPool {
 	// TODO: we might want to have a HashMap mapping user IDs to their ip:port key in users
@@ -15,12 +16,12 @@ public class UserPool {
 		return users;
 	}
 
-	public User findUserById(String id) {
-		return users.get(id);
+	public User findUserById(UUID id) {
+		return users.get(id.toString());
 	}
 
-	public User addUser(String id, String username) {
-		User user = new User(username);
+	public User addUser(UUID id, String username) {
+		User user = new User(id, username);
 
 		users.put(user.getId().toString(), user);
 		return user;
