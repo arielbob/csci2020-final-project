@@ -20,6 +20,11 @@ public class UserPool {
 		return users.get(id.toString());
 	}
 
+	public User addUser(User user) {
+		users.put(user.getId().toString(), user);
+		return user;
+	}
+
 	public User addUser(UUID id, String username) {
 		User user = new User(id, username);
 

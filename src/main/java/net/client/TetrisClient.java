@@ -1,12 +1,7 @@
 package net.client;
 
 import net.Callback;
-import net.packet.AddPlayerPacket;
-import net.packet.ConnectPacket;
-import net.packet.IDPacket;
-import net.packet.JoinPacket;
-import net.packet.MessagePacket;
-import net.packet.PacketType;
+import net.packet.*;
 import net.test.ClientTest;
 import net.user.User;
 import net.user.UserPool;
@@ -54,6 +49,7 @@ public class TetrisClient extends Client {
 	@Override
 	void receivePacket(DatagramPacket packet) throws IOException {
 		PacketType type = PacketType.lookupPacket(packet);
+		User user;
 
 		switch (type) {
 			case ID:
@@ -63,12 +59,21 @@ public class TetrisClient extends Client {
 				break;
 			case ADD_PLAYER:
 				AddPlayerPacket addPlayerPacket = new AddPlayerPacket(packet);
-				userPool.addUser(addPlayerPacket.getId(), addPlayerPacket.getUsername());
+				user = new User(addPlayerPacket.getId(), addPlayerPacket.getUsername());
+				user.setState(UserState.WAITING);
+				userPool.addUser(user);
 				view.appendText("PLAYER JOINED " + addPlayerPacket.getId() + '\n');
+				break;
+			case UPDATE_USER_STATE:
+				UpdateUserStatePacket updateUserStatePacket = new UpdateUserStatePacket(packet);
+				user = userPool.findUserById(updateUserStatePacket.getId());
+				if (user != null) {
+					user.setState(updateUserStatePacket.getUserState());
+				}
 				break;
 			case MESSAGE:
 				MessagePacket messagePacket = new MessagePacket(packet);
-				User user = userPool.findUserById(messagePacket.getId());
+				user = userPool.findUserById(messagePacket.getId());
 				if (user != null) {
 					UserState userState = user.getState();
 					view.appendText("[" + userState + "] " + messagePacket.getId() + ": " + messagePacket.getMessage() + '\n');

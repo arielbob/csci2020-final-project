@@ -1,9 +1,6 @@
 package net.server;
 
-import net.packet.AddPlayerPacket;
-import net.packet.IDPacket;
-import net.packet.MessagePacket;
-import net.packet.PacketType;
+import net.packet.*;
 import net.test.ServerTest;
 import net.user.ServerUser;
 import net.user.User;
@@ -36,10 +33,24 @@ public class TetrisServer extends Server {
 		// probably reset the game state
 		HashMap<String, ServerUser> users = userPool.getUsers();
 
-		if (users.size() > 1 && state == ServerState.WAITING) {
+		int numWaiting = 0;
+		for (ServerUser user : users.values()) {
+			if (user.getState() == UserState.WAITING) numWaiting++;
+		}
+
+		if (numWaiting > 1 && state == ServerState.WAITING) {
+			view.appendText("Game Started\n");
 			this.state = ServerState.IN_PROGRESS;
-			for (User u : users.values()) {
-				if (u.getState() == UserState.WAITING) u.setState(UserState.PLAYING);
+			for (ServerUser u : users.values()) {
+				if (u.getState() == UserState.WAITING) {
+					u.setState(UserState.PLAYING);
+					try {
+						UpdateUserStatePacket updateUserStatePacket = new UpdateUserStatePacket(u.getId(), u.getState());
+						sendPacket(updateUserStatePacket, users);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 			// send start game packet
 			// start game loop
@@ -49,9 +60,19 @@ public class TetrisServer extends Server {
 	public void endGame() {
 		this.state = ServerState.WAITING;
 
+		view.appendText("Game Ended\n");
 		HashMap<String, ServerUser> users = userPool.getUsers();
 		for (User u : users.values()) {
-			if (u.getState() == UserState.PLAYING) u.setState(UserState.WAITING);
+			if (u.getState() == UserState.PLAYING) {
+				u.setState(UserState.WAITING);
+				try {
+					UpdateUserStatePacket updateUserStatePacket = new UpdateUserStatePacket(u.getId(), u.getState());
+					sendPacket(updateUserStatePacket, users);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
 		}
 
 		// send end game packet
@@ -67,6 +88,8 @@ public class TetrisServer extends Server {
 
 		PacketType type = PacketType.lookupPacket(packet);
 
+		// we don't send a ConnectPacket to everyone since when users first connect, they are spectators
+		// the clients only ever need to know a player once they are joined, hence AddPlayerPacket
 		if (type == PacketType.CONNECT) {
 			if (user == null) {
 				user = userPool.addUser(packetIp, packetPort, "user");

@@ -42,7 +42,6 @@ public class ClientTest extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		client.setView(this);
 		client.connect();
-		client.joinGame();
 
 		VBox pane = new VBox();
 		pane.setPadding(new Insets(10));
@@ -66,9 +65,18 @@ public class ClientTest extends Application {
 			tf.clear();
 		});
 
+		Button joinBtn = new Button("Join Game");
+		joinBtn.setOnAction(event -> {
+			try {
+				client.joinGame();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+
 		Label messagesLabel = new Label("Messages");
 
-		pane.getChildren().addAll(label, tf, btn, messagesLabel, ta);
+		pane.getChildren().addAll(label, tf, btn, messagesLabel, ta, joinBtn);
 
 		primaryStage.setTitle("Client Test");
 		primaryStage.setScene(scene);
