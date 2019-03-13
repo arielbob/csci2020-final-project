@@ -37,6 +37,7 @@ public class TetrisBoard {
 
         spawnTetrimino();
 
+        // TODO: The Gradle task does not stop when window exited
         new Thread(new Runnable() {
             @Override
             public void run() {
