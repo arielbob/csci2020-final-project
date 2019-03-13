@@ -5,8 +5,9 @@ import net.packet.IDPacket;
 import net.packet.MessagePacket;
 import net.packet.PacketType;
 import net.test.ServerTest;
+import net.user.ServerUser;
 import net.user.User;
-import net.user.UserPool;
+import net.user.ServerUserPool;
 import net.user.UserState;
 
 import java.io.IOException;
@@ -17,13 +18,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 public class TetrisServer extends Server {
-	private UserPool userPool;
+	private ServerUserPool userPool;
 	private ServerTest view;
 	private ServerState state;
 
 	public TetrisServer(int port) throws SocketException {
 		super(port);
-		this.userPool = new UserPool();
+		this.userPool = new ServerUserPool();
 		this.state = ServerState.WAITING;
 	}
 
@@ -33,7 +34,7 @@ public class TetrisServer extends Server {
 
 	public void startGame() {
 		// probably reset the game state
-		HashMap<String, User> users = userPool.getUsers();
+		HashMap<String, ServerUser> users = userPool.getUsers();
 
 		if (users.size() > 1 && state == ServerState.WAITING) {
 			this.state = ServerState.IN_PROGRESS;
@@ -48,7 +49,7 @@ public class TetrisServer extends Server {
 	public void endGame() {
 		this.state = ServerState.WAITING;
 
-		HashMap<String, User> users = userPool.getUsers();
+		HashMap<String, ServerUser> users = userPool.getUsers();
 		for (User u : users.values()) {
 			if (u.getState() == UserState.PLAYING) u.setState(UserState.WAITING);
 		}
@@ -62,7 +63,7 @@ public class TetrisServer extends Server {
 
 		InetAddress packetIp = packet.getAddress();
 		int packetPort = packet.getPort();
-		User user = userPool.findUserByIp(packetIp, packetPort);
+		ServerUser user = userPool.findUserByIp(packetIp, packetPort);
 
 		PacketType type = PacketType.lookupPacket(packet);
 

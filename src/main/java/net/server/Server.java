@@ -2,6 +2,7 @@ package net.server;
 
 import net.packet.IDPacket;
 import net.packet.Packet;
+import net.user.ServerUser;
 import net.user.User;
 import net.user.UserPool;
 
@@ -37,23 +38,23 @@ public abstract class Server extends Thread {
 	// method that handles receiving packets
 	abstract void receivePacket(DatagramPacket packet) throws IOException;
 
-	protected void sendPacket(Packet packet, User user) throws IOException{
+	protected void sendPacket(Packet packet, ServerUser user) throws IOException{
 		sendData(packet.getBytes(), user);
 	}
 
-	protected void sendPacket(Packet packet, HashMap<String, User> users) throws IOException {
-		for (User user : users.values()) {
+	protected void sendPacket(Packet packet, HashMap<String, ServerUser> users) throws IOException {
+		for (ServerUser user : users.values()) {
 			sendPacket(packet, user);
 		}
 	}
 
-	protected void sendData(byte[] data, User user) throws IOException {
+	protected void sendData(byte[] data, ServerUser user) throws IOException {
 		DatagramPacket packet = new DatagramPacket(data, data.length, user.getAddress(), user.getPort());
 		socket.send(packet);
 	}
 
-	protected void sendData(byte[] data, HashMap<String, User> users) throws IOException {
-		for (User user : users.values()) {
+	protected void sendData(byte[] data, HashMap<String, ServerUser> users) throws IOException {
+		for (ServerUser user : users.values()) {
 			sendData(data, user);
 		}
 	}

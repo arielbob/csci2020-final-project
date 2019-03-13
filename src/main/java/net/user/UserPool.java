@@ -15,20 +15,14 @@ public class UserPool {
 		return users;
 	}
 
-	public User findUserByIp(InetAddress ip, int port) {
-		return users.get(createKeyString(ip, port));
+	public User findUserById(String id) {
+		return users.get(id);
 	}
 
-	public User addUser(InetAddress ip, int port, String username) {
-		String key = createKeyString(ip, port);
-		User user = new User(ip, port, username);
+	public User addUser(String id, String username) {
+		User user = new User(username);
 
-		users.put(key, user);
-		System.out.println(users.toString());
+		users.put(user.getId().toString(), user);
 		return user;
-	}
-
-	private String createKeyString(InetAddress ip, int port) {
-		return ip.toString() + ":" + Integer.toString(port);
 	}
 }

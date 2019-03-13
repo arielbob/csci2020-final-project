@@ -5,6 +5,7 @@ import java.net.SocketException;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
@@ -42,7 +43,17 @@ public class ServerTest extends Application {
 
 		Label label = new Label("Messages");
 
-		pane.getChildren().addAll(label, ta);
+		Button startBtn = new Button("Start Game");
+		Button endBtn = new Button("End Game");
+
+		startBtn.setOnAction(event -> {
+			server.startGame();
+		});
+		endBtn.setOnAction(event -> {
+			server.endGame();
+		});
+
+		pane.getChildren().addAll(label, ta, startBtn, endBtn);
 
 		primaryStage.setTitle("Server Test");
 		primaryStage.setScene(scene);
