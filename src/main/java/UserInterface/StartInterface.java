@@ -83,6 +83,8 @@ public class StartInterface extends Application {
 			public void handle(ActionEvent event) {
         board = new TetrisBoard();
 
+        Stage gameStage = new Stage();
+
         Pane pane = new Pane();
         Scene scene = new Scene(pane);
         pane.setPrefSize(500, 500);
@@ -107,9 +109,9 @@ public class StartInterface extends Application {
             }
         });
 
-        primaryStage.setTitle("Tetris Prototype");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        gameStage.setTitle("Tetris Prototype");
+        gameStage.setScene(scene);
+        gameStage.show();
 
 			}
 		});
