@@ -28,19 +28,12 @@ public class TetrisPrototype extends Application {
 
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.LEFT) {
-                //int[][] movingTiles = setNewBlockLocation("left");
-                //board.moveTetrimino(movingTiles, "horizontal");
                 board.moveTetrimino("left");
             }
             if (e.getCode() == KeyCode.RIGHT) {
-                //int[][] movingTiles = setNewBlockLocation("right");
-                //board.moveTetrimino(movingTiles, "horizontal");
                 board.moveTetrimino("right");
             }
             if (e.getCode() == KeyCode.DOWN) {
-                //int[][] movingTiles = setNewBlockLocation("down");
-                //board.moveTetrimino(movingTiles, "vertical");
-                //board.moveTetrimino("vertical");
                 board.moveTetrimino("down");
             }
             if (e.getCode() == KeyCode.SPACE) {
@@ -52,32 +45,4 @@ public class TetrisPrototype extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
-    // public int[][] setNewBlockLocation(String direction) {
-    //     int dir = 0;
-    //     int xory = 0;
-    //     if (direction.equals("left")) {
-    //         xory = 1;
-    //         dir = -1;
-    //     }
-    //     else if (direction.equals("right")) {
-    //         xory = 1;
-    //         dir = 1;
-    //     }
-    //     else if (direction.equals("down")) {
-    //         xory = 0;
-    //         dir = 1;
-    //     }
-    //
-    //     int[][] movingTiles = new int[4][2];
-    //     for (int pair = 0; pair < board.occupiedTiles.length; pair++) {
-    //         for (int xy = 0; xy < board.occupiedTiles[pair].length; xy++) {
-    //             movingTiles[pair][xy] = board.occupiedTiles[pair][xy];
-    //             if (xy == xory) {
-    //                 movingTiles[pair][xy] += dir;
-    //             }
-    //         }
-    //     }
-    //     return movingTiles;
-    // }
 }
