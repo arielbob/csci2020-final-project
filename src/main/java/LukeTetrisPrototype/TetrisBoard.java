@@ -37,24 +37,25 @@ public class TetrisBoard {
 
         spawnTetrimino();
 
-        // new Thread(new Runnable() {
-        //     @Override
-        //     public void run() {
-        //         try {
-        //             while (true) {
-        //                 Platform.runLater(new Runnable() {
-        //                     @Override
-        //                     public void run() {
-        //                         moveTetrimino("down");
-        //                     }
-        //                 });
-        //                 Thread.sleep(500);
-        //             }
-        //         }
-        //         catch (InterruptedException ex) {
-        //         }
-        //     }
-        // }).start();
+        // TODO: The Gradle task does not stop when window exited
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while (true) {
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                moveTetrimino("down");
+                            }
+                        });
+                        Thread.sleep(500);
+                    }
+                }
+                catch (InterruptedException ex) {
+                }
+            }
+        }).start();
     }
 
     private void spawnTetrimino() {
