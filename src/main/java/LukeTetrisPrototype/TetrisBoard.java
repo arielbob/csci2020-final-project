@@ -7,6 +7,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
 import java.util.Random;
 import java.util.Arrays;
+import javafx.application.Platform;
 
 public class TetrisBoard {
     public Pane pane = new Pane();
@@ -33,8 +34,27 @@ public class TetrisBoard {
                 pane.getChildren().add(tile);
             }
         }
-        
+
         spawnTetrimino();
+
+        // new Thread(new Runnable() {
+        //     @Override
+        //     public void run() {
+        //         try {
+        //             while (true) {
+        //                 Platform.runLater(new Runnable() {
+        //                     @Override
+        //                     public void run() {
+        //                         moveTetrimino("down");
+        //                     }
+        //                 });
+        //                 Thread.sleep(500);
+        //             }
+        //         }
+        //         catch (InterruptedException ex) {
+        //         }
+        //     }
+        // }).start();
     }
 
     private void spawnTetrimino() {
@@ -57,12 +77,41 @@ public class TetrisBoard {
         }
     }
 
-    public void moveTetrimino(int[][] movingTiles, String dir) {
+    public int[][] setNewBlockLocation(String direction) {
+        int dir = 0;
+        int xory = 0;
+        if (direction.equals("left")) {
+            xory = 1;
+            dir = -1;
+        }
+        else if (direction.equals("right")) {
+            xory = 1;
+            dir = 1;
+        }
+        else if (direction.equals("down")) {
+            xory = 0;
+            dir = 1;
+        }
+
+        int[][] movingTiles = new int[4][2];
+        for (int pair = 0; pair < occupiedTiles.length; pair++) {
+            for (int xy = 0; xy < occupiedTiles[pair].length; xy++) {
+                movingTiles[pair][xy] = occupiedTiles[pair][xy];
+                if (xy == xory) {
+                    movingTiles[pair][xy] += dir;
+                }
+            }
+        }
+        return movingTiles;
+    }
+
+    public void moveTetrimino(String dir) {
+        int[][] movingTiles = setNewBlockLocation(dir);
         for (int[] pair : movingTiles) {
             int y = pair[0];
             int x = pair[1];
 
-            if (dir.equals("vertical")) {
+            if (dir.equals("down")) {
                 if (y > boardHeight - 1 || 1 == boardState[y][x]) {
                     setBoardState();
                     checkForFilledRows();
@@ -70,7 +119,8 @@ public class TetrisBoard {
                     return;
                 }
             }
-            if (dir.equals("horizontal")) {
+
+            else if (dir.equals("left") || dir.equals("right")) {
                 if (x < 0 || x >= boardWidth || 1 == boardState[y][x]) {
                     return;
                 }
