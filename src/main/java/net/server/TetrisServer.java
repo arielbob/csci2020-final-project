@@ -14,6 +14,7 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 
 public class TetrisServer extends Server {
 	private UserPool userPool;
@@ -32,8 +33,13 @@ public class TetrisServer extends Server {
 
 	public void startGame() {
 		// probably reset the game state
-		if (userPool.getUsers().size() > 1 && state == ServerState.WAITING) {
+		HashMap<String, User> users = userPool.getUsers();
+
+		if (users.size() > 1 && state == ServerState.WAITING) {
 			this.state = ServerState.IN_PROGRESS;
+			for (User u : users.values()) {
+				if (u.getState() == UserState.WAITING) u.setState(UserState.PLAYING);
+			}
 			// send start game packet
 			// start game loop
 		}
@@ -41,6 +47,12 @@ public class TetrisServer extends Server {
 
 	public void endGame() {
 		this.state = ServerState.WAITING;
+
+		HashMap<String, User> users = userPool.getUsers();
+		for (User u : users.values()) {
+			if (u.getState() == UserState.PLAYING) u.setState(UserState.WAITING);
+		}
+
 		// send end game packet
 	}
 
@@ -67,7 +79,7 @@ public class TetrisServer extends Server {
 		switch (type) {
 			case JOIN:
 				if (state == ServerState.WAITING) {
-					user.setState(UserState.JOINED);
+					user.setState(UserState.WAITING);
 					AddPlayerPacket addPlayerPacket = new AddPlayerPacket(user.getId(), user.getUsername());
 					sendPacket(addPlayerPacket, userPool.getUsers());
 				}

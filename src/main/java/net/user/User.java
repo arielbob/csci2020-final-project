@@ -20,6 +20,10 @@ public class User {
 		this.state = UserState.SPECTATING;
 	}
 
+	public UserState getState() {
+		return state;
+	}
+
 	public void setState(UserState state) {
 		this.state = state;
 	}
