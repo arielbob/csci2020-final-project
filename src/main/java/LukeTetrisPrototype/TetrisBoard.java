@@ -12,6 +12,7 @@ import javafx.application.Platform;
 public class TetrisBoard {
     public Pane pane = new Pane();
     public boolean stageClosed = false;
+    boolean gameOver = false;
     int boardWidth = 10;
     int boardHeight = 24;
     int[][] boardState = new int[boardHeight][boardWidth];
@@ -35,14 +36,14 @@ public class TetrisBoard {
                 pane.getChildren().add(tile);
             }
         }
-
         spawnTetrimino();
 
+        // Makes the blocks float down the grid.
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    while (!stageClosed) {
+                    while (!gameOver && !stageClosed) {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
@@ -59,6 +60,10 @@ public class TetrisBoard {
     }
 
     private void spawnTetrimino() {
+        if (gameOver) {
+            return;
+        }
+
         currentBlock = pickRandomBlock(blockSet);
         int[][] pieceArray = currentBlock.rotationsArray[0];
         currentBlock.setRotationState(0);
@@ -127,7 +132,6 @@ public class TetrisBoard {
                 }
             }
         }
-
         displaceY += movingTiles[0][0] - occupiedTiles[0][0];
         displaceX += movingTiles[0][1] - occupiedTiles[0][1];
 
@@ -248,6 +252,10 @@ public class TetrisBoard {
             int y = pair[0];
             int x = pair[1];
             boardState[y][x] = 1;
+            if (y <= 2) {
+                gameOver = true;
+                System.out.println("YOU LOSE");
+            }
         }
     }
 
