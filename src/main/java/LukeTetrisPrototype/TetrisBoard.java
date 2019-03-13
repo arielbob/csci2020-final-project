@@ -11,6 +11,7 @@ import javafx.application.Platform;
 
 public class TetrisBoard {
     public Pane pane = new Pane();
+    public boolean stageClosed = false;
     int boardWidth = 10;
     int boardHeight = 24;
     int[][] boardState = new int[boardHeight][boardWidth];
@@ -37,12 +38,11 @@ public class TetrisBoard {
 
         spawnTetrimino();
 
-        // TODO: The Gradle task does not stop when window exited
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    while (true) {
+                    while (!stageClosed) {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {

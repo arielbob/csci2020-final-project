@@ -45,4 +45,10 @@ public class TetrisPrototype extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+    @Override
+    public void stop(){
+        System.out.println("Stage is closing");
+        board.stageClosed = true;
+    }
 }
