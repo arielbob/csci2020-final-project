@@ -66,6 +66,12 @@ public class TetrisClient extends Client {
 				userPool.addUser(user);
 				view.appendText("PLAYER JOINED " + addPlayerPacket.getId() + '\n');
 				break;
+			case UPDATE_CLIENT_STATE:
+				UpdateClientStatePacket updateClientStatePacket = new UpdateClientStatePacket(packet);
+				ClientState clientState = updateClientStatePacket.getClientState();
+				this.state = clientState;
+				view.appendText("NEW CLIENT STATE: " + this.state + '\n');
+				break;
 			case UPDATE_USER_STATE:
 				UpdateUserStatePacket updateUserStatePacket = new UpdateUserStatePacket(packet);
 				user = userPool.findUserById(updateUserStatePacket.getId());

@@ -1,5 +1,6 @@
 package net.server;
 
+import net.client.ClientState;
 import net.packet.*;
 import net.test.ServerTest;
 import net.user.ServerUser;
@@ -40,7 +41,15 @@ public class TetrisServer extends Server {
 
 		if (numWaiting > 1 && state == ServerState.WAITING) {
 			view.appendText("Game Started\n");
+
 			this.state = ServerState.IN_PROGRESS;
+			UpdateClientStatePacket updateClientStatePacket = new UpdateClientStatePacket(ClientState.IN_PROGRESS);
+			try {
+				sendPacket(updateClientStatePacket, users);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
 			for (ServerUser u : users.values()) {
 				if (u.getState() == UserState.WAITING) {
 					u.setState(UserState.PLAYING);
@@ -52,31 +61,36 @@ public class TetrisServer extends Server {
 					}
 				}
 			}
-			// send start game packet
+
 			// start game loop
 		}
 	}
 
 	public void endGame() {
-		this.state = ServerState.WAITING;
+		if (state == ServerState.IN_PROGRESS) {
+			view.appendText("Game Ended\n");
+			HashMap<String, ServerUser> users = userPool.getUsers();
 
-
-		view.appendText("Game Ended\n");
-		HashMap<String, ServerUser> users = userPool.getUsers();
-		for (User u : users.values()) {
-			if (u.getState() == UserState.PLAYING) {
-				u.setState(UserState.WAITING);
-				try {
-					UpdateUserStatePacket updateUserStatePacket = new UpdateUserStatePacket(u.getId(), u.getState());
-					sendPacket(updateUserStatePacket, users);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			this.state = ServerState.WAITING;
+			UpdateClientStatePacket updateClientStatePacket = new UpdateClientStatePacket(ClientState.WAITING);
+			try {
+				sendPacket(updateClientStatePacket, users);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 
+			for (User u : users.values()) {
+				if (u.getState() == UserState.PLAYING) {
+					u.setState(UserState.WAITING);
+					try {
+						UpdateUserStatePacket updateUserStatePacket = new UpdateUserStatePacket(u.getId(), u.getState());
+						sendPacket(updateUserStatePacket, users);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
 		}
-
-		// send end game packet
 	}
 
 	@Override

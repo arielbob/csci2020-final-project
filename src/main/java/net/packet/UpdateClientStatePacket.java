@@ -12,11 +12,11 @@ public class UpdateClientStatePacket extends Packet {
 		this.clientState = ClientState.valueOf(data[1].trim());
 	}
 
-	public UpdateClientStatePacket(ClientState userState) {
+	public UpdateClientStatePacket(ClientState clientState) {
 		this.clientState = clientState;
 	}
 
-	public ClientState getUserState() {
+	public ClientState getClientState() {
 		return clientState;
 	}
 
