@@ -87,6 +87,10 @@ public class TetrisClient extends Client {
 					view.appendText("[" + userState + "] " + messagePacket.getId() + ": " + messagePacket.getMessage() + '\n');
 				}
 				break;
+			case BOARD:
+				BoardPacket boardPacket = new BoardPacket(packet);
+				view.appendText("board update\n");
+				break;
 		}
 	}
 }
