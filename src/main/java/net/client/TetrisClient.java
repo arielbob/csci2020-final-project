@@ -18,10 +18,12 @@ public class TetrisClient extends Client {
 	private UserPool userPool;
 	private UUID id;
 	private ClientTest view;
+	private ClientState state;
 
 	public TetrisClient(InetAddress address, int port) throws SocketException {
 		super(address, port);
 		this.userPool = new UserPool();
+		this.state = ClientState.WAITING;
 	}
 
 	public void setView(ClientTest view) {
