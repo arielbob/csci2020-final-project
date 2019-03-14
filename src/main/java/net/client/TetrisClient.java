@@ -15,7 +15,7 @@ import java.util.UUID;
 
 // TODO: add client states, so that they can't send certain packets without first joining
 public class TetrisClient extends Client {
-	private UserPool userPool;
+	private UserPool userPool; // only contains the ones that are joined in the game (i.e. no spectators)
 	private UUID id;
 	private ClientTest view;
 	private ClientState state;

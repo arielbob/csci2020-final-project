@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 public class TetrisServer extends Server {
-	private ServerUserPool userPool;
+	private ServerUserPool userPool; // contains all connected users, they do not have to be joined in the game
 	private ServerTest view;
 	private ServerState state;
 
@@ -59,6 +59,7 @@ public class TetrisServer extends Server {
 
 	public void endGame() {
 		this.state = ServerState.WAITING;
+
 
 		view.appendText("Game Ended\n");
 		HashMap<String, ServerUser> users = userPool.getUsers();
