@@ -1,4 +1,4 @@
-package LukeTetrisPrototype;
+package TetrisPrototype;
 
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Paint;

@@ -1,4 +1,4 @@
-package LukeTetrisPrototype;
+package TetrisPrototype;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
