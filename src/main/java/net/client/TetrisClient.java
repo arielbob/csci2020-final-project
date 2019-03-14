@@ -1,6 +1,5 @@
 package net.client;
 
-import net.Callback;
 import net.packet.*;
 import net.test.ClientTest;
 import net.user.User;
@@ -13,7 +12,6 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.UUID;
 
-// TODO: add client states, so that they can't send certain packets without first joining
 public class TetrisClient extends Client {
 	private UserPool userPool; // only contains the ones that are joined in the game (i.e. no spectators)
 	private UUID id;
@@ -40,7 +38,6 @@ public class TetrisClient extends Client {
 		sendPacket(packet);
 	}
 
-	// TODO: add TetrisClient states
 	public void sendMessage(String message) throws IOException {
 		if (this.id != null) {
 			MessagePacket packet = new MessagePacket(this.id, message);
@@ -68,8 +65,7 @@ public class TetrisClient extends Client {
 				break;
 			case UPDATE_CLIENT_STATE:
 				UpdateClientStatePacket updateClientStatePacket = new UpdateClientStatePacket(packet);
-				ClientState clientState = updateClientStatePacket.getClientState();
-				this.state = clientState;
+				this.state = updateClientStatePacket.getClientState();
 				view.appendText("NEW CLIENT STATE: " + this.state + '\n');
 				break;
 			case UPDATE_USER_STATE:

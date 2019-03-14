@@ -1,6 +1,5 @@
 package net.user;
 
-import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.UUID;
 

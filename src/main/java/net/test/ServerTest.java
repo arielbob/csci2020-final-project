@@ -12,7 +12,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import net.server.TetrisServer;
 
-// TODO: add parsing packets
 public class ServerTest extends Application {
 	private static TetrisServer server;
 	private static TextArea ta;
