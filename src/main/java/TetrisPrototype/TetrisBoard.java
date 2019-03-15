@@ -34,6 +34,9 @@ public class TetrisBoard {
                 tile.setX(c*tileSize);
                 boardArray[r][c] = tile;
                 pane.getChildren().add(tile);
+                if (r < 4) {
+                    tile.setVisible(false);
+                }
             }
         }
         spawnTetrimino();
