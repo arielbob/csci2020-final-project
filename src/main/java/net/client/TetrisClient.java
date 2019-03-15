@@ -83,7 +83,7 @@ public class TetrisClient extends Client {
 					System.out.println(updateUserStatePacket.getId());
 					System.out.println(id);
 					System.out.println(updateUserStatePacket.getId() == id);
-					if (updateUserStatePacket.getId().toString().equals(id.toString())) {
+					if (updateUserStatePacket.getId().toString().equals(id.toString()) && user.getState() == UserState.PLAYING) {
 						view.startGame();
 						System.out.println("started 1");
 					}
