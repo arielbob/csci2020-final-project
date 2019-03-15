@@ -47,7 +47,7 @@ public class TetrisPrototype extends Application {
     }
 
     @Override
-    public void stop(){
+    public void stop() {
         System.out.println("Stage is closing");
         board.stageClosed = true;
     }
