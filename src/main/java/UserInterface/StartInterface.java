@@ -16,7 +16,7 @@ public class StartInterface extends Application {
 
   Stage window;
   Scene firstScene, secondScene;
-  TetrisBoard board;// = new TetrisBoard();
+  TetrisBoardMultiplayer board;// = new TetrisBoard();
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -81,7 +81,8 @@ public class StartInterface extends Application {
 		soloBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-        board = new TetrisBoard();
+        board = new TetrisBoardMultiplayer();
+        board.startGame();
 
         Stage gameStage = new Stage();
 

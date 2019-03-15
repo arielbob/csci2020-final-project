@@ -10,7 +10,7 @@ import java.util.Arrays;
 import javafx.application.Platform;
 
 public class TetrisBoardMultiplayer {
-    public Pane pane = new Pane();
+    public volatile Pane pane = new Pane();
     public boolean stageClosed = false;
     boolean gameOver = false;
     int boardWidth = 10;
@@ -63,6 +63,7 @@ public class TetrisBoardMultiplayer {
     }
 
     public void startGame() {
+        System.out.println("started");
 		spawnTetrimino();
 
         // Makes the blocks float down the grid.
@@ -87,6 +88,8 @@ public class TetrisBoardMultiplayer {
 	}
 
     private void spawnTetrimino() {
+        //System.out.println("somethingd");
+
         if (gameOver) {
             return;
         }
@@ -139,6 +142,7 @@ public class TetrisBoardMultiplayer {
     }
 
     public void moveTetrimino(String dir) {
+        System.out.println("somethingd");
         int[][] movingTiles = setNewBlockLocation(dir);
         for (int[] pair : movingTiles) {
             int y = pair[0];

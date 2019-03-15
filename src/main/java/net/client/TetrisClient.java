@@ -73,6 +73,13 @@ public class TetrisClient extends Client {
 				user = userPool.findUserById(updateUserStatePacket.getId());
 				if (user != null) {
 					user.setState(updateUserStatePacket.getUserState());
+					System.out.println(updateUserStatePacket.getId());
+					System.out.println(id);
+					System.out.println(updateUserStatePacket.getId() == id);
+					if (updateUserStatePacket.getId().toString().equals(id.toString())) {
+						view.startGame();
+						System.out.println("started 1");
+					}
 				}
 				break;
 			case MESSAGE:
