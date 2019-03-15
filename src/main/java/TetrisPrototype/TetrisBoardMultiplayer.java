@@ -9,7 +9,7 @@ import java.util.Random;
 import java.util.Arrays;
 import javafx.application.Platform;
 
-public class TetrisBoard {
+public class TetrisBoardMultiplayer {
     public Pane pane = new Pane();
     public boolean stageClosed = false;
     boolean gameOver = false;
@@ -25,7 +25,7 @@ public class TetrisBoard {
     Tetrimino[] blockSet = {new IBlock(), new JBlock(), new LBlock(),
         new OBlock(), new SBlock(), new TBlock(), new ZBlock()};
 
-    public TetrisBoard() {
+    public TetrisBoardMultiplayer() {
         for (int r = 0; r < boardArray.length; r++) {
             for (int c = 0; c < boardArray[r].length; c++) {
                 Rectangle tile = new Rectangle(tileSize, tileSize, Color.WHITE);
@@ -42,6 +42,30 @@ public class TetrisBoard {
         spawnTetrimino();
 
         // Makes the blocks float down the grid.
+        // new Thread(new Runnable() {
+        //     @Override
+        //     public void run() {
+        //         try {
+        //             while (!gameOver && !stageClosed) {
+        //                 Platform.runLater(new Runnable() {
+        //                     @Override
+        //                     public void run() {
+        //                         moveTetrimino("down");
+        //                     }
+        //                 });
+        //                 Thread.sleep(500);
+        //             }
+        //         }
+        //         catch (InterruptedException ex) {
+        //         }
+        //     }
+        // }).start();
+    }
+
+    public void startGame() {
+		spawnTetrimino();
+
+        // Makes the blocks float down the grid.
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -53,14 +77,14 @@ public class TetrisBoard {
                                 moveTetrimino("down");
                             }
                         });
-                        Thread.sleep(500);
+                        Thread.sleep(1000);
                     }
                 }
                 catch (InterruptedException ex) {
                 }
             }
         }).start();
-    }
+	}
 
     private void spawnTetrimino() {
         if (gameOver) {
