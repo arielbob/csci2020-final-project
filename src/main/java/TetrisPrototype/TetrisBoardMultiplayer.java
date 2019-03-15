@@ -42,6 +42,30 @@ public class TetrisBoardMultiplayer {
         spawnTetrimino();
 
         // Makes the blocks float down the grid.
+        // new Thread(new Runnable() {
+        //     @Override
+        //     public void run() {
+        //         try {
+        //             while (!gameOver && !stageClosed) {
+        //                 Platform.runLater(new Runnable() {
+        //                     @Override
+        //                     public void run() {
+        //                         moveTetrimino("down");
+        //                     }
+        //                 });
+        //                 Thread.sleep(500);
+        //             }
+        //         }
+        //         catch (InterruptedException ex) {
+        //         }
+        //     }
+        // }).start();
+    }
+
+    public void startGame() {
+		spawnTetrimino();
+
+        // Makes the blocks float down the grid.
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -53,14 +77,14 @@ public class TetrisBoardMultiplayer {
                                 moveTetrimino("down");
                             }
                         });
-                        Thread.sleep(500);
+                        Thread.sleep(1000);
                     }
                 }
                 catch (InterruptedException ex) {
                 }
             }
         }).start();
-    }
+	}
 
     private void spawnTetrimino() {
         if (gameOver) {
