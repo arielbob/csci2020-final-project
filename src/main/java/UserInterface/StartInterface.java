@@ -1,6 +1,6 @@
 package UserInterface;
 
-import LukeTetrisPrototype.*;
+import TetrisPrototype.*;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
