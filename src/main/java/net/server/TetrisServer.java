@@ -127,6 +127,7 @@ public class TetrisServer extends Server {
 	}
 
 	public void close() {
+		super.stopServer();
 		state = ServerState.WAITING;
 	}
 
