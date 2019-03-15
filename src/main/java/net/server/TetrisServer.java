@@ -147,6 +147,18 @@ public class TetrisServer extends Server {
 				user = userPool.addUser(packetIp, packetPort, "user");
 				IDPacket idPacket = new IDPacket(user.getId());
 				sendPacket(idPacket, user);
+
+				// send all the joined users to just connected person
+				// should send all the server's current state to the player when they join
+				// TODO: might just want to refactor this so we just send all the users
+				// with their state, since there is more UserState than just WAITING
+				// it would be easier if the client just knew all the connected people, i.e. not just those that are joined
+				for (ServerUser su : userPool.getUsers().values()) {
+					if (su.getState() == UserState.WAITING) {
+						AddPlayerPacket addPlayerPacket = new AddPlayerPacket(su.getId(), su.getUsername());
+						sendPacket(addPlayerPacket, user);
+					}
+				}
 			}
 		}
 
