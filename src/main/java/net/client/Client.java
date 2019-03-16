@@ -23,7 +23,7 @@ public abstract class Client extends Thread {
 	public void run() {
 		isRunning = true;
 		while (isRunning) {
-			byte[] buf = new byte[256];
+			byte[] buf = new byte[1024];
 			DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
 			try {

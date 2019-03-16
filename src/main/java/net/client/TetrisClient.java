@@ -47,7 +47,7 @@ public class TetrisClient extends Client {
 
 	public void sendBoard(int[][] board) throws IOException {
 		if (userPool.findUserById(id).getState() == UserState.PLAYING) {
-			BoardPacket packet = new BoardPacket(board);
+			BoardPacket packet = new BoardPacket(this.id, board);
 			sendPacket(packet);
 		}
 	}
@@ -100,6 +100,13 @@ public class TetrisClient extends Client {
 			case BOARD:
 				BoardPacket boardPacket = new BoardPacket(packet);
 				view.appendText("board update\n");
+
+				user = userPool.findUserById(boardPacket.getId());
+				System.out.println(boardPacket.getId());
+				System.out.println(this.id);
+				if (!user.getId().toString().equals(this.id.toString())) {
+					view.receiveBoardState(boardPacket.getBoard());
+				}
 				break;
 		}
 	}

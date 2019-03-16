@@ -178,6 +178,11 @@ public class TetrisServer extends Server {
 				messagePacket.setId(user.getId());
 				sendPacket(messagePacket, userPool.getUsers());
 				break;
+
+			case BOARD:
+				BoardPacket boardPacket = new BoardPacket(packet);
+				sendPacket(boardPacket, userPool.getUsers());
+				break;
 		}
 	}
 }

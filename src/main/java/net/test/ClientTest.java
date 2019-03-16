@@ -28,8 +28,8 @@ public class ClientTest extends Application {
 	private static TetrisClient client;
 	private static TextArea ta;
 
-	TetrisBoardMultiplayer player1Board = new TetrisBoardMultiplayer();
-	TetrisBoardMultiplayer player2Board = new TetrisBoardMultiplayer();
+	TetrisBoardMultiplayer player1Board = new TetrisBoardMultiplayer(this);
+	TetrisBoardMultiplayer player2Board = new TetrisBoardMultiplayer(this);
 
 	public static void main(String[] args) {
 		ta = new TextArea();
@@ -111,5 +111,17 @@ public class ClientTest extends Application {
 
 	public void startGame() {
 		player1Board.startGame();
+	}
+
+	public void sendBoardState(int[][] boardState) {
+		try {
+			client.sendBoard(boardState);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void receiveBoardState(int[][] boardState) {
+		player2Board.setBoardState(boardState);
 	}
 }
