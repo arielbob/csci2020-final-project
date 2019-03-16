@@ -127,6 +127,7 @@ public class TetrisServer extends Server {
 	}
 
 	public void close() {
+		super.stopServer();
 		state = ServerState.WAITING;
 	}
 
@@ -176,6 +177,11 @@ public class TetrisServer extends Server {
 				MessagePacket messagePacket = new MessagePacket(packet);
 				messagePacket.setId(user.getId());
 				sendPacket(messagePacket, userPool.getUsers());
+				break;
+
+			case BOARD:
+				BoardPacket boardPacket = new BoardPacket(packet);
+				sendPacket(boardPacket, userPool.getUsers());
 				break;
 		}
 	}

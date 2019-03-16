@@ -45,6 +45,13 @@ public class TetrisClient extends Client {
 		}
 	}
 
+	public void sendBoard(int[][] board) throws IOException {
+		if (userPool.findUserById(id).getState() == UserState.PLAYING) {
+			BoardPacket packet = new BoardPacket(this.id, board);
+			sendPacket(packet);
+		}
+	}
+
 	@Override
 	void receivePacket(DatagramPacket packet) throws IOException {
 		PacketType type = PacketType.lookupPacket(packet);
@@ -73,6 +80,13 @@ public class TetrisClient extends Client {
 				user = userPool.findUserById(updateUserStatePacket.getId());
 				if (user != null) {
 					user.setState(updateUserStatePacket.getUserState());
+					System.out.println(updateUserStatePacket.getId());
+					System.out.println(id);
+					System.out.println(updateUserStatePacket.getId() == id);
+					if (updateUserStatePacket.getId().toString().equals(id.toString()) && user.getState() == UserState.PLAYING) {
+						view.startGame();
+						System.out.println("started 1");
+					}
 				}
 				break;
 			case MESSAGE:
@@ -86,6 +100,13 @@ public class TetrisClient extends Client {
 			case BOARD:
 				BoardPacket boardPacket = new BoardPacket(packet);
 				view.appendText("board update\n");
+
+				user = userPool.findUserById(boardPacket.getId());
+				System.out.println(boardPacket.getId());
+				System.out.println(this.id);
+				if (!user.getId().toString().equals(this.id.toString())) {
+					view.receiveBoardState(boardPacket.getBoard());
+				}
 				break;
 		}
 	}

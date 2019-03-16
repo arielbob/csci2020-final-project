@@ -9,8 +9,10 @@ import java.util.Random;
 import java.util.Arrays;
 import javafx.application.Platform;
 
-public class TetrisBoard {
-    public Pane pane = new Pane();
+import net.test.ClientTest;
+
+public class TetrisBoardMultiplayer {
+    public volatile Pane pane = new Pane();
     public boolean stageClosed = false;
     boolean gameOver = false;
     int boardWidth = 10;
@@ -24,8 +26,9 @@ public class TetrisBoard {
     Tetrimino currentBlock;
     Tetrimino[] blockSet = {new IBlock(), new JBlock(), new LBlock(),
         new OBlock(), new SBlock(), new TBlock(), new ZBlock()};
+    ClientTest client;
 
-    public TetrisBoard() {
+    public TetrisBoardMultiplayer(ClientTest client) {
         for (int r = 0; r < boardArray.length; r++) {
             for (int c = 0; c < boardArray[r].length; c++) {
                 Rectangle tile = new Rectangle(tileSize, tileSize, Color.WHITE);
@@ -39,7 +42,12 @@ public class TetrisBoard {
                 }
             }
         }
-        spawnTetrimino();
+        this.client = client;
+    }
+
+    public void startGame() {
+        System.out.println("started");
+		spawnTetrimino();
 
         // Makes the blocks float down the grid.
         new Thread(new Runnable() {
@@ -53,16 +61,18 @@ public class TetrisBoard {
                                 moveTetrimino("down");
                             }
                         });
-                        Thread.sleep(500);
+                        Thread.sleep(100);
                     }
                 }
                 catch (InterruptedException ex) {
                 }
             }
         }).start();
-    }
+	}
 
     private void spawnTetrimino() {
+        //System.out.println("somethingd");
+
         if (gameOver) {
             return;
         }
@@ -115,6 +125,7 @@ public class TetrisBoard {
     }
 
     public void moveTetrimino(String dir) {
+        System.out.println("somethingd");
         int[][] movingTiles = setNewBlockLocation(dir);
         for (int[] pair : movingTiles) {
             int y = pair[0];
@@ -122,9 +133,12 @@ public class TetrisBoard {
 
             if (dir.equals("down")) {
                 if (y > boardHeight - 1 || 1 == boardState[y][x]) {
-                    setBoardState();
+                    checkBoardState();
                     checkForFilledRows();
                     spawnTetrimino();
+                    if (null != client) {
+                        client.sendBoardState(boardState);
+                    }
                     return;
                 }
             }
@@ -250,7 +264,20 @@ public class TetrisBoard {
         return true;
     }
 
-    private void setBoardState() {
+    public void setBoardState(int[][] newBoardState) {
+        //System.out.println("New board test");
+        for (int r = 0; r < boardHeight; r++) {
+            for (int c = 0; c < boardWidth; c++) {
+                boardState[r][c] = newBoardState[r][c];
+                if (1 == boardState[r][c]) {
+                    boardArray[r][c].setFill(Color.BLACK);
+                }
+                //boardArray[r][c].setFill(Color.BLACK);
+            }
+        }
+    }
+
+    private void checkBoardState() {
         for (int[] pair : occupiedTiles) {
             int y = pair[0];
             int x = pair[1];
