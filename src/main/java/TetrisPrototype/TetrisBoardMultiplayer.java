@@ -39,7 +39,7 @@ public class TetrisBoardMultiplayer {
                 }
             }
         }
-        spawnTetrimino();
+        //spawnTetrimino();
 
         // Makes the blocks float down the grid.
         // new Thread(new Runnable() {
