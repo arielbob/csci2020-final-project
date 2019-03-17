@@ -52,10 +52,11 @@ public class BoardPacket extends Packet {
 		for (int[] ints : board) {
 			for (int j = 0; j < board[0].length; j++) {
 				sb.append(ints[j] + ",");
-				//System.out.print(ints[j] + ",");
+				//System.out.print(ints[j] + ", ");
 			}
 			//System.out.println();
 		}
+		//System.out.println();
 
 		String[] entries = {id.toString(), sb.toString()};
 		return createByteArray(PacketType.BOARD, entries);

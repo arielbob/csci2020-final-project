@@ -62,7 +62,7 @@ public class TetrisBoardMultiplayer {
                                 moveTetrimino("down");
                             }
                         });
-                        Thread.sleep(100);
+                        Thread.sleep(500);
                     }
                 }
                 catch (InterruptedException ex) {
@@ -99,18 +99,6 @@ public class TetrisBoardMultiplayer {
     public int[][] setNewBlockLocation(String direction) {
         int dir = 0;
         int xory = 0;
-        // if (direction.equals("left")) {
-        //     xory = 1;
-        //     dir = -1;
-        // }
-        // else if (direction.equals("right")) {
-        //     xory = 1;
-        //     dir = 1;
-        // }
-        // else if (direction.equals("down")) {
-        //     xory = 0;
-        //     dir = 1;
-        // }
         switch(direction) {
             case "left":
                 xory = 1;
@@ -136,27 +124,21 @@ public class TetrisBoardMultiplayer {
     }
 
     public void moveTetrimino(String dir) {
-        //System.out.println("somethingd");
         int[][] movingTiles = setNewBlockLocation(dir);
         for (int[] pair : movingTiles) {
             int y = pair[0];
             int x = pair[1];
 
             if (dir.equals("down")) {
-                //if (y > boardHeight - 1 || 1 == boardState[y][x]) {
                 if (y > boardHeight - 1 || boardState[y][x] >= 8) {
                     checkBoardState();
                     checkForFilledRows();
                     spawnTetrimino();
-                    if (null != client) {
-                        client.sendBoardState(boardState);
-                    }
                     return;
                 }
             }
 
             else if (dir.equals("left") || dir.equals("right")) {
-                //if (x < 0 || x >= boardWidth || 1 == boardState[y][x]) {
                 if (x < 0 || x >= boardWidth || boardState[y][x] >= 8) {
                     return;
                 }
@@ -178,6 +160,10 @@ public class TetrisBoardMultiplayer {
             boardArray[y][x].setFill(currentBlock.paint);
             occupiedTiles[pair][0] = movingTiles[pair][0];
             occupiedTiles[pair][1] = movingTiles[pair][1];
+        }
+
+        if (null != client) {
+            client.sendBoardState(boardState);
         }
     }
 
@@ -213,6 +199,10 @@ public class TetrisBoardMultiplayer {
                     i++;
                 }
             }
+        }
+
+        if (null != client) {
+            client.sendBoardState(boardState);
         }
     }
 
@@ -250,12 +240,10 @@ public class TetrisBoardMultiplayer {
                     int newY = y + displaceY + floorKick;
                     int newX = x + displaceX;
                     if (newX != xTracker) {
-                        //if (newX >= boardWidth || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX] && x >= 2) {
                         if (newX >= boardWidth || 0 <= newX && newX < boardWidth && newY < boardHeight && boardState[newY][newX] >= 8 && x >= 2) {
                             wallKickState--;
                             xTracker = newX;
                         }
-                        //else if (newX < 0 || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX] && x <= 1) {
                         else if (newX < 0 || 0 <= newX && newX < boardWidth && newY < boardHeight && boardState[newY][newX] >= 8 && x <= 1) {
                             wallKickState++;
                             xTracker = newX;
@@ -288,37 +276,29 @@ public class TetrisBoardMultiplayer {
         for (int r = 0; r < boardHeight; r++) {
             for (int c = 0; c < boardWidth; c++) {
                 boardState[r][c] = newBoardState[r][c];
-                //if (1 == boardState[r][c]) {
-                if (boardState[r][c] >= 8) {
-                    //boardArray[r][c].setFill(Color.BLACK);
-                    Paint newColor = getColorByNum(boardState[r][c]);
-                    boardArray[r][c].setFill(newColor);
-                }
+                Paint newColor = getColorByNum(boardState[r][c]);
+                boardArray[r][c].setFill(newColor);
             }
         }
     }
 
     private Paint getColorByNum(int num) {
+        if (num < 8) {
+            num *= 8;
+        }
         switch(num) {
-            case 1:
             case 8:
                 return blockSet[0].paint;
-            case 2:
             case 16:
                 return blockSet[1].paint;
-            case 3:
             case 24:
                 return blockSet[2].paint;
-            case 4:
             case 32:
                 return blockSet[3].paint;
-            case 5:
             case 40:
                 return blockSet[4].paint;
-            case 6:
             case 48:
                 return blockSet[5].paint;
-            case 7:
             case 56:
                 return blockSet[6].paint;
         }
