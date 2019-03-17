@@ -86,10 +86,8 @@ public class ClientTest extends Application {
 		pane.getChildren().addAll(label, tf, btn, messagesLabel, ta, joinBtn);
 
 		HBox hbox = new HBox();
-		//TetrisBoardMultiplayer player1Board = new TetrisBoardMultiplayer();
 		StackPane stackPane1 = new StackPane();
 		stackPane1.getChildren().add(player1Board.pane);
-		//TetrisBoardMultiplayer player2Board = new TetrisBoardMultiplayer();
 		StackPane stackPane2 = new StackPane();
 		stackPane2.getChildren().add(player2Board.pane);
 		hbox.getChildren().addAll(stackPane1, stackPane2);

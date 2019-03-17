@@ -17,10 +17,13 @@ public class BoardPacket extends Packet {
 		if (data[1].length() > 0) {
 			this.id = UUID.fromString(data[1]);
 		}
-		String boardData = data[2];
+		String[] boardData = data[2].split(",");
+		int i = 0;
 		for (int row = 0; row < BOARD_HEIGHT; row++) {
 			for (int col = 0; col < BOARD_WIDTH; col++) {
-				board[row][col] = Character.getNumericValue(boardData.charAt(row * BOARD_WIDTH + col));
+				//board[row][col] = Character.getNumericValue(boardData.charAt(row * BOARD_WIDTH + col));
+				board[row][col] = Integer.valueOf(boardData[i]);
+				i++;
 			}
 		}
 	}
@@ -48,8 +51,8 @@ public class BoardPacket extends Packet {
 		StringBuilder sb = new StringBuilder(boardData);
 		for (int[] ints : board) {
 			for (int j = 0; j < board[0].length; j++) {
-				sb.append(ints[j]);
-				//System.out.print(ints[j] + ", ");
+				sb.append(ints[j] + ",");
+				//System.out.print(ints[j] + ",");
 			}
 			//System.out.println();
 		}

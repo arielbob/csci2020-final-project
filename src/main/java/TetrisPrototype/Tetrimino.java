@@ -6,6 +6,8 @@ import javafx.scene.paint.Color;
 
 public class Tetrimino {
     Paint paint;
+    int movingNum;
+    int placedNum;
     int spawnPointY = 2;
     int spawnPointX = 3;
     int[][][] rotationsArray = new int[4][][];
@@ -13,6 +15,14 @@ public class Tetrimino {
 
     public int getRotationState() {
         return rotationState;
+    }
+
+    public int getMovingNum() {
+        return movingNum;
+    }
+
+    public int getPlacedNum() {
+        return placedNum;
     }
 
     public void setRotationState(int newState) {

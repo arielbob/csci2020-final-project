@@ -80,12 +80,8 @@ public class TetrisClient extends Client {
 				user = userPool.findUserById(updateUserStatePacket.getId());
 				if (user != null) {
 					user.setState(updateUserStatePacket.getUserState());
-					System.out.println(updateUserStatePacket.getId());
-					System.out.println(id);
-					System.out.println(updateUserStatePacket.getId() == id);
 					if (updateUserStatePacket.getId().toString().equals(id.toString()) && user.getState() == UserState.PLAYING) {
 						view.startGame();
-						System.out.println("started 1");
 					}
 				}
 				break;
@@ -102,8 +98,6 @@ public class TetrisClient extends Client {
 				view.appendText("board update\n");
 
 				user = userPool.findUserById(boardPacket.getId());
-				System.out.println(boardPacket.getId());
-				System.out.println(this.id);
 				if (!user.getId().toString().equals(this.id.toString())) {
 					view.receiveBoardState(boardPacket.getBoard());
 				}

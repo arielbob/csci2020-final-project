@@ -6,6 +6,8 @@ import javafx.scene.paint.Color;
 public class ZBlock extends Tetrimino {
     public ZBlock() {
         paint = Color.RED;
+        movingNum = 7;
+        placedNum = 8*movingNum;
         rotationsArray[0] = new int[][] {
             {1, 1, 0},
             {0, 1, 1},

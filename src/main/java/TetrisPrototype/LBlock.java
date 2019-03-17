@@ -6,6 +6,8 @@ import javafx.scene.paint.Color;
 public class LBlock extends Tetrimino {
     public LBlock() {
         paint = Color.ORANGE;
+        movingNum = 3;
+        placedNum = 8*movingNum;
         rotationsArray[0] = new int[][] {
             {0, 0, 1},
             {1, 1, 1},

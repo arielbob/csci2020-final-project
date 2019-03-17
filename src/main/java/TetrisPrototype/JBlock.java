@@ -6,6 +6,8 @@ import javafx.scene.paint.Color;
 public class JBlock extends Tetrimino {
     public JBlock() {
         paint = Color.BLUE;
+        movingNum = 2;
+        placedNum = 8*movingNum;
         rotationsArray[0] = new int[][] {
             {1, 0, 0},
             {1, 1, 1},

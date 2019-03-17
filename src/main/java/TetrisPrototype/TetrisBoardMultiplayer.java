@@ -26,12 +26,13 @@ public class TetrisBoardMultiplayer {
     Tetrimino currentBlock;
     Tetrimino[] blockSet = {new IBlock(), new JBlock(), new LBlock(),
         new OBlock(), new SBlock(), new TBlock(), new ZBlock()};
+    Paint defaultTileColor = Color.WHITE;
     ClientTest client;
 
     public TetrisBoardMultiplayer(ClientTest client) {
         for (int r = 0; r < boardArray.length; r++) {
             for (int c = 0; c < boardArray[r].length; c++) {
-                Rectangle tile = new Rectangle(tileSize, tileSize, Color.WHITE);
+                Rectangle tile = new Rectangle(tileSize, tileSize, defaultTileColor);
                 tile.setStroke(Color.BLACK);
                 tile.setY((r-4)*tileSize);
                 tile.setX(c*tileSize);
@@ -46,7 +47,7 @@ public class TetrisBoardMultiplayer {
     }
 
     public void startGame() {
-        System.out.println("started");
+        //System.out.println("started");
 		spawnTetrimino();
 
         // Makes the blocks float down the grid.
@@ -71,8 +72,6 @@ public class TetrisBoardMultiplayer {
 	}
 
     private void spawnTetrimino() {
-        //System.out.println("somethingd");
-
         if (gameOver) {
             return;
         }
@@ -87,6 +86,7 @@ public class TetrisBoardMultiplayer {
             for (int x = 0; x < pieceArray[y].length; x++) {
                 if (1 == pieceArray[y][x]) {
                     // Draw each piece of the block
+                    boardState[y + displaceY][x + displaceX] = currentBlock.getMovingNum();
                     boardArray[y + displaceY][x + displaceX].setFill(currentBlock.paint);
                     occupiedTiles[i][0] = y + displaceY;
                     occupiedTiles[i][1] = x + displaceX;
@@ -99,17 +99,28 @@ public class TetrisBoardMultiplayer {
     public int[][] setNewBlockLocation(String direction) {
         int dir = 0;
         int xory = 0;
-        if (direction.equals("left")) {
-            xory = 1;
-            dir = -1;
-        }
-        else if (direction.equals("right")) {
-            xory = 1;
-            dir = 1;
-        }
-        else if (direction.equals("down")) {
-            xory = 0;
-            dir = 1;
+        // if (direction.equals("left")) {
+        //     xory = 1;
+        //     dir = -1;
+        // }
+        // else if (direction.equals("right")) {
+        //     xory = 1;
+        //     dir = 1;
+        // }
+        // else if (direction.equals("down")) {
+        //     xory = 0;
+        //     dir = 1;
+        // }
+        switch(direction) {
+            case "left":
+                xory = 1;
+                dir = -1;
+            case "right":
+                xory = 1;
+                dir = 1;
+            case "down":
+                xory = 0;
+                dir = 1;
         }
 
         int[][] movingTiles = new int[4][2];
@@ -125,14 +136,15 @@ public class TetrisBoardMultiplayer {
     }
 
     public void moveTetrimino(String dir) {
-        System.out.println("somethingd");
+        //System.out.println("somethingd");
         int[][] movingTiles = setNewBlockLocation(dir);
         for (int[] pair : movingTiles) {
             int y = pair[0];
             int x = pair[1];
 
             if (dir.equals("down")) {
-                if (y > boardHeight - 1 || 1 == boardState[y][x]) {
+                //if (y > boardHeight - 1 || 1 == boardState[y][x]) {
+                if (y > boardHeight - 1 || boardState[y][x] >= 8) {
                     checkBoardState();
                     checkForFilledRows();
                     spawnTetrimino();
@@ -144,7 +156,8 @@ public class TetrisBoardMultiplayer {
             }
 
             else if (dir.equals("left") || dir.equals("right")) {
-                if (x < 0 || x >= boardWidth || 1 == boardState[y][x]) {
+                //if (x < 0 || x >= boardWidth || 1 == boardState[y][x]) {
+                if (x < 0 || x >= boardWidth || boardState[y][x] >= 8) {
                     return;
                 }
             }
@@ -154,12 +167,14 @@ public class TetrisBoardMultiplayer {
 
         // Erases the current block.
         for (int[] pair : occupiedTiles) {
-            boardArray[pair[0]][pair[1]].setFill(Color.WHITE);
+            boardState[pair[0]][pair[1]] = 0;
+            boardArray[pair[0]][pair[1]].setFill(defaultTileColor);
         }
         // Redraws the current block in its new location.
         for (int pair = 0; pair < movingTiles.length; pair++) {
             int y = movingTiles[pair][0];
             int x = movingTiles[pair][1];
+            boardState[y][x] = currentBlock.getMovingNum();
             boardArray[y][x].setFill(currentBlock.paint);
             occupiedTiles[pair][0] = movingTiles[pair][0];
             occupiedTiles[pair][1] = movingTiles[pair][1];
@@ -176,7 +191,7 @@ public class TetrisBoardMultiplayer {
 
         // Erase the current shape so it can be redrawn.
         for (int[] tile : occupiedTiles) {
-            boardArray[tile[0]][tile[1]].setFill(Color.WHITE);
+            boardArray[tile[0]][tile[1]].setFill(defaultTileColor);
         }
 
         int[][] pieceArray = currentBlock.rotationsArray[newRotationState];
@@ -191,6 +206,7 @@ public class TetrisBoardMultiplayer {
                 int newYPos = y + displaceY;
                 int newXPos = x + displaceX;
                 if (1 == pieceArray[y][x]) {
+                    boardState[newYPos][newXPos] = currentBlock.getMovingNum();
                     boardArray[newYPos][newXPos].setFill(currentBlock.paint);
                     occupiedTiles[i][0] = newYPos;
                     occupiedTiles[i][1] = newXPos;
@@ -211,7 +227,8 @@ public class TetrisBoardMultiplayer {
                     int newY = y + displaceY;
                     int newX = x + displaceX;
                     if (newY != yTracker) {
-                        if (newY >= boardHeight || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX]) {
+                        //if (newY >= boardHeight || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX]) {
+                        if (newY >= boardHeight || 0 <= newX && newX < boardWidth && newY < boardHeight && boardState[newY][newX] >= 8) {
                             floorKickState--;
                             yTracker = newY;
                         }
@@ -233,11 +250,13 @@ public class TetrisBoardMultiplayer {
                     int newY = y + displaceY + floorKick;
                     int newX = x + displaceX;
                     if (newX != xTracker) {
-                        if (newX >= boardWidth || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX] && x >= 2) {
+                        //if (newX >= boardWidth || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX] && x >= 2) {
+                        if (newX >= boardWidth || 0 <= newX && newX < boardWidth && newY < boardHeight && boardState[newY][newX] >= 8 && x >= 2) {
                             wallKickState--;
                             xTracker = newX;
                         }
-                        else if (newX < 0 || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX] && x <= 1) {
+                        //else if (newX < 0 || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX] && x <= 1) {
+                        else if (newX < 0 || 0 <= newX && newX < boardWidth && newY < boardHeight && boardState[newY][newX] >= 8 && x <= 1) {
                             wallKickState++;
                             xTracker = newX;
                         }
@@ -255,7 +274,8 @@ public class TetrisBoardMultiplayer {
                 if (1 == pieceArray[y][x]) {
                     int newY = y + displaceY + floorKick;
                     int newX = x + displaceX + wallKick;
-                    if (newY >= boardState.length || 1 == boardState[newY][newX]) {
+                    //if (newY >= boardState.length || 1 == boardState[newY][newX]) {
+                    if (newY >= boardState.length || boardState[newY][newX] >= 8) {
                         return false;
                     }
                 }
@@ -265,23 +285,51 @@ public class TetrisBoardMultiplayer {
     }
 
     public void setBoardState(int[][] newBoardState) {
-        //System.out.println("New board test");
         for (int r = 0; r < boardHeight; r++) {
             for (int c = 0; c < boardWidth; c++) {
                 boardState[r][c] = newBoardState[r][c];
-                if (1 == boardState[r][c]) {
-                    boardArray[r][c].setFill(Color.BLACK);
+                //if (1 == boardState[r][c]) {
+                if (boardState[r][c] >= 8) {
+                    //boardArray[r][c].setFill(Color.BLACK);
+                    Paint newColor = getColorByNum(boardState[r][c]);
+                    boardArray[r][c].setFill(newColor);
                 }
-                //boardArray[r][c].setFill(Color.BLACK);
             }
         }
+    }
+
+    private Paint getColorByNum(int num) {
+        switch(num) {
+            case 1:
+            case 8:
+                return blockSet[0].paint;
+            case 2:
+            case 16:
+                return blockSet[1].paint;
+            case 3:
+            case 24:
+                return blockSet[2].paint;
+            case 4:
+            case 32:
+                return blockSet[3].paint;
+            case 5:
+            case 40:
+                return blockSet[4].paint;
+            case 6:
+            case 48:
+                return blockSet[5].paint;
+            case 7:
+            case 56:
+                return blockSet[6].paint;
+        }
+        return defaultTileColor;
     }
 
     private void checkBoardState() {
         for (int[] pair : occupiedTiles) {
             int y = pair[0];
             int x = pair[1];
-            boardState[y][x] = 1;
+            boardState[y][x] = currentBlock.getPlacedNum();
             if (y <= 2) {
                 gameOver = true;
                 System.out.println("YOU LOSE");
@@ -293,7 +341,8 @@ public class TetrisBoardMultiplayer {
         for (int r = 0; r < boardArray.length; r++) {
             int filledTileCount = 0;
             for (int c = 0; c < boardArray[r].length; c++) {
-                if (boardArray[r][c].getFill() != Color.WHITE) {
+                //if (boardArray[r][c].getFill() != defaultTileColor) {
+                if (boardState[r][c] >= 8) {
                      filledTileCount++;
                 }
             }
@@ -305,19 +354,23 @@ public class TetrisBoardMultiplayer {
 
     private void clearLine(int rowIndex) {
         for (int c = 0; c < boardArray[rowIndex].length; c++) {
-            boardArray[rowIndex][c].setFill(Color.WHITE);
+            boardArray[rowIndex][c].setFill(defaultTileColor);
             boardState[rowIndex][c] = 0;
         }
 
         // Shifts all the colored blocks down one row.
         for (int r = rowIndex--; r >= 0; r--) {
-            for (int c = 0; c < boardArray[r].length; c++) {
-                Paint tempColor = boardArray[r][c].getFill();
-                if (tempColor != Color.WHITE) {
-                    boardArray[r][c].setFill(Color.WHITE);
+            //for (int c = 0; c < boardArray[r].length; c++) {
+            for (int c = 0; c < boardWidth; c++) {
+                //Paint tempColor = boardArray[r][c].getFill();
+                int tileState = boardState[r][c];
+                //if (tempColor != defaultTileColor) {
+                if (0 != tileState) {
+                    Paint tempColor = boardArray[r][c].getFill();
+                    boardArray[r][c].setFill(defaultTileColor);
                     boardArray[r + 1][c].setFill(tempColor);
                     boardState[r][c] = 0;
-                    boardState[r + 1][c] = 1;
+                    boardState[r + 1][c] = tileState;
                 }
             }
         }
