@@ -41,7 +41,7 @@ public class TetrisServer extends Server {
 			if (user.getState() == UserState.WAITING) numWaiting++;
 		}
 
-		if (numWaiting > 1 && state == ServerState.WAITING) {
+		if (numWaiting > 0 && state == ServerState.WAITING) {
 			view.appendText("Game Started\n");
 
 			this.state = ServerState.IN_PROGRESS;

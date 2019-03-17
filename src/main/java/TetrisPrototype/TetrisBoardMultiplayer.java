@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import java.util.Random;
 import java.util.Arrays;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 
 import net.test.ClientTest;
 
@@ -15,18 +16,19 @@ public class TetrisBoardMultiplayer {
     public volatile Pane pane = new Pane();
     public boolean stageClosed = false;
     boolean gameOver = false;
+    Paint defaultTileColor = Color.WHITE;
+    double tileSize = 15;
     int boardWidth = 10;
     int boardHeight = 24;
     int[][] boardState = new int[boardHeight][boardWidth];
     Rectangle[][] boardArray = new Rectangle[boardHeight][boardWidth];
-    double tileSize = 15;
     public int[][] occupiedTiles = new int[4][2];
     int displaceY = 0;
     int displaceX = 0;
     Tetrimino currentBlock;
     Tetrimino[] blockSet = {new IBlock(), new JBlock(), new LBlock(),
         new OBlock(), new SBlock(), new TBlock(), new ZBlock()};
-    Paint defaultTileColor = Color.WHITE;
+
     ClientTest client;
 
     public TetrisBoardMultiplayer(ClientTest client) {
@@ -95,6 +97,21 @@ public class TetrisBoardMultiplayer {
             }
         }
     }
+
+    // public void tetrisKeyEvent(KeyEvent e) {
+    //     if (e.getCode() == KeyCode.LEFT) {
+    //         moveTetrimino("left");
+    //     }
+    //     else if (e.getCode() == KeyCode.RIGHT) {
+    //         moveTetrimino("right");
+    //     }
+    //     else if (e.getCode() == KeyCode.DOWN) {
+    //         moveTetrimino("down");
+    //     }
+    //     else if (e.getCode() == KeyCode.SPACE) {
+    //         rotateTetrimino();
+    //     }
+    // }
 
     public int[][] setNewBlockLocation(String direction) {
         int dir = 0;
@@ -321,7 +338,6 @@ public class TetrisBoardMultiplayer {
         for (int r = 0; r < boardArray.length; r++) {
             int filledTileCount = 0;
             for (int c = 0; c < boardArray[r].length; c++) {
-                //if (boardArray[r][c].getFill() != defaultTileColor) {
                 if (boardState[r][c] >= 8) {
                      filledTileCount++;
                 }
@@ -340,11 +356,8 @@ public class TetrisBoardMultiplayer {
 
         // Shifts all the colored blocks down one row.
         for (int r = rowIndex--; r >= 0; r--) {
-            //for (int c = 0; c < boardArray[r].length; c++) {
             for (int c = 0; c < boardWidth; c++) {
-                //Paint tempColor = boardArray[r][c].getFill();
                 int tileState = boardState[r][c];
-                //if (tempColor != defaultTileColor) {
                 if (0 != tileState) {
                     Paint tempColor = boardArray[r][c].getFill();
                     boardArray[r][c].setFill(defaultTileColor);

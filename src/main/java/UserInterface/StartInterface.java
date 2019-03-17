@@ -95,13 +95,13 @@ public class StartInterface extends Application {
             if (e.getCode() == KeyCode.LEFT) {
                 board.moveTetrimino("left");
             }
-            if (e.getCode() == KeyCode.RIGHT) {
+            else if (e.getCode() == KeyCode.RIGHT) {
                 board.moveTetrimino("right");
             }
-            if (e.getCode() == KeyCode.DOWN) {
+            else if (e.getCode() == KeyCode.DOWN) {
                 board.moveTetrimino("down");
             }
-            if (e.getCode() == KeyCode.SPACE) {
+            else if (e.getCode() == KeyCode.SPACE) {
                 board.rotateTetrimino();
             }
         });

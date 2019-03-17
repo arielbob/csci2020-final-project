@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import TetrisPrototype.TetrisBoardMultiplayer;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.input.KeyCode;
 
 public class ClientTest extends Application {
 	private static TetrisClient client;
@@ -92,6 +93,23 @@ public class ClientTest extends Application {
 		stackPane2.getChildren().add(player2Board.pane);
 		hbox.getChildren().addAll(stackPane1, stackPane2);
 		pane.getChildren().add(hbox);
+
+		scene.setOnKeyPressed(e -> {
+			if (e.getCode() == KeyCode.LEFT) {
+	            player1Board.moveTetrimino("left");
+	        }
+	        else if (e.getCode() == KeyCode.RIGHT) {
+	            player1Board.moveTetrimino("right");
+	        }
+	        else if (e.getCode() == KeyCode.DOWN) {
+	            player1Board.moveTetrimino("down");
+	        }
+	        else if (e.getCode() == KeyCode.SPACE) {
+	            player1Board.rotateTetrimino();
+	        }
+			System.out.println("Key pressed");
+		});
+		pane.requestFocus();
 
 		primaryStage.setTitle("Client Test");
 		primaryStage.setScene(scene);
