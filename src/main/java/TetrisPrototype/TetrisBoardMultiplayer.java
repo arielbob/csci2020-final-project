@@ -98,21 +98,6 @@ public class TetrisBoardMultiplayer {
         }
     }
 
-    // public void tetrisKeyEvent(KeyEvent e) {
-    //     if (e.getCode() == KeyCode.LEFT) {
-    //         moveTetrimino("left");
-    //     }
-    //     else if (e.getCode() == KeyCode.RIGHT) {
-    //         moveTetrimino("right");
-    //     }
-    //     else if (e.getCode() == KeyCode.DOWN) {
-    //         moveTetrimino("down");
-    //     }
-    //     else if (e.getCode() == KeyCode.SPACE) {
-    //         rotateTetrimino();
-    //     }
-    // }
-
     public int[][] setNewBlockLocation(String direction) {
         int dir = 0;
         int xory = 0;
@@ -120,12 +105,15 @@ public class TetrisBoardMultiplayer {
             case "left":
                 xory = 1;
                 dir = -1;
+                break;
             case "right":
                 xory = 1;
                 dir = 1;
+                break;
             case "down":
                 xory = 0;
                 dir = 1;
+                break;
         }
 
         int[][] movingTiles = new int[4][2];
@@ -194,6 +182,7 @@ public class TetrisBoardMultiplayer {
 
         // Erase the current shape so it can be redrawn.
         for (int[] tile : occupiedTiles) {
+            boardState[tile[0]][tile[1]] = 0;
             boardArray[tile[0]][tile[1]].setFill(defaultTileColor);
         }
 

@@ -31,6 +31,8 @@ public class ClientTest extends Application {
 
 	TetrisBoardMultiplayer player1Board = new TetrisBoardMultiplayer(this);
 	TetrisBoardMultiplayer player2Board = new TetrisBoardMultiplayer(this);
+	Stage playerWindow;
+	Scene scene, gameScene;
 
 	public static void main(String[] args) {
 		ta = new TextArea();
@@ -55,7 +57,8 @@ public class ClientTest extends Application {
 		pane.setPadding(new Insets(10));
 		pane.setSpacing(10);
 
-		Scene scene = new Scene(pane);
+		//Scene scene = new Scene(pane);
+		scene = new Scene(pane);
 
 		Label label = new Label("Enter message:");
 
@@ -73,28 +76,18 @@ public class ClientTest extends Application {
 			tf.clear();
 		});
 
-		Button joinBtn = new Button("Join Game");
-		joinBtn.setOnAction(event -> {
-			try {
-				client.joinGame();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
 
-		Label messagesLabel = new Label("Messages");
-
-		pane.getChildren().addAll(label, tf, btn, messagesLabel, ta, joinBtn);
-
+		playerWindow = primaryStage;
 		HBox hbox = new HBox();
 		StackPane stackPane1 = new StackPane();
 		stackPane1.getChildren().add(player1Board.pane);
 		StackPane stackPane2 = new StackPane();
 		stackPane2.getChildren().add(player2Board.pane);
 		hbox.getChildren().addAll(stackPane1, stackPane2);
-		pane.getChildren().add(hbox);
+		gameScene = new Scene(hbox);
+		//pane.getChildren().add(hbox);
 
-		scene.setOnKeyPressed(e -> {
+		gameScene.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.LEFT) {
 	            player1Board.moveTetrimino("left");
 	        }
@@ -107,9 +100,23 @@ public class ClientTest extends Application {
 	        else if (e.getCode() == KeyCode.SPACE) {
 	            player1Board.rotateTetrimino();
 	        }
-			System.out.println("Key pressed");
 		});
-		pane.requestFocus();
+		//hbox.requestFocus();
+
+
+		Button joinBtn = new Button("Join Game");
+		joinBtn.setOnAction(event -> {
+			try {
+				client.joinGame();
+				playerWindow.setScene(gameScene);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+
+		Label messagesLabel = new Label("Messages");
+
+		pane.getChildren().addAll(label, tf, btn, messagesLabel, ta, joinBtn);
 
 		primaryStage.setTitle("Client Test");
 		primaryStage.setScene(scene);
@@ -126,6 +133,7 @@ public class ClientTest extends Application {
 	}
 
 	public void startGame() {
+		//playerWindow.setScene(gameScene);
 		player1Board.startGame();
 	}
 
