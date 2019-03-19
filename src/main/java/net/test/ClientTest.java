@@ -78,14 +78,20 @@ public class ClientTest extends Application {
 
 
 		playerWindow = primaryStage;
-		HBox hbox = new HBox();
+		VBox gameVbox = new VBox();
+		Button quitBtn = new Button("Quit");
+		quitBtn.setOnAction(e -> {
+			client.stopClient();
+			playerWindow.setScene(scene);
+		});
+		HBox gameHbox = new HBox();
 		StackPane stackPane1 = new StackPane();
 		stackPane1.getChildren().add(player1Board.pane);
 		StackPane stackPane2 = new StackPane();
 		stackPane2.getChildren().add(player2Board.pane);
-		hbox.getChildren().addAll(stackPane1, stackPane2);
-		gameScene = new Scene(hbox);
-		//pane.getChildren().add(hbox);
+		gameHbox.getChildren().addAll(stackPane1, stackPane2);
+		gameVbox.getChildren().addAll(quitBtn, gameHbox);
+		gameScene = new Scene(gameVbox);
 
 		gameScene.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.LEFT) {
@@ -101,14 +107,13 @@ public class ClientTest extends Application {
 	            player1Board.rotateTetrimino();
 	        }
 		});
-		//hbox.requestFocus();
-
 
 		Button joinBtn = new Button("Join Game");
 		joinBtn.setOnAction(event -> {
 			try {
 				client.joinGame();
 				playerWindow.setScene(gameScene);
+				gameHbox.requestFocus();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
