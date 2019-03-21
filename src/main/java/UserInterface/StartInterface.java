@@ -88,24 +88,13 @@ public class StartInterface extends Application {
 			public void handle(ActionEvent event) {
         board = new TetrisBoard();
 
+        Stage gameStage = new Stage();
+
         Pane pane = new Pane();
         Scene scene = new Scene(pane);
         pane.setPrefSize(500, 500);
 
-        Button backBtn2 = new Button("BACK");
-        backBtn2.setAlignment(Pos.CENTER);
-        backBtn2.setPrefWidth(100);
-        backBtn2.setPrefHeight(50);
-        pane.add(backBtn2, 0, 2);
-
         pane.getChildren().add(board.pane);
-
-        multiBtn.setOnAction(new EventHandler<ActionEvent>() {
-          @Override
-          public void handle(ActionEvent event) {
-            window.setScene(firstScene);
-          }
-        });
 
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.LEFT) {
@@ -122,9 +111,9 @@ public class StartInterface extends Application {
             }
         });
 
-        window.setTitle("Tetris Prototype");
-        window.setScene(scene);
-        window.show();
+        gameStage.setTitle("Tetris Prototype");
+        gameStage.setScene(scene);
+        gameStage.show();
 
 			}
 		});
