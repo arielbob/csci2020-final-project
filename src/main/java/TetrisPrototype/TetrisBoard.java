@@ -16,12 +16,15 @@ public class TetrisBoard {
     public volatile Pane pane = new Pane();
     public boolean stageClosed = false;
     boolean gameOver = false;
+
     Paint defaultTileColor = Color.WHITE;
     double tileSize = 15;
+    int hiddenRowNum = 3;
     int boardWidth = 10;
     int boardHeight = 24;
     int[][] boardState = new int[boardHeight][boardWidth];
     Rectangle[][] boardArray = new Rectangle[boardHeight][boardWidth];
+
     public int[][] occupiedTiles = new int[4][2];
     int displaceY = 0;
     int displaceX = 0;
@@ -36,11 +39,11 @@ public class TetrisBoard {
             for (int c = 0; c < boardArray[r].length; c++) {
                 Rectangle tile = new Rectangle(tileSize, tileSize, defaultTileColor);
                 tile.setStroke(Color.BLACK);
-                tile.setY((r-4)*tileSize);
-                tile.setX(c*tileSize);
+                tile.setY((r - hiddenRowNum) * tileSize);
+                tile.setX(c * tileSize);
                 boardArray[r][c] = tile;
                 pane.getChildren().add(tile);
-                if (r < 4) {
+                if (r < hiddenRowNum) {
                     tile.setVisible(false);
                 }
             }
@@ -84,7 +87,7 @@ public class TetrisBoard {
         currentBlock = pickRandomBlock(blockSet);
         int[][] pieceArray = currentBlock.rotationsArray[0];
         currentBlock.setRotationState(0);
-        displaceY = currentBlock.spawnPointY;
+        displaceY = currentBlock.spawnPointY + hiddenRowNum;
         displaceX = currentBlock.spawnPointX;
         int i = 0;
         for (int y = 0; y < pieceArray.length; y++) {
@@ -327,10 +330,11 @@ public class TetrisBoard {
             int y = pair[0];
             int x = pair[1];
             boardState[y][x] = currentBlock.getPlacedNum();
-            if (y <= 2) {
+            if (y <= hiddenRowNum - 2) {
                 gameOver = true;
                 System.out.println("YOU LOSE");
                 int[][] loseBoard = {
+                    {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
                     {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
@@ -356,10 +360,10 @@ public class TetrisBoard {
                     for(int c = 0; c < loseBoard[r].length; c++) {
                         switch (loseBoard[r][c]) {
                             case 0:
-                                boardArray[r + 4][c].setFill(Color.BLACK);
+                                boardArray[r + hiddenRowNum][c].setFill(Color.BLACK);
                                 break;
                             case 1:
-                                boardArray[r + 4][c].setFill(Color.RED);
+                                boardArray[r + hiddenRowNum][c].setFill(Color.RED);
                                 break;
                         }
                     }

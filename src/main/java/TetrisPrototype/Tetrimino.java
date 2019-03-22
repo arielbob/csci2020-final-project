@@ -8,7 +8,7 @@ public class Tetrimino {
     Paint paint;
     int movingNum;
     int placedNum;
-    int spawnPointY = 2;
+    int spawnPointY = -2;
     int spawnPointX = 3;
     int[][][] rotationsArray = new int[4][][];
     private int rotationState = 0;
