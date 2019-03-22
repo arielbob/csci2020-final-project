@@ -60,6 +60,7 @@ public class TetrisBoard {
     }
 
     public void startGame() {
+        gameOver = false;
         for (int r = 0; r < boardHeight; r++) {
             for (int c = 0; c < boardWidth; c++) {
                 boardState[r][c] = 0;
