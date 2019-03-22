@@ -136,6 +136,9 @@ public class TetrisBoard {
     }
 
     public void moveTetrimino(String dir) {
+        if (gameOver) {
+            return;
+        }
         int[][] movingTiles = setNewBlockLocation(dir);
         for (int[] pair : movingTiles) {
             int y = pair[0];
