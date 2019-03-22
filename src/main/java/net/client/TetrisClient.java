@@ -52,6 +52,15 @@ public class TetrisClient extends Client {
 		}
 	}
 
+	public void sendLose() throws IOException {
+		sendUserState(id, UserState.LOST);
+	}
+
+	private void sendUserState(UUID id, UserState userState) throws IOException {
+		UpdateUserStatePacket updateUserStatePacket = new UpdateUserStatePacket(id, UserState.LOST);
+		sendPacket(updateUserStatePacket);
+	}
+
 	@Override
 	void receivePacket(DatagramPacket packet) throws IOException {
 		PacketType type = PacketType.lookupPacket(packet);
@@ -80,8 +89,18 @@ public class TetrisClient extends Client {
 				user = userPool.findUserById(updateUserStatePacket.getId());
 				if (user != null) {
 					user.setState(updateUserStatePacket.getUserState());
-					if (updateUserStatePacket.getId().toString().equals(id.toString()) && user.getState() == UserState.PLAYING) {
-						view.startGame();
+					boolean isClient = updateUserStatePacket.getId().toString().equals(id.toString());
+					if (isClient) {
+						switch (user.getState()) {
+							case PLAYING:
+								view.startGame();
+								break;
+						}
+					} else {
+						switch (user.getState()) {
+							case LOST:
+								view.setLose();
+						}
 					}
 				}
 				break;

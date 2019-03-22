@@ -383,6 +383,13 @@ public class TetrisBoard {
                         }
                     }
                 }
+
+                try {
+                    client.sendLose();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 return;
             }
         }

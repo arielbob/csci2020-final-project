@@ -146,4 +146,8 @@ public class ClientTest extends Application {
 	public void receiveBoardState(int[][] boardState) {
 		player2Board.setBoardState(boardState);
 	}
+
+	public void setLose() {
+		// player2Board.setLose();
+	}
 }
