@@ -48,19 +48,6 @@ public class TetrisBoard {
     }
 
     public TetrisBoard(ClientTest client) {
-        // for (int r = 0; r < boardArray.length; r++) {
-        //     for (int c = 0; c < boardArray[r].length; c++) {
-        //         Rectangle tile = new Rectangle(tileSize, tileSize, defaultTileColor);
-        //         tile.setStroke(Color.BLACK);
-        //         tile.setY((r-4)*tileSize);
-        //         tile.setX(c*tileSize);
-        //         boardArray[r][c] = tile;
-        //         pane.getChildren().add(tile);
-        //         if (r < 4) {
-        //             tile.setVisible(false);
-        //         }
-        //     }
-        // }
         this();
         this.client = client;
     }
@@ -151,19 +138,21 @@ public class TetrisBoard {
             int y = pair[0];
             int x = pair[1];
 
-            if (dir.equals("down")) {
-                if (y > boardHeight - 1 || boardState[y][x] >= 8) {
-                    checkBoardState();
-                    checkForFilledRows();
-                    spawnTetrimino();
-                    return;
-                }
-            }
-
-            else if (dir.equals("left") || dir.equals("right")) {
-                if (x < 0 || x >= boardWidth || boardState[y][x] >= 8) {
-                    return;
-                }
+            switch(dir) {
+                case "down":
+                    if (y > boardHeight - 1 || boardState[y][x] >= 8) {
+                        checkBoardState();
+                        checkForFilledRows();
+                        spawnTetrimino();
+                        return;
+                    }
+                    break;
+                case "left":
+                case "right":
+                    if (x < 0 || x >= boardWidth || boardState[y][x] >= 8) {
+                        return;
+                    }
+                    break;
             }
         }
         displaceY += movingTiles[0][0] - occupiedTiles[0][0];
