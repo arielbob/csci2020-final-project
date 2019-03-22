@@ -45,7 +45,7 @@ public class TetrisClient extends Client {
 		}
 	}
 
-	public void sendBoard(int[][] board) throws IOException {
+	public void sendBoardState(int[][] board) throws IOException {
 		if (userPool.findUserById(id).getState() == UserState.PLAYING) {
 			BoardPacket packet = new BoardPacket(this.id, board);
 			sendPacket(packet);

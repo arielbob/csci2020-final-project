@@ -1,5 +1,5 @@
 package net.user;
 
 public enum UserState {
-	SPECTATING, WAITING, PLAYING;
+	SPECTATING, WAITING, PLAYING, LOST;
 }

@@ -5,12 +5,15 @@ import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
+
+import java.io.IOException;
 import java.util.Random;
 import java.util.Arrays;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 
 import TetrisGame.Tetriminos.*;
+import net.client.TetrisClient;
 import net.test.ClientTest;
 
 public class TetrisBoard {
@@ -33,7 +36,7 @@ public class TetrisBoard {
     Tetrimino[] blockSet = {new IBlock(), new JBlock(), new LBlock(),
         new OBlock(), new SBlock(), new TBlock(), new ZBlock()};
 
-    ClientTest client;
+    TetrisClient client;
 
     public TetrisBoard() {
         for (int r = 0; r < boardArray.length; r++) {
@@ -51,7 +54,7 @@ public class TetrisBoard {
         }
     }
 
-    public TetrisBoard(ClientTest client) {
+    public TetrisBoard(TetrisClient client) {
         this();
         this.client = client;
     }
@@ -180,7 +183,11 @@ public class TetrisBoard {
         }
 
         if (null != client) {
-            client.sendBoardState(boardState);
+            try {
+                client.sendBoardState(boardState);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -220,7 +227,11 @@ public class TetrisBoard {
         }
 
         if (null != client) {
-            client.sendBoardState(boardState);
+            try {
+                client.sendBoardState(boardState);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

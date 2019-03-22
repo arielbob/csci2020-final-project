@@ -29,8 +29,8 @@ public class ClientTest extends Application {
 	private static TetrisClient client;
 	private static TextArea ta;
 
-	TetrisBoard player1Board = new TetrisBoard(this);
-	TetrisBoard player2Board = new TetrisBoard(this);
+	private static TetrisBoard player1Board;
+	private static TetrisBoard player2Board;
 	Stage playerWindow;
 	Scene scene, gameScene;
 
@@ -40,6 +40,8 @@ public class ClientTest extends Application {
 
 		try {
 			client = new TetrisClient(InetAddress.getByName("localhost"), 61616);
+			player1Board = new TetrisBoard(client);
+			player2Board = new TetrisBoard(client);
 			client.start();
 		} catch (UnknownHostException | SocketException e) {
 			e.printStackTrace();
@@ -139,14 +141,6 @@ public class ClientTest extends Application {
 
 	public void startGame() {
 		player1Board.startGame();
-	}
-
-	public void sendBoardState(int[][] boardState) {
-		try {
-			client.sendBoard(boardState);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public void receiveBoardState(int[][] boardState) {
