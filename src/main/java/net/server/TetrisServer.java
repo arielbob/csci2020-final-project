@@ -63,39 +63,6 @@ public class TetrisServer extends Server {
 					}
 				}
 			}
-
-			// start game loop
-			gameThread = new Thread(() -> {
-				while (state == ServerState.IN_PROGRESS) {
-					BoardPacket boardPacket = new BoardPacket(new int[0][0]);
-					try {
-						// update game
-						// send game state to everyone
-
-						/*
-						for user in userPool:
-							if (user.state == IN_PROGRESS):
-								user.update()
-								// BoardPacket is board + player piece combined in one single array
-								// all clients just need to display their board; they don't need to
-								// know the specifics about where their player is, since that is already
-								// in the board; and all changes are done through the server
-								sendPacket(new BoardPacket(user), users)
-								if (user.state == WAITING):
-									user.place = numUsers - numWinners++
-									sendPacket(new PlacePacket(user.place), users)
-									sendPacket(new ClientStatePacket(ClientState.WAITING), user)
-									sendPacket(new BoardPacket(user), user)
-						 */
-
-						sendPacket(boardPacket, users);
-						Thread.sleep(1000);
-					} catch (IOException | InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-			gameThread.start();
 		}
 	}
 
