@@ -77,13 +77,14 @@ public class ClientTest extends Application {
 
 
 		playerWindow = primaryStage;
-		VBox gameVbox = new VBox();
+		VBox gameVbox = new VBox(10);
+		gameVbox.setPadding(new Insets(20));
 		Button quitBtn = new Button("Quit");
 		quitBtn.setOnAction(e -> {
 			client.stopClient();
 			playerWindow.setScene(scene);
 		});
-		HBox gameHbox = new HBox();
+		HBox gameHbox = new HBox(100);
 		StackPane stackPane1 = new StackPane();
 		stackPane1.getChildren().add(player1Board.pane);
 		StackPane stackPane2 = new StackPane();
