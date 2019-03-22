@@ -348,41 +348,7 @@ public class TetrisBoard {
             if (y <= hiddenRowNum - 2) {
                 gameOver = true;
                 System.out.println("YOU LOSE");
-                int[][] loseBoard = {
-                    {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
-                    {0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
-                    {0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
-                    {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
-                    {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
-                    {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
-                    {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 1, 1, 1, 0, 0, 0, 0},
-                    {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 1, 1, 1, 1, 0, 0, 0}
-                };
-                for(int r = 0; r < loseBoard.length; r++) {
-                    for(int c = 0; c < loseBoard[r].length; c++) {
-                        switch (loseBoard[r][c]) {
-                            case 0:
-                                boardArray[r + hiddenRowNum][c].setFill(Color.BLACK);
-                                break;
-                            case 1:
-                                boardArray[r + hiddenRowNum][c].setFill(Color.RED);
-                                break;
-                        }
-                    }
-                }
+                setLose();
 
                 try {
                     client.sendLose();
@@ -433,5 +399,43 @@ public class TetrisBoard {
     private Tetrimino pickRandomBlock(Tetrimino[] blockSet) {
         int rand = new Random().nextInt(blockSet.length);
         return blockSet[rand];
+    }
+
+    public void setLose() {
+        int[][] loseBoard = {
+                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
+                {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+                {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 1, 1, 1, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 1, 1, 0, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 1, 1, 1, 0, 0, 0}
+        };
+        for(int r = 0; r < loseBoard.length; r++) {
+            for(int c = 0; c < loseBoard[r].length; c++) {
+                switch (loseBoard[r][c]) {
+                    case 0:
+                        boardArray[r + hiddenRowNum][c].setFill(Color.BLACK);
+                        break;
+                    case 1:
+                        boardArray[r + hiddenRowNum][c].setFill(Color.RED);
+                        break;
+                }
+            }
+        }
     }
 }

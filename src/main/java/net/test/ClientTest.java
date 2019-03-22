@@ -148,6 +148,6 @@ public class ClientTest extends Application {
 	}
 
 	public void setLose() {
-		// player2Board.setLose();
+		 player2Board.setLose();
 	}
 }
