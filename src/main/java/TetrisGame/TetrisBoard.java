@@ -60,6 +60,13 @@ public class TetrisBoard {
     }
 
     public void startGame() {
+        for (int r = 0; r < boardHeight; r++) {
+            for (int c = 0; c < boardWidth; c++) {
+                boardState[r][c] = 0;
+                boardArray[r][c].setFill(Color.WHITE);
+            }
+        }
+
 		spawnTetrimino();
 
         // Makes the blocks float down the grid.
