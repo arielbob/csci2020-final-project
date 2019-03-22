@@ -136,6 +136,9 @@ public class TetrisServer extends Server {
 			case UPDATE_USER_STATE:
 				UpdateUserStatePacket updateUserStatePacket = new UpdateUserStatePacket(packet);
 				sendPacket(updateUserStatePacket, userPool.getUsers());
+				if (updateUserStatePacket.getUserState() == UserState.LOST) {
+					endGame();
+				}
 				break;
 			case JOIN:
 				if (state == ServerState.WAITING) {
