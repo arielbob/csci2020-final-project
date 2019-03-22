@@ -53,7 +53,6 @@ public class TetrisBoard {
     }
 
     public void startGame() {
-        //System.out.println("started");
 		spawnTetrimino();
 
         // Makes the blocks float down the grid.
@@ -105,7 +104,7 @@ public class TetrisBoard {
     public int[][] setNewBlockLocation(String direction) {
         int dir = 0;
         int xory = 0;
-        switch(direction) {
+        switch (direction) {
             case "left":
                 xory = 1;
                 dir = -1;
@@ -138,7 +137,7 @@ public class TetrisBoard {
             int y = pair[0];
             int x = pair[1];
 
-            switch(dir) {
+            switch (dir) {
                 case "down":
                     if (y > boardHeight - 1 || boardState[y][x] >= 8) {
                         checkBoardState();
@@ -229,8 +228,9 @@ public class TetrisBoard {
                     int newY = y + displaceY;
                     int newX = x + displaceX;
                     if (newY != yTracker) {
-                        //if (newY >= boardHeight || 0 <= newX && newX < boardWidth && newY < boardHeight && 1 == boardState[newY][newX]) {
-                        if (newY >= boardHeight || 0 <= newX && newX < boardWidth && newY < boardHeight && boardState[newY][newX] >= 8) {
+                        if (newY >= boardHeight ||
+                        0 <= newX && newX < boardWidth &&
+                        newY < boardHeight && boardState[newY][newX] >= 8) {
                             floorKickState--;
                             yTracker = newY;
                         }
@@ -252,11 +252,17 @@ public class TetrisBoard {
                     int newY = y + displaceY + floorKick;
                     int newX = x + displaceX;
                     if (newX != xTracker) {
-                        if (newX >= boardWidth || 0 <= newX && newX < boardWidth && newY < boardHeight && boardState[newY][newX] >= 8 && x >= 2) {
+                        if (newX >= boardWidth ||
+                        0 <= newX && newX < boardWidth &&
+                        newY < boardHeight &&
+                        boardState[newY][newX] >= 8 && x >= 2) {
                             wallKickState--;
                             xTracker = newX;
                         }
-                        else if (newX < 0 || 0 <= newX && newX < boardWidth && newY < boardHeight && boardState[newY][newX] >= 8 && x <= 1) {
+                        else if (newX < 0 ||
+                        0 <= newX && newX < boardWidth &&
+                        newY < boardHeight &&
+                        boardState[newY][newX] >= 8 && x <= 1) {
                             wallKickState++;
                             xTracker = newX;
                         }
@@ -274,7 +280,6 @@ public class TetrisBoard {
                 if (1 == pieceArray[y][x]) {
                     int newY = y + displaceY + floorKick;
                     int newX = x + displaceX + wallKick;
-                    //if (newY >= boardState.length || 1 == boardState[newY][newX]) {
                     if (newY >= boardState.length || boardState[newY][newX] >= 8) {
                         return false;
                     }
@@ -298,7 +303,7 @@ public class TetrisBoard {
         if (num < 8) {
             num *= 8;
         }
-        switch(num) {
+        switch (num) {
             case 8:
                 return blockSet[0].paint;
             case 16:
@@ -349,7 +354,7 @@ public class TetrisBoard {
                 };
                 for(int r = 0; r < loseBoard.length; r++) {
                     for(int c = 0; c < loseBoard[r].length; c++) {
-                        switch(loseBoard[r][c]) {
+                        switch (loseBoard[r][c]) {
                             case 0:
                                 boardArray[r + 4][c].setFill(Color.BLACK);
                                 break;
