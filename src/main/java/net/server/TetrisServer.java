@@ -100,7 +100,7 @@ public class TetrisServer extends Server {
 
 	@Override
 	void receivePacket(DatagramPacket packet) throws IOException {
-		view.appendText("[PACKET DATA]: " + new String(packet.getData(), StandardCharsets.US_ASCII) + '\n');
+//		view.appendText("[PACKET DATA]: " + new String(packet.getData()) + "\n");
 
 		InetAddress packetIp = packet.getAddress();
 		int packetPort = packet.getPort();
@@ -145,7 +145,6 @@ public class TetrisServer extends Server {
 				messagePacket.setId(user.getId());
 				sendPacket(messagePacket, userPool.getUsers());
 				break;
-
 			case BOARD:
 				BoardPacket boardPacket = new BoardPacket(packet);
 				sendPacket(boardPacket, userPool.getUsers());
