@@ -150,4 +150,8 @@ public class ClientTest extends Application {
 	public void setLose() {
 		 player2Board.setLose();
 	}
+
+	public void setWin() {
+//		player1Board.setWin();
+	}
 }

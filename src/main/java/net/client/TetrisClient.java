@@ -100,6 +100,7 @@ public class TetrisClient extends Client {
 						switch (user.getState()) {
 							case LOST:
 								view.setLose();
+								view.setWin();
 						}
 					}
 				}
