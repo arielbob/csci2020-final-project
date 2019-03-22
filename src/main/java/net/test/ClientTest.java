@@ -20,7 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import TetrisPrototype.TetrisBoardMultiplayer;
+import TetrisPrototype.TetrisBoard;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.input.KeyCode;
@@ -29,8 +29,8 @@ public class ClientTest extends Application {
 	private static TetrisClient client;
 	private static TextArea ta;
 
-	TetrisBoardMultiplayer player1Board = new TetrisBoardMultiplayer(this);
-	TetrisBoardMultiplayer player2Board = new TetrisBoardMultiplayer(this);
+	TetrisBoard player1Board = new TetrisBoard(this);
+	TetrisBoard player2Board = new TetrisBoard(this);
 	Stage playerWindow;
 	Scene scene, gameScene;
 
@@ -57,7 +57,6 @@ public class ClientTest extends Application {
 		pane.setPadding(new Insets(10));
 		pane.setSpacing(10);
 
-		//Scene scene = new Scene(pane);
 		scene = new Scene(pane);
 
 		Label label = new Label("Enter message:");
@@ -138,7 +137,6 @@ public class ClientTest extends Application {
 	}
 
 	public void startGame() {
-		//playerWindow.setScene(gameScene);
 		player1Board.startGame();
 	}
 
