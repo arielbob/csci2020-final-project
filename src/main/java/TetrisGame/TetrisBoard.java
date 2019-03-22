@@ -438,4 +438,9 @@ public class TetrisBoard {
             }
         }
     }
+
+    public void setWin() {
+        gameOver = true;
+        System.out.println("YOU WIN");
+    }
 }

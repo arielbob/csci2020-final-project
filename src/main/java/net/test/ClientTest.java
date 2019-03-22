@@ -152,6 +152,6 @@ public class ClientTest extends Application {
 	}
 
 	public void setWin() {
-//		player1Board.setWin();
+		player1Board.setWin();
 	}
 }
