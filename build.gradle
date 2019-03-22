@@ -26,7 +26,7 @@ application {
 
 task tetris(type: JavaExec) {
 	classpath = sourceSets.main.runtimeClasspath
-	main = "TetrisPrototype.TetrisPrototype"
+	main = "TetrisGame.TetrisPrototype"
 	jvmArgs = ["--module-path", classpath.asPath, "--add-modules", "javafx.controls" ] // Need this line to run JavaFX runtime components.
 }
 

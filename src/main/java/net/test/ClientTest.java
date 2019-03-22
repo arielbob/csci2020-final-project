@@ -20,7 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import TetrisPrototype.TetrisBoard;
+import TetrisGame.TetrisBoard;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.input.KeyCode;

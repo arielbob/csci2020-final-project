@@ -1,4 +1,4 @@
-package TetrisPrototype;
+package TetrisGame;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

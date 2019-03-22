@@ -1,4 +1,4 @@
-package TetrisPrototype;
+package TetrisGame.Tetriminos;
 
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;

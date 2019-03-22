@@ -1,6 +1,6 @@
 package UserInterface;
 
-import TetrisPrototype.*;
+import TetrisGame.*;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

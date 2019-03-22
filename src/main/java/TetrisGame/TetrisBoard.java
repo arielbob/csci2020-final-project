@@ -1,4 +1,4 @@
-package TetrisGame;
+package TetrisPrototype;
 
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -10,7 +10,6 @@ import java.util.Arrays;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 
-import TetrisGame.Tetriminos.*;
 import net.test.ClientTest;
 
 public class TetrisBoard {
@@ -86,17 +85,17 @@ public class TetrisBoard {
         }
 
         currentBlock = pickRandomBlock(blockSet);
-        int[][] pieceArray = currentBlock.getRotationsArray(0);
+        int[][] pieceArray = currentBlock.rotationsArray[0];
         currentBlock.setRotationState(0);
-        displaceY = currentBlock.getSpawnPointY() + hiddenRowNum;
-        displaceX = currentBlock.getSpawnPointX();
+        displaceY = currentBlock.spawnPointY + hiddenRowNum;
+        displaceX = currentBlock.spawnPointX;
         int i = 0;
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {
                 if (1 == pieceArray[y][x]) {
                     // Draw each piece of the block
                     boardState[y + displaceY][x + displaceX] = currentBlock.getMovingNum();
-                    boardArray[y + displaceY][x + displaceX].setFill(currentBlock.getPaint());
+                    boardArray[y + displaceY][x + displaceX].setFill(currentBlock.paint);
                     occupiedTiles[i][0] = y + displaceY;
                     occupiedTiles[i][1] = x + displaceX;
                     i++;
@@ -171,7 +170,7 @@ public class TetrisBoard {
             int y = movingTiles[pair][0];
             int x = movingTiles[pair][1];
             boardState[y][x] = currentBlock.getMovingNum();
-            boardArray[y][x].setFill(currentBlock.getPaint());
+            boardArray[y][x].setFill(currentBlock.paint);
             occupiedTiles[pair][0] = movingTiles[pair][0];
             occupiedTiles[pair][1] = movingTiles[pair][1];
         }
@@ -195,7 +194,7 @@ public class TetrisBoard {
             boardArray[tile[0]][tile[1]].setFill(defaultTileColor);
         }
 
-        int[][] pieceArray = currentBlock.getRotationsArray(newRotationState);//rotationsArray[newRotationState];
+        int[][] pieceArray = currentBlock.rotationsArray[newRotationState];
         currentBlock.setRotationState(newRotationState);
         displaceY += floorKick;
         displaceX += wallKick;
@@ -208,7 +207,7 @@ public class TetrisBoard {
                 int newXPos = x + displaceX;
                 if (1 == pieceArray[y][x]) {
                     boardState[newYPos][newXPos] = currentBlock.getMovingNum();
-                    boardArray[newYPos][newXPos].setFill(currentBlock.getPaint());
+                    boardArray[newYPos][newXPos].setFill(currentBlock.paint);
                     occupiedTiles[i][0] = newYPos;
                     occupiedTiles[i][1] = newXPos;
                     i++;
@@ -225,7 +224,7 @@ public class TetrisBoard {
         int floorKickState = 0;
         int yTracker = -999;
         int rotationState = (currentBlock.getRotationState() + 1) % 4;
-        int[][] pieceArray = currentBlock.getRotationsArray(rotationState);//rotationsArray[rotationState];
+        int[][] pieceArray = currentBlock.rotationsArray[rotationState];
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {
                 if (1 == pieceArray[y][x]) {
@@ -249,7 +248,7 @@ public class TetrisBoard {
         int wallKickState = 0;
         int xTracker = -999;
         int rotationState = (currentBlock.getRotationState() + 1) % 4;
-        int[][] pieceArray = currentBlock.getRotationsArray(rotationState);//rotationsArray[rotationState];
+        int[][] pieceArray = currentBlock.rotationsArray[rotationState];
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {
                 if (1 == pieceArray[y][x]) {
@@ -278,7 +277,7 @@ public class TetrisBoard {
     }
 
     private boolean isRotationPossible(int newRotationState, int wallKick, int floorKick) {
-        int[][] pieceArray = currentBlock.getRotationsArray(newRotationState);//rotationsArray[newRotationState];
+        int[][] pieceArray = currentBlock.rotationsArray[newRotationState];
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {
                 if (1 == pieceArray[y][x]) {
@@ -309,19 +308,19 @@ public class TetrisBoard {
         }
         switch (num) {
             case 8:
-                return blockSet[0].getPaint();
+                return blockSet[0].paint;
             case 16:
-                return blockSet[1].getPaint();
+                return blockSet[1].paint;
             case 24:
-                return blockSet[2].getPaint();
+                return blockSet[2].paint;
             case 32:
-                return blockSet[3].getPaint();
+                return blockSet[3].paint;
             case 40:
-                return blockSet[4].getPaint();
+                return blockSet[4].paint;
             case 48:
-                return blockSet[5].getPaint();
+                return blockSet[5].paint;
             case 56:
-                return blockSet[6].getPaint();
+                return blockSet[6].paint;
         }
         return defaultTileColor;
     }

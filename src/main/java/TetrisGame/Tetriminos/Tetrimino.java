@@ -1,4 +1,4 @@
-package TetrisGame.Tetriminos;
+package TetrisPrototype;
 
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Paint;
@@ -13,8 +13,8 @@ public class Tetrimino {
     int[][][] rotationsArray = new int[4][][];
     private int rotationState = 0;
 
-    public Paint getPaint() {
-        return paint;
+    public int getRotationState() {
+        return rotationState;
     }
 
     public int getMovingNum() {
@@ -23,22 +23,6 @@ public class Tetrimino {
 
     public int getPlacedNum() {
         return placedNum;
-    }
-
-    public int getSpawnPointY() {
-        return spawnPointY;
-    }
-
-    public int getSpawnPointX() {
-        return spawnPointX;
-    }
-
-    public int getRotationState() {
-        return rotationState;
-    }
-
-    public int[][] getRotationsArray(int i) {
-        return rotationsArray[i];
     }
 
     public void setRotationState(int newState) {
