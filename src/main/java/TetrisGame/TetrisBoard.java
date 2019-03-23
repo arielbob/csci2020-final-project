@@ -437,7 +437,6 @@ public class TetrisBoard {
 
         Task<Void> task = new Task<Void>() {
             @Override protected Void call() throws Exception {
-                int iterations;
                 for (int r = loseBoard.length - 1; r >= 0 ; r--) {
                     for (int c = 0; c < loseBoard[r].length; c++) {
                         switch (loseBoard[r][c]) {
@@ -489,17 +488,30 @@ public class TetrisBoard {
             {0, 0, 1, 0, 0, 0, 0, 1, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         };
-        for(int r = 0; r < winBoard.length; r++) {
-            for(int c = 0; c < winBoard[r].length; c++) {
-                switch (winBoard[r][c]) {
-                    case 0:
-                        boardArray[r + hiddenRowNum][c].setFill(Color.BLACK);
+        Task<Void> task = new Task<Void>() {
+            @Override protected Void call() throws Exception {
+                for (int r = winBoard.length - 1; r >= 0 ; r--) {
+                    for (int c = 0; c < winBoard[r].length; c++) {
+                        switch (winBoard[r][c]) {
+                            case 0:
+                                boardArray[r + hiddenRowNum][c].setFill(Color.BLACK);
+                                break;
+                            case 1:
+                                boardArray[r + hiddenRowNum][c].setFill(Color.web("#00ff1d"));
+                                break;
+                        }
+                    }
+
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException interrupted) {
+                        System.out.println("Drawing Interrupted!");
                         break;
-                    case 1:
-                        boardArray[r + hiddenRowNum][c].setFill(Color.web("#00ff1d"));
-                        break;
+                    }
                 }
+                return null;
             }
-        }
+        };
+        new Thread(task).start();
     }
 }
