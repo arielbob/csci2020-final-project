@@ -32,7 +32,7 @@ public class ServerTest extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		server.setView(this);
+//		server.setView(this);
 
 		VBox pane = new VBox();
 		pane.setPadding(new Insets(10));

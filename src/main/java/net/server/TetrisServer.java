@@ -17,7 +17,7 @@ import java.util.HashMap;
 
 public class TetrisServer extends Server {
 	private ServerUserPool userPool; // contains all connected users, they do not have to be joined in the game
-	private ServerTest view;
+//	private ServerTest view;
 	private ServerState state;
 
 	private Thread gameThread;
@@ -28,9 +28,9 @@ public class TetrisServer extends Server {
 		this.state = ServerState.WAITING;
 	}
 
-	public void setView(ServerTest view) {
-		this.view = view;
-	}
+//	public void setView(ServerTest view) {
+//		this.view = view;
+//	}
 
 	public void startGame() {
 		// probably reset the game state
@@ -42,7 +42,7 @@ public class TetrisServer extends Server {
 		}
 
 		if (numWaiting >= 2 && state == ServerState.WAITING) {
-			view.appendText("Game Started\n");
+//			view.appendText("Game Started\n");
 
 			this.state = ServerState.IN_PROGRESS;
 			UpdateClientStatePacket updateClientStatePacket = new UpdateClientStatePacket(ClientState.IN_PROGRESS);
@@ -68,7 +68,7 @@ public class TetrisServer extends Server {
 
 	public void endGame() {
 		if (state == ServerState.IN_PROGRESS) {
-			view.appendText("Game Ended\n");
+//			view.appendText("Game Ended\n");
 			HashMap<String, ServerUser> users = userPool.getUsers();
 
 			this.state = ServerState.WAITING;
