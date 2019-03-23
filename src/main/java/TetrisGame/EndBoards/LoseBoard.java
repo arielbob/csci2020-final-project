@@ -1,7 +1,11 @@
 package TetrisGame.EndBoards;
 
+import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
+
 public class LoseBoard extends EndBoard {
     public LoseBoard() {
+        paint = Color.RED;
         int[][] loseBoard = {
             {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},

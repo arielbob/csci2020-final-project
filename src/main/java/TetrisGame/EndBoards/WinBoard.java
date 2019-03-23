@@ -1,7 +1,11 @@
 package TetrisGame.EndBoards;
 
+import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
+
 public class WinBoard extends EndBoard {
     public WinBoard() {
+        paint = Color.web("#00ff1d");
         int[][] winBoard = {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 1, 0, 1, 1, 0, 1, 0, 0},

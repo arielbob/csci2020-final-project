@@ -10,7 +10,7 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Arrays;
-import javafx.concurrent.Task;
+//import javafx.concurrent.Task;
 import TetrisGame.Tetriminos.*;
 import TetrisGame.EndBoards.*;
 import net.client.TetrisClient;
@@ -409,69 +409,15 @@ public class TetrisBoard {
 
     public void setLose() {
         gameOver = true;
-        drawLoseBoard();
+        EndBoard loseBoard = new LoseBoard();
+        //loseBoard.drawBoard(boardArray);
+        loseBoard.animateBoard(boardArray);
     }
 
     public void setWin() {
         gameOver = true;
-        drawWinBoard();
-    }
-
-    private void drawLoseBoard() {
-        int[][] loseBoard = new LoseBoard().getBoard();
-        Task<Void> task = new Task<Void>() {
-            @Override protected Void call() throws Exception {
-                for (int r = loseBoard.length - 1; r >= 0 ; r--) {
-                    for (int c = 0; c < loseBoard[r].length; c++) {
-                        switch (loseBoard[r][c]) {
-                            case 0:
-                                boardArray[r + HIDDEN_ROWS][c].setFill(Color.BLACK);
-                                break;
-                            case 1:
-                                boardArray[r + HIDDEN_ROWS][c].setFill(Color.RED);
-                                break;
-                        }
-                    }
-
-                    try {
-                        Thread.sleep(50);
-                    } catch (InterruptedException interrupted) {
-                        System.out.println("Drawing Interrupted!");
-                        break;
-                    }
-                }
-                return null;
-            }
-        };
-        new Thread(task).start();
-    }
-
-    private void drawWinBoard() {
-        int[][] winBoard = new WinBoard().getBoard();
-        Task<Void> task = new Task<Void>() {
-            @Override protected Void call() throws Exception {
-                for (int r = winBoard.length - 1; r >= 0 ; r--) {
-                    for (int c = 0; c < winBoard[r].length; c++) {
-                        switch (winBoard[r][c]) {
-                            case 0:
-                                boardArray[r + HIDDEN_ROWS][c].setFill(Color.BLACK);
-                                break;
-                            case 1:
-                                boardArray[r + HIDDEN_ROWS][c].setFill(Color.web("#00ff1d"));
-                                break;
-                        }
-                    }
-
-                    try {
-                        Thread.sleep(50);
-                    } catch (InterruptedException interrupted) {
-                        System.out.println("Drawing Interrupted!");
-                        break;
-                    }
-                }
-                return null;
-            }
-        };
-        new Thread(task).start();
+        EndBoard winBoard = new WinBoard();
+        //winBoard.drawBoard(boardArray);
+        winBoard.animateBoard(boardArray);
     }
 }
