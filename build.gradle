@@ -21,7 +21,7 @@ javafx {
 }
 
 application {
-    mainClassName = 'HelloWorld'
+    mainClassName = 'UserInterface.StartInterface'
 }
 
 task tetris(type: JavaExec) {
