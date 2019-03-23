@@ -71,6 +71,7 @@ public class TetrisClient extends Client {
 				IDPacket idPacket = new IDPacket(packet);
 				this.id = idPacket.getID();
 				view.appendText("CONNECTED WITH ID " + this.id.toString() + '\n');
+				view.setConnected();
 				break;
 			case ADD_PLAYER:
 				AddPlayerPacket addPlayerPacket = new AddPlayerPacket(packet);

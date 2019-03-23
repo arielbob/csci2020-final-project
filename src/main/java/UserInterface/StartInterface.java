@@ -67,6 +67,9 @@ public class StartInterface extends Application {
         joinBtn.setPrefHeight(50);
         root2.add(joinBtn, 0, 1);
 
+        joinBtn.setOnAction(event -> {
+            window.setScene(new JoinServerScene(window).getScene());
+        });
 
         Button backBtn = new Button("BACK");
         backBtn.setAlignment(Pos.CENTER);

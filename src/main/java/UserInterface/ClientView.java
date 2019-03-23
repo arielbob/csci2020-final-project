@@ -6,6 +6,7 @@ import net.server.TetrisServer;
 import java.io.IOException;
 
 import TetrisGame.TetrisBoard;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -105,6 +106,13 @@ public class ClientView {
 
 	public Scene getScene() {
 		return scene;
+	}
+
+	// when we receive our ID, we know we connected and so we change scenes
+	public void setConnected() {
+		Platform.runLater(() -> {
+			primaryStage.setScene(scene);
+		});
 	}
 
 	public void close() {
