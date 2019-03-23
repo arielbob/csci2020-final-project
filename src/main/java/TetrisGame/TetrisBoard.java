@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Arrays;
+import javafx.concurrent.Task;
 import TetrisGame.Tetriminos.*;
 import net.client.TetrisClient;
 import net.test.ClientTest;
@@ -433,18 +434,33 @@ public class TetrisBoard {
             {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 1, 1, 1, 1, 0, 0, 0}
         };
-        for(int r = 0; r < loseBoard.length; r++) {
-            for(int c = 0; c < loseBoard[r].length; c++) {
-                switch (loseBoard[r][c]) {
-                    case 0:
-                        boardArray[r + hiddenRowNum][c].setFill(Color.BLACK);
+
+        Task<Void> task = new Task<Void>() {
+            @Override protected Void call() throws Exception {
+                int iterations;
+                for (int r = loseBoard.length - 1; r >= 0 ; r--) {
+                    for (int c = 0; c < loseBoard[r].length; c++) {
+                        switch (loseBoard[r][c]) {
+                            case 0:
+                                boardArray[r + hiddenRowNum][c].setFill(Color.BLACK);
+                                break;
+                            case 1:
+                                boardArray[r + hiddenRowNum][c].setFill(Color.RED);
+                                break;
+                        }
+                    }
+
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException interrupted) {
+                        System.out.println("Drawing Interrupted!");
                         break;
-                    case 1:
-                        boardArray[r + hiddenRowNum][c].setFill(Color.RED);
-                        break;
+                    }
                 }
+                return null;
             }
-        }
+        };
+        new Thread(task).start();
     }
 
     public void setWin() {
