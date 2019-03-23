@@ -10,14 +10,13 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Arrays;
-//import javafx.concurrent.Task;
 import TetrisGame.Tetriminos.*;
 import TetrisGame.EndBoards.*;
 import net.client.TetrisClient;
 import net.test.ClientTest;
 
 public class TetrisBoard {
-    public volatile Pane pane = new Pane();
+    public Pane pane = new Pane();
     public boolean stageClosed = false;
     boolean gameOver = false;
 

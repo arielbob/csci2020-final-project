@@ -19,7 +19,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+import javafx.geometry.Pos;
 import TetrisGame.TetrisBoard;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.HBox;
@@ -79,6 +79,8 @@ public class ClientTest extends Application {
 
 
 		playerWindow = primaryStage;
+		HBox gamePane = new HBox();
+		gamePane.setAlignment(Pos.CENTER);
 		VBox gameVbox = new VBox(10);
 		gameVbox.setPadding(new Insets(20));
 		Button quitBtn = new Button("Quit");
@@ -93,7 +95,8 @@ public class ClientTest extends Application {
 		stackPane2.getChildren().add(player2Board.pane);
 		gameHbox.getChildren().addAll(stackPane1, stackPane2);
 		gameVbox.getChildren().addAll(quitBtn, gameHbox);
-		gameScene = new Scene(gameVbox);
+		gamePane.getChildren().add(gameVbox);
+		gameScene = new Scene(gamePane);
 
 		gameScene.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.LEFT) {
