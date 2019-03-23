@@ -352,10 +352,7 @@ public class TetrisBoard {
             int x = pair[1];
             boardState[y][x] = currentBlock.getPlacedNum();
             if (y <= HIDDEN_ROWS - 2) {
-                gameOver = true;
-                System.out.println("YOU LOSE");
                 setLose();
-
                 if (null != client) {
                     try {
                         client.sendLose();
@@ -363,7 +360,6 @@ public class TetrisBoard {
                         e.printStackTrace();
                     }
                 }
-
                 return;
             }
         }
@@ -411,6 +407,7 @@ public class TetrisBoard {
     }
 
     public void setLose() {
+        gameOver = true;
         drawLoseBoard();
     }
 
