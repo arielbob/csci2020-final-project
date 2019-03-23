@@ -30,17 +30,17 @@ task tetris(type: JavaExec) {
 	jvmArgs = ["--module-path", classpath.asPath, "--add-modules", "javafx.controls" ] // Need this line to run JavaFX runtime components.
 }
 
-task runServerTest(type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
-    main = "net.test.ServerTest"
-    jvmArgs = ["--module-path", classpath.asPath, "--add-modules", "javafx.controls" ]
-}
-
-task runClientTest(type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
-    main = "net.test.ClientTest"
-    jvmArgs = ["--module-path", classpath.asPath, "--add-modules", "javafx.controls" ]
-}
+//task runServerTest(type: JavaExec) {
+//    classpath = sourceSets.main.runtimeClasspath
+//    main = "net.test.ServerTest"
+//    jvmArgs = ["--module-path", classpath.asPath, "--add-modules", "javafx.controls" ]
+//}
+//
+//task runClientTest(type: JavaExec) {
+//    classpath = sourceSets.main.runtimeClasspath
+//    main = "net.test.ClientTest"
+//    jvmArgs = ["--module-path", classpath.asPath, "--add-modules", "javafx.controls" ]
+//}
 
 task runUI(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath

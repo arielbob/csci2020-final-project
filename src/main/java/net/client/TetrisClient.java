@@ -1,7 +1,7 @@
 package net.client;
 
 import net.packet.*;
-import net.test.ClientTest;
+//import net.test.ClientTest;
 import net.user.User;
 import net.user.UserPool;
 import net.user.UserState;
@@ -12,19 +12,18 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.UUID;
 
+import UserInterface.ClientView;
+
 public class TetrisClient extends Client {
 	private UserPool userPool; // only contains the ones that are joined in the game (i.e. no spectators)
 	private UUID id;
-	private ClientTest view;
+	private ClientView view;
 	private ClientState state;
 
-	public TetrisClient(InetAddress address, int port) throws SocketException {
+	public TetrisClient(InetAddress address, int port, ClientView view) throws SocketException {
 		super(address, port);
 		this.userPool = new UserPool();
 		this.state = ClientState.WAITING;
-	}
-
-	public void setView(ClientTest view) {
 		this.view = view;
 	}
 

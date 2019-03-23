@@ -1,8 +1,12 @@
 package UserInterface;
 
+import net.client.TetrisClient;
 import net.server.TetrisServer;
 
+import java.io.IOException;
+import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -57,15 +61,32 @@ public class CreateServerScene {
 			if (hasErrors) return;
 
 			try {
-				TetrisServer server = new TetrisServer(port);
+				ClientView clientView = new ClientView(primaryStage);
+				TetrisServer server = new TetrisServer(port, clientView);
+				TetrisClient client = new TetrisClient(InetAddress.getByName("localhost"), port, clientView);
+				clientView.setServer(server);
+				clientView.setClient(client);
+				clientView.init();
+
+				primaryStage.setScene(clientView.getScene());
+
+				primaryStage.setOnCloseRequest(event1 -> clientView.close());
+
 				System.out.println(port);
 				server.start();
+				client.start();
+				client.connect();
 			} catch (SocketException e) {
 				serverError.setText("Port is already in use, please enter a different port");
 				serverError.setVisible(true);
 			} catch (IllegalArgumentException e) {
 				serverError.setText("Please enter a port between 0 and 65535 (inclusive)");
 				serverError.setVisible(true);
+			} catch (UnknownHostException e) {
+				serverError.setText("Could not connect to server");
+				serverError.setVisible(true);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		});
 

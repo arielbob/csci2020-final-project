@@ -2,7 +2,7 @@ package net.server;
 
 import net.client.ClientState;
 import net.packet.*;
-import net.test.ServerTest;
+//import net.test.ServerTest;
 import net.user.ServerUser;
 import net.user.User;
 import net.user.ServerUserPool;
@@ -15,22 +15,21 @@ import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
+import UserInterface.ClientView;
+
 public class TetrisServer extends Server {
 	private ServerUserPool userPool; // contains all connected users, they do not have to be joined in the game
-//	private ServerTest view;
+	private ClientView view;
 	private ServerState state;
 
 	private Thread gameThread;
 
-	public TetrisServer(int port) throws SocketException {
+	public TetrisServer(int port, ClientView view) throws SocketException {
 		super(port);
 		this.userPool = new ServerUserPool();
 		this.state = ServerState.WAITING;
+		this.view = view;
 	}
-
-//	public void setView(ServerTest view) {
-//		this.view = view;
-//	}
 
 	public void startGame() {
 		// probably reset the game state
