@@ -22,7 +22,7 @@ public class TetrisBoard {
 
     Paint defaultTileColor = Color.WHITE;
     double tileSize = 15;
-    int hiddenRowNum = 3;
+    private final int HIDDEN_ROWS = 3;
     private final int BOARD_HEIGHT = 24;
     private final int BOARD_WIDTH = 10;
     int[][] boardState = new int[BOARD_HEIGHT][BOARD_WIDTH];
@@ -42,11 +42,11 @@ public class TetrisBoard {
             for (int c = 0; c < boardArray[r].length; c++) {
                 Rectangle tile = new Rectangle(tileSize, tileSize, defaultTileColor);
                 tile.setStroke(Color.BLACK);
-                tile.setY((r - hiddenRowNum) * tileSize);
+                tile.setY((r - HIDDEN_ROWS) * tileSize);
                 tile.setX(c * tileSize);
                 boardArray[r][c] = tile;
                 pane.getChildren().add(tile);
-                if (r < hiddenRowNum) {
+                if (r < HIDDEN_ROWS) {
                     tile.setVisible(false);
                 }
             }
@@ -97,7 +97,7 @@ public class TetrisBoard {
         currentBlock = pickRandomBlock(blockSet);
         int[][] pieceArray = currentBlock.getRotationsArray(0);
         currentBlock.setRotationState(0);
-        displaceY = currentBlock.getSpawnPointY() + hiddenRowNum;
+        displaceY = currentBlock.getSpawnPointY() + HIDDEN_ROWS;
         displaceX = currentBlock.getSpawnPointX();
         int i = 0;
         for (int y = 0; y < pieceArray.length; y++) {
@@ -351,7 +351,7 @@ public class TetrisBoard {
             int y = pair[0];
             int x = pair[1];
             boardState[y][x] = currentBlock.getPlacedNum();
-            if (y <= hiddenRowNum - 2) {
+            if (y <= HIDDEN_ROWS - 2) {
                 gameOver = true;
                 System.out.println("YOU LOSE");
                 setLose();
@@ -411,6 +411,15 @@ public class TetrisBoard {
     }
 
     public void setLose() {
+        drawLoseBoard();
+    }
+
+    public void setWin() {
+        gameOver = true;
+        drawWinBoard();
+    }
+
+    private void drawLoseBoard() {
         int[][] loseBoard = {
             {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
@@ -441,10 +450,10 @@ public class TetrisBoard {
                     for (int c = 0; c < loseBoard[r].length; c++) {
                         switch (loseBoard[r][c]) {
                             case 0:
-                                boardArray[r + hiddenRowNum][c].setFill(Color.BLACK);
+                                boardArray[r + HIDDEN_ROWS][c].setFill(Color.BLACK);
                                 break;
                             case 1:
-                                boardArray[r + hiddenRowNum][c].setFill(Color.RED);
+                                boardArray[r + HIDDEN_ROWS][c].setFill(Color.RED);
                                 break;
                         }
                     }
@@ -462,9 +471,7 @@ public class TetrisBoard {
         new Thread(task).start();
     }
 
-    public void setWin() {
-        gameOver = true;
-        System.out.println("YOU WIN");
+    private void drawWinBoard() {
         int[][] winBoard = {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 1, 0, 1, 1, 0, 1, 0, 0},
@@ -494,10 +501,10 @@ public class TetrisBoard {
                     for (int c = 0; c < winBoard[r].length; c++) {
                         switch (winBoard[r][c]) {
                             case 0:
-                                boardArray[r + hiddenRowNum][c].setFill(Color.BLACK);
+                                boardArray[r + HIDDEN_ROWS][c].setFill(Color.BLACK);
                                 break;
                             case 1:
-                                boardArray[r + hiddenRowNum][c].setFill(Color.web("#00ff1d"));
+                                boardArray[r + HIDDEN_ROWS][c].setFill(Color.web("#00ff1d"));
                                 break;
                         }
                     }
