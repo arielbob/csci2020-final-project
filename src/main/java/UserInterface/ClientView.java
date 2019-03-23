@@ -27,10 +27,14 @@ public class ClientView {
 	Stage primaryStage;
 	Scene scene, gameScene;
 
+	Button startButton;
+
 	public ClientView(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		ta = new TextArea();
 		ta.setEditable(false);
+		startButton = new Button("Start Game");
+		startButton.setVisible(false);
 	}
 
 	public void setClient(TetrisClient client) {
@@ -39,6 +43,7 @@ public class ClientView {
 
 	public void setServer(TetrisServer server) {
 		this.server = server;
+		startButton.setVisible(true);
 	}
 
 	public void init() {
@@ -58,13 +63,15 @@ public class ClientView {
 			client.stopClient();
 			primaryStage.setScene(scene);
 		});
+
 		HBox gameHbox = new HBox(100);
 		StackPane stackPane1 = new StackPane();
 		stackPane1.getChildren().add(player1Board.pane);
 		StackPane stackPane2 = new StackPane();
 		stackPane2.getChildren().add(player2Board.pane);
 		gameHbox.getChildren().addAll(stackPane1, stackPane2);
-		gameVbox.getChildren().addAll(quitBtn, gameHbox);
+
+		gameVbox.getChildren().addAll(quitBtn, gameHbox, startButton);
 		gameScene = new Scene(gameVbox);
 
 		gameScene.setOnKeyPressed(e -> {
@@ -80,6 +87,11 @@ public class ClientView {
 			else if (e.getCode() == KeyCode.SPACE) {
 				player1Board.rotateTetrimino();
 			}
+		});
+
+		startButton.setOnAction(event -> {
+			server.startGame();
+			gameHbox.requestFocus();
 		});
 
 		Button joinBtn = new Button("Join Game");
@@ -128,6 +140,7 @@ public class ClientView {
 
 	public void startGame() {
 		player1Board.startGame();
+		startButton.setVisible(false);
 	}
 
 	public void receiveBoardState(int[][] boardState) {
@@ -136,13 +149,20 @@ public class ClientView {
 
 	public void setOpponentLose() {
 		player2Board.setLose();
+		showStartButton();
 	}
 
 	public void setOpponentWin() {
 		player2Board.setWin();
+		showStartButton();
 	}
 
 	public void setClientWin() {
 		player1Board.setWin();
+		showStartButton();
+	}
+
+	private void showStartButton() {
+		if (server != null) startButton.setVisible(true);
 	}
 }

@@ -68,8 +68,6 @@ public class CreateServerScene {
 				clientView.setClient(client);
 				clientView.init();
 
-				primaryStage.setScene(clientView.getScene());
-
 				primaryStage.setOnCloseRequest(event1 -> clientView.close());
 
 				System.out.println(port);
