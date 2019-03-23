@@ -53,6 +53,7 @@ public class TetrisClient extends Client {
 	}
 
 	public void sendLose() throws IOException {
+		view.setOpponentWin();
 		sendUserState(id, UserState.LOST);
 	}
 
@@ -99,8 +100,9 @@ public class TetrisClient extends Client {
 					} else {
 						switch (user.getState()) {
 							case LOST:
-								view.setLose();
-								view.setWin();
+								view.setOpponentLose();
+								view.setClientWin();
+								break;
 						}
 					}
 				}

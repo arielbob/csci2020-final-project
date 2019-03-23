@@ -147,11 +147,15 @@ public class ClientTest extends Application {
 		player2Board.setBoardState(boardState);
 	}
 
-	public void setLose() {
+	public void setOpponentLose() {
 		 player2Board.setLose();
 	}
 
-	public void setWin() {
+	public void setOpponentWin() {
+		player2Board.setWin();
+	}
+
+	public void setClientWin() {
 		player1Board.setWin();
 	}
 }
