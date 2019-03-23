@@ -5,13 +5,11 @@ import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
-
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Arrays;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-
 import TetrisGame.Tetriminos.*;
 import net.client.TetrisClient;
 import net.test.ClientTest;
@@ -24,10 +22,10 @@ public class TetrisBoard {
     Paint defaultTileColor = Color.WHITE;
     double tileSize = 15;
     int hiddenRowNum = 3;
-    int boardWidth = 10;
-    int boardHeight = 24;
-    int[][] boardState = new int[boardHeight][boardWidth];
-    Rectangle[][] boardArray = new Rectangle[boardHeight][boardWidth];
+    private final int BOARD_HEIGHT = 24;
+    private final int BOARD_WIDTH = 10;
+    int[][] boardState = new int[BOARD_HEIGHT][BOARD_WIDTH];
+    Rectangle[][] boardArray = new Rectangle[BOARD_HEIGHT][BOARD_WIDTH];
 
     public int[][] occupiedTiles = new int[4][2];
     int displaceY = 0;
@@ -61,8 +59,8 @@ public class TetrisBoard {
 
     public void startGame() {
         gameOver = false;
-        for (int r = 0; r < boardHeight; r++) {
-            for (int c = 0; c < boardWidth; c++) {
+        for (int r = 0; r < BOARD_HEIGHT; r++) {
+            for (int c = 0; c < BOARD_WIDTH; c++) {
                 setTileAt(r, c, 0);
             }
         }
@@ -155,7 +153,7 @@ public class TetrisBoard {
 
             switch (dir) {
                 case "down":
-                    if (y > boardHeight - 1 || boardState[y][x] >= 8) {
+                    if (y > BOARD_HEIGHT - 1 || boardState[y][x] >= 8) {
                         checkBoardState();
                         checkForFilledRows();
                         spawnTetrimino();
@@ -164,7 +162,7 @@ public class TetrisBoard {
                     break;
                 case "left":
                 case "right":
-                    if (x < 0 || x >= boardWidth || boardState[y][x] >= 8) {
+                    if (x < 0 || x >= BOARD_WIDTH || boardState[y][x] >= 8) {
                         return;
                     }
                     break;
@@ -248,9 +246,9 @@ public class TetrisBoard {
                     int newY = y + displaceY;
                     int newX = x + displaceX;
                     if (newY != yTracker) {
-                        if (newY >= boardHeight ||
-                        0 <= newX && newX < boardWidth &&
-                        newY < boardHeight && boardState[newY][newX] >= 8) {
+                        if (newY >= BOARD_HEIGHT ||
+                        0 <= newX && newX < BOARD_WIDTH &&
+                        newY < BOARD_HEIGHT && boardState[newY][newX] >= 8) {
                             floorKickState--;
                             yTracker = newY;
                         }
@@ -272,16 +270,16 @@ public class TetrisBoard {
                     int newY = y + displaceY + floorKick;
                     int newX = x + displaceX;
                     if (newX != xTracker) {
-                        if (newX >= boardWidth ||
-                        0 <= newX && newX < boardWidth &&
-                        newY < boardHeight &&
+                        if (newX >= BOARD_WIDTH ||
+                        0 <= newX && newX < BOARD_WIDTH &&
+                        newY < BOARD_HEIGHT &&
                         boardState[newY][newX] >= 8 && x >= 2) {
                             wallKickState--;
                             xTracker = newX;
                         }
                         else if (newX < 0 ||
-                        0 <= newX && newX < boardWidth &&
-                        newY < boardHeight &&
+                        0 <= newX && newX < BOARD_WIDTH &&
+                        newY < BOARD_HEIGHT &&
                         boardState[newY][newX] >= 8 && x <= 1) {
                             wallKickState++;
                             xTracker = newX;
@@ -314,8 +312,8 @@ public class TetrisBoard {
     }
 
     public void setBoardState(int[][] newBoardState) {
-        for (int r = 0; r < boardHeight; r++) {
-            for (int c = 0; c < boardWidth; c++) {
+        for (int r = 0; r < BOARD_HEIGHT; r++) {
+            for (int c = 0; c < BOARD_WIDTH; c++) {
                 setTileAt(r, c, newBoardState[r][c]);
             }
         }
@@ -378,7 +376,7 @@ public class TetrisBoard {
                      filledTileCount++;
                 }
             }
-            if (filledTileCount >= boardWidth) {
+            if (filledTileCount >= BOARD_WIDTH) {
                 clearLine(r);
             }
         }
@@ -391,7 +389,7 @@ public class TetrisBoard {
 
         // Shifts all the colored blocks down one row.
         for (int r = rowIndex--; r >= 0; r--) {
-            for (int c = 0; c < boardWidth; c++) {
+            for (int c = 0; c < BOARD_WIDTH; c++) {
                 int tileState = boardState[r][c];
                 if (tileState >= 8) {
                     setTileAt(r, c, 0);
