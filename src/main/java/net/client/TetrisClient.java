@@ -1,7 +1,7 @@
 package net.client;
 
 import net.packet.*;
-import net.test.ClientTest;
+//import net.test.ClientTest;
 import net.user.User;
 import net.user.UserPool;
 import net.user.UserState;
@@ -12,19 +12,18 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.UUID;
 
+import UserInterface.ClientView;
+
 public class TetrisClient extends Client {
 	private UserPool userPool; // only contains the ones that are joined in the game (i.e. no spectators)
 	private UUID id;
-	private ClientTest view;
+	private ClientView view;
 	private ClientState state;
 
-	public TetrisClient(InetAddress address, int port) throws SocketException {
+	public TetrisClient(InetAddress address, int port, ClientView view) throws SocketException {
 		super(address, port);
 		this.userPool = new UserPool();
 		this.state = ClientState.WAITING;
-	}
-
-	public void setView(ClientTest view) {
 		this.view = view;
 	}
 
@@ -45,11 +44,21 @@ public class TetrisClient extends Client {
 		}
 	}
 
-	public void sendBoard(int[][] board) throws IOException {
+	public void sendBoardState(int[][] board) throws IOException {
 		if (userPool.findUserById(id).getState() == UserState.PLAYING) {
 			BoardPacket packet = new BoardPacket(this.id, board);
 			sendPacket(packet);
 		}
+	}
+
+	public void sendLose() throws IOException {
+		view.setOpponentWin();
+		sendUserState(id, UserState.LOST);
+	}
+
+	private void sendUserState(UUID id, UserState userState) throws IOException {
+		UpdateUserStatePacket updateUserStatePacket = new UpdateUserStatePacket(id, UserState.LOST);
+		sendPacket(updateUserStatePacket);
 	}
 
 	@Override
@@ -62,6 +71,7 @@ public class TetrisClient extends Client {
 				IDPacket idPacket = new IDPacket(packet);
 				this.id = idPacket.getID();
 				view.appendText("CONNECTED WITH ID " + this.id.toString() + '\n');
+				view.setConnected();
 				break;
 			case ADD_PLAYER:
 				AddPlayerPacket addPlayerPacket = new AddPlayerPacket(packet);
@@ -80,8 +90,20 @@ public class TetrisClient extends Client {
 				user = userPool.findUserById(updateUserStatePacket.getId());
 				if (user != null) {
 					user.setState(updateUserStatePacket.getUserState());
-					if (updateUserStatePacket.getId().toString().equals(id.toString()) && user.getState() == UserState.PLAYING) {
-						view.startGame();
+					boolean isClient = updateUserStatePacket.getId().toString().equals(id.toString());
+					if (isClient) {
+						switch (user.getState()) {
+							case PLAYING:
+								view.startGame();
+								break;
+						}
+					} else {
+						switch (user.getState()) {
+							case LOST:
+								view.setOpponentLose();
+								view.setClientWin();
+								break;
+						}
 					}
 				}
 				break;

@@ -2,7 +2,7 @@ package net.server;
 
 import net.client.ClientState;
 import net.packet.*;
-import net.test.ServerTest;
+//import net.test.ServerTest;
 import net.user.ServerUser;
 import net.user.User;
 import net.user.ServerUserPool;
@@ -15,20 +15,19 @@ import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
+import UserInterface.ClientView;
+
 public class TetrisServer extends Server {
 	private ServerUserPool userPool; // contains all connected users, they do not have to be joined in the game
-	private ServerTest view;
+	private ClientView view;
 	private ServerState state;
 
 	private Thread gameThread;
 
-	public TetrisServer(int port) throws SocketException {
+	public TetrisServer(int port, ClientView view) throws SocketException {
 		super(port);
 		this.userPool = new ServerUserPool();
 		this.state = ServerState.WAITING;
-	}
-
-	public void setView(ServerTest view) {
 		this.view = view;
 	}
 
@@ -41,8 +40,8 @@ public class TetrisServer extends Server {
 			if (user.getState() == UserState.WAITING) numWaiting++;
 		}
 
-		if (numWaiting > 0 && state == ServerState.WAITING) {
-			view.appendText("Game Started\n");
+		if (numWaiting >= 2 && state == ServerState.WAITING) {
+//			view.appendText("Game Started\n");
 
 			this.state = ServerState.IN_PROGRESS;
 			UpdateClientStatePacket updateClientStatePacket = new UpdateClientStatePacket(ClientState.IN_PROGRESS);
@@ -63,45 +62,12 @@ public class TetrisServer extends Server {
 					}
 				}
 			}
-
-			// start game loop
-			gameThread = new Thread(() -> {
-				while (state == ServerState.IN_PROGRESS) {
-					BoardPacket boardPacket = new BoardPacket(new int[0][0]);
-					try {
-						// update game
-						// send game state to everyone
-
-						/*
-						for user in userPool:
-							if (user.state == IN_PROGRESS):
-								user.update()
-								// BoardPacket is board + player piece combined in one single array
-								// all clients just need to display their board; they don't need to
-								// know the specifics about where their player is, since that is already
-								// in the board; and all changes are done through the server
-								sendPacket(new BoardPacket(user), users)
-								if (user.state == WAITING):
-									user.place = numUsers - numWinners++
-									sendPacket(new PlacePacket(user.place), users)
-									sendPacket(new ClientStatePacket(ClientState.WAITING), user)
-									sendPacket(new BoardPacket(user), user)
-						 */
-
-						sendPacket(boardPacket, users);
-						Thread.sleep(1000);
-					} catch (IOException | InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-			gameThread.start();
 		}
 	}
 
 	public void endGame() {
 		if (state == ServerState.IN_PROGRESS) {
-			view.appendText("Game Ended\n");
+//			view.appendText("Game Ended\n");
 			HashMap<String, ServerUser> users = userPool.getUsers();
 
 			this.state = ServerState.WAITING;
@@ -133,7 +99,7 @@ public class TetrisServer extends Server {
 
 	@Override
 	void receivePacket(DatagramPacket packet) throws IOException {
-		view.appendText("[PACKET DATA]: " + new String(packet.getData(), StandardCharsets.US_ASCII) + '\n');
+//		view.appendText("[PACKET DATA]: " + new String(packet.getData()) + "\n");
 
 		InetAddress packetIp = packet.getAddress();
 		int packetPort = packet.getPort();
@@ -166,6 +132,13 @@ public class TetrisServer extends Server {
 		if (user == null) return;
 
 		switch (type) {
+			case UPDATE_USER_STATE:
+				UpdateUserStatePacket updateUserStatePacket = new UpdateUserStatePacket(packet);
+				sendPacket(updateUserStatePacket, userPool.getUsers());
+				if (updateUserStatePacket.getUserState() == UserState.LOST) {
+					endGame();
+				}
+				break;
 			case JOIN:
 				if (state == ServerState.WAITING) {
 					user.setState(UserState.WAITING);
@@ -178,7 +151,6 @@ public class TetrisServer extends Server {
 				messagePacket.setId(user.getId());
 				sendPacket(messagePacket, userPool.getUsers());
 				break;
-
 			case BOARD:
 				BoardPacket boardPacket = new BoardPacket(packet);
 				sendPacket(boardPacket, userPool.getUsers());

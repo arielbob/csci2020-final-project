@@ -1,4 +1,4 @@
-package TetrisPrototype;
+package TetrisGame.Tetriminos;
 
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
@@ -8,7 +8,7 @@ public class OBlock extends Tetrimino {
         paint = Color.YELLOW;
         movingNum = 4;
         placedNum = 8*movingNum;
-        spawnPointY = 2;
+        spawnPointY = -2;
         spawnPointX = 4;
         rotationsArray[0] = new int[][] {
             {1, 1},

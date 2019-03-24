@@ -1,4 +1,4 @@
-package TetrisPrototype;
+package TetrisGame;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -40,6 +40,7 @@ public class TetrisPrototype extends Application {
                 board.rotateTetrimino();
             }
         });
+		board.startGame();
 
         primaryStage.setTitle("Tetris Prototype");
         primaryStage.setScene(scene);
