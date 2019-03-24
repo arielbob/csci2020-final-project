@@ -67,6 +67,9 @@ public class StartInterface extends Application {
         joinBtn.setPrefHeight(50);
         root2.add(joinBtn, 0, 1);
 
+        joinBtn.setOnAction(event -> {
+            window.setScene(new JoinServerScene(window).getScene());
+        });
 
         Button backBtn = new Button("BACK");
         backBtn.setAlignment(Pos.CENTER);
@@ -86,7 +89,7 @@ public class StartInterface extends Application {
         soloBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            //board = new TetrisBoard();
+                //board = new TetrisBoard();
 
                 Stage gameStage = new Stage();
 
@@ -120,28 +123,28 @@ public class StartInterface extends Application {
         });
 
         multiBtn.setOnAction(new EventHandler<ActionEvent>() {
-          @Override
-          public void handle(ActionEvent event) {
-            window.setScene(secondScene);
-          }
+            @Override
+            public void handle(ActionEvent event) {
+                window.setScene(secondScene);
+            }
         });
 
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
-          @Override
-          public void handle(ActionEvent event) {
-            window.setScene(firstScene);
-          }
+            @Override
+            public void handle(ActionEvent event) {
+                window.setScene(firstScene);
+            }
         });
-	}
+    }
 
-	@Override
+    @Override
     public void stop() {
         System.out.println("Stage is closing");
         board.stageClosed = true;
     }
 
-	public static void main(String[] args) {
-		launch();
-	}
+    public static void main(String[] args) {
+        launch();
+    }
 
 }

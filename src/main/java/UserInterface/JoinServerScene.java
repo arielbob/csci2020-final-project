@@ -20,31 +20,48 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-public class CreateServerScene {
+public class JoinServerScene {
 	private Scene scene;
 
-	public CreateServerScene(Stage primaryStage) {
+	public JoinServerScene(Stage primaryStage) {
 		VBox pane = new VBox();
 		pane.setPrefSize(400, 250);
 		pane.setPadding(new Insets(20));
 		pane.setSpacing(10);
 
 		Field usernameField = new Field("Username");
+		Field addressField = new Field("Server Address");
 		Field portField = new Field("Port");
 
 		Label serverError = new Label();
 		serverError.setVisible(false);
 
-		Button createServerBtn = new Button("Create Server");
-		createServerBtn.setPadding(new Insets(10));
-		createServerBtn.setOnAction(event -> {
+		Button joinServerBtn = new Button("Join Server");
+		joinServerBtn.setPadding(new Insets(10));
+		joinServerBtn.setOnAction(event -> {
 			usernameField.hideError();
+			addressField.hideError();
 			portField.hideError();
 			serverError.setVisible(false);
 
 			String username = usernameField.getFieldText().trim();
+			String addressString = addressField.getFieldText().trim();
 			int port = -1;
 			boolean hasErrors = false;
+			InetAddress address = null;
+
+			if (addressString.isEmpty()) {
+				addressField.setError("Please enter a server address");
+				hasErrors = true;
+			} else {
+				try {
+					address = InetAddress.getByName(addressField.getFieldText().trim());
+				} catch (UnknownHostException e) {
+					serverError.setText("Could not connect to server");
+					serverError.setVisible(true);
+					hasErrors = true;
+				}
+			}
 
 			try {
 				port = Integer.parseInt(portField.getFieldText().trim());
@@ -62,21 +79,15 @@ public class CreateServerScene {
 
 			try {
 				ClientView clientView = new ClientView(primaryStage);
-				TetrisServer server = new TetrisServer(port, clientView);
-				TetrisClient client = new TetrisClient(InetAddress.getByName("localhost"), port, clientView);
-				clientView.setServer(server);
+				TetrisClient client = new TetrisClient(address, port, clientView);
 				clientView.setClient(client);
 				clientView.init();
 
 				primaryStage.setOnCloseRequest(event1 -> clientView.close());
 
 				System.out.println(port);
-				server.start();
 				client.start();
 				client.connect();
-			} catch (SocketException e) {
-				serverError.setText("Port is already in use, please enter a different port");
-				serverError.setVisible(true);
 			} catch (IllegalArgumentException e) {
 				serverError.setText("Please enter a port between 0 and 65535 (inclusive)");
 				serverError.setVisible(true);
@@ -89,7 +100,7 @@ public class CreateServerScene {
 		});
 
 
-		pane.getChildren().addAll(usernameField, portField, createServerBtn, serverError);
+		pane.getChildren().addAll(usernameField, addressField, portField, joinServerBtn, serverError);
 
 		this.scene = new Scene(pane);
 	}

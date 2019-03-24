@@ -13,7 +13,6 @@ import java.util.Arrays;
 import TetrisGame.Tetriminos.*;
 import TetrisGame.EndBoards.*;
 import net.client.TetrisClient;
-import net.test.ClientTest;
 
 public class TetrisBoard {
     public Pane pane = new Pane();
