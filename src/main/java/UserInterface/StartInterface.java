@@ -17,6 +17,7 @@ public class StartInterface extends Application {
   Stage window;
   Scene firstScene, secondScene;
   TetrisBoard board;
+  Button soloBtn = new Button("       SOLO       ");
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
