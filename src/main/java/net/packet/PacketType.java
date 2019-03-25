@@ -12,7 +12,8 @@ public enum PacketType {
 	UPDATE_CLIENT_STATE(0x05),	// server -> client: to update client state
 	UPDATE_USER_STATE(0x06),		// server -> client: to update user state
 	BOARD(0x07),					// server -> client: to update a user's board
-	QUIT(0x08);
+	QUIT(0x08),
+	SERVER_CLOSE(0x09);
 
 	public int id;
 

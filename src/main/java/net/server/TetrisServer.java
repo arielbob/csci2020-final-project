@@ -93,6 +93,12 @@ public class TetrisServer extends Server {
 	}
 
 	public void stopServer() {
+		ServerClosePacket packet = new ServerClosePacket();
+		try {
+			sendPacket(packet, userPool.getUsers());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		super.stopServer();
 		state = ServerState.WAITING;
 	}

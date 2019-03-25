@@ -144,6 +144,15 @@ public class ClientView {
 		primaryStage.setScene(new HomeScene(primaryStage).getScene());
 	}
 
+	public void serverClose() {
+		player1Board.stageClosed = true;
+		player2Board.stageClosed = true;
+
+		Platform.runLater(() -> {
+			primaryStage.setScene(new HomeScene(primaryStage).getScene());
+		});
+	}
+
 	public void appendText(String text) {
 		ta.appendText(text);
 	}

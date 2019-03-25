@@ -60,6 +60,7 @@ public abstract class Server extends Thread {
 	}
 
 	public void stopServer() {
+		System.out.println("closing server socket");
 		socket.close();
 		isRunning = false;
 	}
