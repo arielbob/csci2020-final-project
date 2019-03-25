@@ -166,6 +166,7 @@ public class ClientView {
 	public void setClientWin() {
 		player1Board.setWin();
 		showStartButton();
+		fileManager.incrementGamesWon();
 	}
 
 	private void showStartButton() {
