@@ -4,9 +4,9 @@
 
 ### Contributors
 
-- [arielbob](https://github.com/arielbob): socket I/O, multi-threading, user interface
+- [arielbob](https://github.com/arielbob): client/server mechanics, socket I/O, multi-threading, user interface
 
-- [Luke-Tran](https://github.com/Luke-Tran): game mechanics, user interface, file I/O
+- [Luke-Tran](https://github.com/Luke-Tran): gameplay mechanics, user interface, file I/O
 
 - [Mitchtee22](https://github.com/Mitchtee22): main menu user interface
 
