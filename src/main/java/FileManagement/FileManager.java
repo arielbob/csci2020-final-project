@@ -10,11 +10,22 @@ public class FileManager {
     }
 
     public void incrementSinglePlayer() {
-        // Read file if it exists
-        int singlePlayerPlayed = 1;
-        int multiplayerPlayed = 0;
-        int multiplayerWon = 0;
-        int linesCleared = 0;
+        incrementValues(1, 0, 0, 0);
+    }
+
+    public void incrementMultiplayer() {
+        incrementValues(0, 1, 0, 0);
+    }
+
+    public void incrementGamesWon() {
+        incrementValues(0, 0, 1, 0);
+    }
+
+    public void incrementLinesCleared() {
+        incrementValues(0, 0, 0, 1);
+    }
+
+    private void incrementValues(int singlePlayerPlayed, int multiplayerPlayed, int multiplayerWon, int linesCleared) {
         if (null != file && file.exists()) {
             try {
                 Scanner input = new Scanner(file);
@@ -22,106 +33,10 @@ public class FileManager {
                     singlePlayerPlayed += Integer.valueOf(input.next());
                 }
                 if (input.hasNext()) {
-                    multiplayerPlayed = Integer.valueOf(input.next());
-                }
-                if (input.hasNext()) {
-                    multiplayerWon = Integer.valueOf(input.next());
-                }
-                if (input.hasNext()) {
-                    linesCleared = Integer.valueOf(input.next());
-                }
-                input.close();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        writeToFile(singlePlayerPlayed, multiplayerPlayed, multiplayerWon, linesCleared);
-    }
-
-    public void incrementMultiplayer() {
-        // Write number of lines cleared to file
-        File file = new File("stats.txt");
-        int singlePlayerPlayed = 0;
-        int multiplayerPlayed = 1;
-        int multiplayerWon = 0;
-        int linesCleared = 0;
-        if (null != file && file.exists()) {
-            try {
-                Scanner input = new Scanner(file);
-                if (input.hasNext()) {
-                    singlePlayerPlayed = Integer.valueOf(input.next());
-                }
-                if (input.hasNext()) {
                     multiplayerPlayed += Integer.valueOf(input.next());
                 }
                 if (input.hasNext()) {
-                    multiplayerWon = Integer.valueOf(input.next());
-                }
-                if (input.hasNext()) {
-                    linesCleared = Integer.valueOf(input.next());
-                }
-                input.close();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        writeToFile(singlePlayerPlayed, multiplayerPlayed, multiplayerWon, linesCleared);
-    }
-
-    public void incrementGamesWon() {
-        // Write number of lines cleared to file
-        File file = new File("stats.txt");
-        int singlePlayerPlayed = 0;
-        int multiplayerPlayed = 0;
-        int multiplayerWon = 1;
-        int linesCleared = 0;
-        if (null != file && file.exists()) {
-            try {
-                Scanner input = new Scanner(file);
-                if (input.hasNext()) {
-                    singlePlayerPlayed = Integer.valueOf(input.next());
-                }
-                if (input.hasNext()) {
-                    multiplayerPlayed = Integer.valueOf(input.next());
-                }
-                if (input.hasNext()) {
                     multiplayerWon += Integer.valueOf(input.next());
-                }
-                if (input.hasNext()) {
-                    linesCleared = Integer.valueOf(input.next());
-                }
-                input.close();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        writeToFile(singlePlayerPlayed, multiplayerPlayed, multiplayerWon, linesCleared);
-    }
-
-    public void incrementLinesCleared() {
-        // Write number of lines cleared to file
-        File file = new File("stats.txt");
-        int singlePlayerPlayed = 0;
-        int multiplayerPlayed = 0;
-        int multiplayerWon = 0;
-        int linesCleared = 1;
-        if (null != file && file.exists()) {
-            try {
-                Scanner input = new Scanner(file);
-                if (input.hasNext()) {
-                    singlePlayerPlayed = Integer.valueOf(input.next());
-                }
-                if (input.hasNext()) {
-                    multiplayerPlayed = Integer.valueOf(input.next());
-                }
-                if (input.hasNext()) {
-                    multiplayerWon = Integer.valueOf(input.next());
                 }
                 if (input.hasNext()) {
                     linesCleared += Integer.valueOf(input.next());
