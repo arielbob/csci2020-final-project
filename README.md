@@ -53,3 +53,9 @@ Run main menu using Gradle's run command.
 ```bash
 $ gradle run
 ```
+
+Play the game by itself using the "tetris" task
+
+```bash
+$ gradle tetris
+```
