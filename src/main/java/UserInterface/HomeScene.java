@@ -17,7 +17,6 @@ public class HomeScene {
 	TetrisBoard board = new TetrisBoard();
 	FileManager fileManager = new FileManager();
 	final double MIN_WIDTH = 400;
-	final double MIN_HEIGHT = 500;
 
 	public HomeScene(Stage primaryStage) {
 		GridPane root = new GridPane();
@@ -67,7 +66,6 @@ public class HomeScene {
 		root2.add(joinBtn, 0, 1);
 
 		joinBtn.setOnAction(event -> {
-			//primaryStage.setScene(new JoinServerScene(primaryStage).getScene());
 			firstScene.setRoot(new JoinServerScene(primaryStage, root2).getRoot());
 		});
 
@@ -77,10 +75,7 @@ public class HomeScene {
 		backBtn.setPrefHeight(50);
 		root2.add(backBtn, 0, 2);
 
-
-		//Scene firstScene = new Scene(root);
 		firstScene = new Scene(root);
-		//Scene secondScene = new Scene(root2);
 		primaryStage.setTitle("Group 7 Tetris");
 		primaryStage.setScene(firstScene);
 		primaryStage.show();
