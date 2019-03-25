@@ -63,7 +63,7 @@ public class StartInterface extends Application {
 
         createBtn.setOnAction(event -> {
             //window.setScene(new CreateServerScene(window).getScene());
-            firstScene.setRoot(new CreateServerScene(window).getRoot());
+            firstScene.setRoot(new CreateServerScene(window, root2).getRoot());
         });
 
         Button joinBtn = new Button("JOIN GAME");
