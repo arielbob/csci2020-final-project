@@ -2,6 +2,8 @@
 
 ## About
 
+This is a two-player networked Tetris game for our final project for CSCI2020U (Software Systems Development and Integration).
+
 ### Contributors
 
 - Ariel Bobadilla ([arielbob](https://github.com/arielbob)): client/server mechanics, socket I/O, multi-threading, user interface
