@@ -27,8 +27,8 @@ public class TetrisClient extends Client {
 		this.view = view;
 	}
 
-	public void connect() throws IOException {
-		ConnectPacket packet = new ConnectPacket();
+	public void connect(String username) throws IOException {
+		ConnectPacket packet = new ConnectPacket(username);
 		sendPacket(packet);
 	}
 
@@ -89,10 +89,19 @@ public class TetrisClient extends Client {
 				break;
 			case ADD_PLAYER:
 				AddPlayerPacket addPlayerPacket = new AddPlayerPacket(packet);
+				System.out.println("player added" + addPlayerPacket.getUsername());
 				user = new User(addPlayerPacket.getId(), addPlayerPacket.getUsername());
 				user.setState(UserState.WAITING);
 				userPool.addUser(user);
 				view.appendText("PLAYER JOINED " + addPlayerPacket.getId() + '\n');
+
+				boolean isUser = addPlayerPacket.getId().toString().equals(id.toString());
+
+				if (isUser) {
+					view.setPlayerName(addPlayerPacket.getUsername());
+				} else {
+					view.setOpponentName(addPlayerPacket.getUsername());
+				}
 				break;
 			case UPDATE_CLIENT_STATE:
 				UpdateClientStatePacket updateClientStatePacket = new UpdateClientStatePacket(packet);

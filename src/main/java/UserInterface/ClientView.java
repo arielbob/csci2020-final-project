@@ -31,6 +31,8 @@ public class ClientView {
 	FileManager fileManager = new FileManager();
 	Button startButton;
 	HBox gameHbox;
+	Label playerLabel;
+	Label opponentLabel;
 
 	public ClientView(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -66,10 +68,13 @@ public class ClientView {
 		gameHbox = new HBox(100);
 		VBox vbox1 = new VBox();
 		vbox1.setAlignment(Pos.CENTER);
-		vbox1.getChildren().addAll(player1Board.pane, new Label("Player"));
+
+		playerLabel = new Label();
+		vbox1.getChildren().addAll(player1Board.pane, playerLabel);
 		VBox vbox2 = new VBox();
 		vbox2.setAlignment(Pos.CENTER);
-		vbox2.getChildren().addAll(player2Board.pane, new Label("Opponent"));
+		opponentLabel = new Label();
+		vbox2.getChildren().addAll(player2Board.pane, opponentLabel);
 		gameHbox.getChildren().addAll(vbox1, vbox2);
 		gameHbox.requestFocus();
 
@@ -187,5 +192,13 @@ public class ClientView {
 
 	private void showStartButton() {
 		if (server != null) startButton.setVisible(true);
+	}
+
+	public void setPlayerName(String name) {
+		Platform.runLater(() -> playerLabel.setText(name));
+	}
+
+	public void setOpponentName(String name) {
+		Platform.runLater(() -> opponentLabel.setText(name));
 	}
 }

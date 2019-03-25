@@ -119,7 +119,9 @@ public class TetrisServer extends Server {
 			if (user == null) {
 				if (userPool.getUsers().size() >= 2) return;
 
-				user = userPool.addUser(packetIp, packetPort, "user");
+				ConnectPacket connectPacket = new ConnectPacket(packet);
+
+				user = userPool.addUser(packetIp, packetPort, connectPacket.getUsername());
 				IDPacket idPacket = new IDPacket(user.getId());
 				sendPacket(idPacket, user);
 
@@ -129,10 +131,9 @@ public class TetrisServer extends Server {
 				// with their state, since there is more UserState than just WAITING
 				// it would be easier if the client just knew all the connected people, i.e. not just those that are joined
 				for (ServerUser su : userPool.getUsers().values()) {
-					if (su.getState() == UserState.WAITING) {
-						AddPlayerPacket addPlayerPacket = new AddPlayerPacket(su.getId(), su.getUsername());
-						sendPacket(addPlayerPacket, user);
-					}
+					System.out.println(su.getUsername());
+					AddPlayerPacket addPlayerPacket = new AddPlayerPacket(su.getId(), su.getUsername());
+					sendPacket(addPlayerPacket, user);
 				}
 			}
 		} else if (type == PacketType.QUIT) {

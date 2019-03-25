@@ -77,7 +77,7 @@ public class CreateServerScene {
 				System.out.println(port);
 				server.start();
 				client.start();
-				client.connect();
+				client.connect(username);
 			} catch (SocketException e) {
 				serverError.setText("Port is already in use, please enter a different port");
 				serverError.setVisible(true);

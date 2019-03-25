@@ -85,7 +85,7 @@ public class JoinServerScene {
 
 				System.out.println(port);
 				client.start();
-				client.connect();
+				client.connect(username);
 			} catch (IllegalArgumentException e) {
 				serverError.setText("Please enter a port between 0 and 65535 (inclusive)");
 				serverError.setVisible(true);
