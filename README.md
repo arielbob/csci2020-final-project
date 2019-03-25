@@ -23,3 +23,16 @@
 - [JavaFX SDK 11](https://gluonhq.com/products/javafx/)
 
 - [Gradle](https://gradle.org/install/)
+
+## Installation
+
+Clone the repository:
+
+```bash
+$ git clone https://github.com/arielbob/csci2020-final-project.git
+```
+
+Change to the cloned directory:
+
+```bash
+$ cd csci2020-assignment1
