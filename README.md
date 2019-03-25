@@ -61,3 +61,28 @@ Play the game by itself using the "tetris" task
 ```bash
 $ gradle tetris
 ```
+
+## Playing
+
+**To play single player:** When the program starts, press the "SOLO" button.
+
+**To view player statistics:** When the program starts, press the "VIEW STATS" button.
+
+**To host a game:**
+
+1. When the program starts, go to "MULTIPLAYER" -> "CREATE GAME"
+
+2. Enter a username and a port number between 0 and 65535 (inclusive)
+
+3. Press "Create Server"
+
+4. Once you can see your opponent's username under the right board, press "Start Game"
+
+**To join a game:**
+
+1. When the program starts, go to "MULTIPLAYER" -> "JOIN GAME"
+
+2. Enter in your username, the server address in dot-decimal notation, and the same port number that the server is using.
+If playing against yourself, you can simply enter in "localhost" for the server address.
+
+3. Press "Join Server" then wait for the host to start the game
