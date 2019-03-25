@@ -4,6 +4,12 @@
 
 ### Contributors
 
+- [arielbob](https://github.com/arielbob)
+
+- [Luke-Tran](https://github.com/Luke-Tran)
+
+- [Mitchtee22](https://github.com/Mitchtee22)
+
 ### Repository URL
 
 - https://github.com/arielbob/csci2020-final-project
