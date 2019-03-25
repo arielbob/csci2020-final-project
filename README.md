@@ -37,3 +37,13 @@ Change to the cloned directory:
 ```bash
 $ cd csci2020-final-project/
 ```
+
+## Compiling
+
+Compile using Gradle's build command:
+
+```bash
+$ gradle build
+```
+
+## Running
