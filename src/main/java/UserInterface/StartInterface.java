@@ -90,13 +90,19 @@ public class StartInterface extends Application {
         soloBtn.setOnAction(event -> {
             fileManager.incrementSinglePlayer();
 
-            Stage gameStage = new Stage();
+            //Stage gameStage = new Stage();
 
-            Pane pane = new Pane();
+            VBox pane = new VBox();
             Scene scene = new Scene(pane);
-            pane.setPrefSize(500, 500);
+            //pane.setPrefSize(500, 500);
 
-            pane.getChildren().add(board.pane);
+            Button quitBtn = new Button("Quit");
+    		quitBtn.setOnAction(e -> {
+    			window.setScene(firstScene);
+    		});
+
+            pane.getChildren().addAll(quitBtn, board.pane);
+            pane.requestFocus();
 
             scene.setOnKeyPressed(e -> {
                 if (e.getCode() == KeyCode.LEFT) {
@@ -115,9 +121,10 @@ public class StartInterface extends Application {
 
             board.startGame();
 
-            gameStage.setTitle("Tetris Prototype");
-            gameStage.setScene(scene);
-            gameStage.show();
+            //gameStage.setTitle("Tetris Prototype");
+            //gameStage.setScene(scene);
+            //gameStage.show();
+            window.setScene(scene);
         });
 
         multiBtn.setOnAction(new EventHandler<ActionEvent>() {
