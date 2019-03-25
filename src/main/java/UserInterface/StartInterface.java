@@ -95,11 +95,15 @@ public class StartInterface extends Application {
                 // Read file if it exists.
                 File file = new File("stats.txt");
                 int gamesPlayed = 1;
+                int linesCleared = 0;
                 if (file.exists()) {
                     try {
                         Scanner input = new Scanner(file);
                         if (input.hasNext()) {
                             gamesPlayed += Integer.valueOf(input.next());
+                        }
+                        if (input.hasNext()) {
+                            linesCleared = Integer.valueOf(input.next());
                         }
                         input.close();
                     }
@@ -111,6 +115,7 @@ public class StartInterface extends Application {
                 try {
                     PrintWriter output = new PrintWriter(file);
                     output.println(gamesPlayed);
+                    output.println(linesCleared);
                     output.close();
                 }
                 catch (IOException e) {
