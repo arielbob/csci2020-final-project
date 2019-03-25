@@ -135,11 +135,39 @@ public class StartInterface extends Application {
         });
 
         statsBtn.setOnAction(e -> {
+            GridPane statsPane = new GridPane();
+            statsPane.setVgap(20);
+            statsPane.setAlignment(Pos.CENTER);
+
             int singlePlayerPlayed = fileManager.getSinglePlayerPlayed();
-            System.out.println(singlePlayerPlayed);
-            int multiplayerPlayed;
-            int multiplayerWon;
-            int linesCleared;
+            Label singlePlayerPlayedLbl = new Label("Single player games played: " + singlePlayerPlayed);
+            singlePlayerPlayedLbl.setAlignment(Pos.CENTER);
+            statsPane.add(singlePlayerPlayedLbl, 0, 0);
+
+            int multiplayerPlayed = fileManager.getMultiplayerPlayed();
+            Label multiplayerPlayedLbl = new Label("Multiplayer games played: " + multiplayerPlayed);
+            multiplayerPlayedLbl.setAlignment(Pos.CENTER);
+            statsPane.add(multiplayerPlayedLbl, 0, 1);
+
+            int multiplayerWon = fileManager.getMultiplayerWon();
+            Label multiplayerWonLbl = new Label("Multiplayer games won: " + multiplayerWon);
+            multiplayerWonLbl.setAlignment(Pos.CENTER);
+            statsPane.add(multiplayerWonLbl, 0, 2);
+
+            int linesCleared = fileManager.getLinesCleared();
+            Label linesClearedLbl = new Label("Total lines cleared: " + linesCleared);
+            linesClearedLbl.setAlignment(Pos.CENTER);
+            statsPane.add(linesClearedLbl, 0, 3);
+
+            Button backToMenuBtn = new Button("BACK");
+            backToMenuBtn.setAlignment(Pos.CENTER);
+            backToMenuBtn.setPrefWidth(100);
+            backToMenuBtn.setPrefHeight(50);
+            statsPane.add(backToMenuBtn, 0, 4);
+            firstScene.setRoot(statsPane);
+            backToMenuBtn.setOnAction(event -> {
+                firstScene.setRoot(root);
+            });
         });
 
         multiBtn.setOnAction(e -> {
