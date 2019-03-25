@@ -62,7 +62,6 @@ public class ClientView {
 		Button quitBtn = new Button("Quit");
 		quitBtn.setOnAction(e -> {
 			close();
-//			primaryStage.setScene(scene);
 		});
 
 		gameHbox = new HBox(100);
@@ -102,26 +101,7 @@ public class ClientView {
 			gameHbox.requestFocus();
 		});
 
-//		Button joinBtn = new Button("Join Game");
-//		joinBtn.setOnAction(event -> {
-//			try {
-//				client.joinGame();
-//				primaryStage.setScene(gameScene);
-//				gameHbox.requestFocus();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		});
-
-//		pane.getChildren().addAll(ta, joinBtn);
-
 		this.scene = scene;
-//		primaryStage.setScene(scene);
-//		primaryStage.setOnCloseRequest(event -> {
-//			client.stopClient();
-//			player1Board.stageClosed = true;
-//			player2Board.stageClosed = true;
-//		});
 	}
 
 	public Scene getScene() {
