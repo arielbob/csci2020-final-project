@@ -15,6 +15,7 @@ import TetrisGame.EndBoards.*;
 import net.client.TetrisClient;
 import java.io.*;
 import java.util.Scanner;
+import FileManagement.FileManager;
 
 public class TetrisBoard {
     public Pane pane = new Pane();
@@ -37,6 +38,7 @@ public class TetrisBoard {
         new OBlock(), new SBlock(), new TBlock(), new ZBlock()};
 
     TetrisClient client;
+    FileManager fileManager = new FileManager();
 
     public TetrisBoard() {
         for (int r = 0; r < boardArray.length; r++) {
@@ -395,36 +397,8 @@ public class TetrisBoard {
                 }
             }
         }
-
-        // Write number of lines cleared to file
-        File file = new File("stats.txt");
-        int gamesPlayed = 0;
-        int linesCleared = 1;
-        if (file.exists()) {
-            try {
-                Scanner input = new Scanner(file);
-                if (input.hasNext()) {
-                    gamesPlayed = Integer.valueOf(input.next());
-                }
-                if (input.hasNext()) {
-                    linesCleared += Integer.valueOf(input.next());
-                }
-                input.close();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        // Write to file
-        try {
-            PrintWriter output = new PrintWriter(file);
-            output.println(gamesPlayed);
-            output.println(linesCleared);
-            output.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        
+        fileManager.incrementLinesCleared();
     }
 
     private void setTileAt(int r, int c, int value) {

@@ -12,12 +12,14 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 
-import java.io.*;
-import java.util.Scanner;
+// import java.io.*;
+// import java.util.Scanner;
+import FileManagement.FileManager;
 
 public class StartInterface extends Application {
     Stage window;
     TetrisBoard board = new TetrisBoard();
+    FileManager fileManager = new FileManager();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -92,35 +94,7 @@ public class StartInterface extends Application {
         soloBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                // Read file if it exists.
-                File file = new File("stats.txt");
-                int gamesPlayed = 1;
-                int linesCleared = 0;
-                if (file.exists()) {
-                    try {
-                        Scanner input = new Scanner(file);
-                        if (input.hasNext()) {
-                            gamesPlayed += Integer.valueOf(input.next());
-                        }
-                        if (input.hasNext()) {
-                            linesCleared = Integer.valueOf(input.next());
-                        }
-                        input.close();
-                    }
-                    catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                // Write to file
-                try {
-                    PrintWriter output = new PrintWriter(file);
-                    output.println(gamesPlayed);
-                    output.println(linesCleared);
-                    output.close();
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
+                fileManager.incrementSinglePlayer();
 
                 Stage gameStage = new Stage();
 
