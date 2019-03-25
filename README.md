@@ -50,10 +50,16 @@ $ gradle build
 
 ## Running
 
-Run main menu using Gradle's run command.
+Run main menu using Gradle's run command
 
 ```bash
 $ gradle run
+```
+
+Can also run the main menu using the "runUI" task
+
+```bash
+$ gradle runUI
 ```
 
 Play the game by itself using the "tetris" task
