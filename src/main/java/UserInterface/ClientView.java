@@ -133,6 +133,7 @@ public class ClientView {
 		}
 		Platform.runLater(() -> {
 			primaryStage.setScene(scene);
+			primaryStage.setOnCloseRequest(event1 -> close());
 		});
 	}
 

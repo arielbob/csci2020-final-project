@@ -117,6 +117,8 @@ public class TetrisServer extends Server {
 		// the clients only ever need to know a player once they are joined, hence AddPlayerPacket
 		if (type == PacketType.CONNECT) {
 			if (user == null) {
+				if (userPool.getUsers().size() >= 2) return;
+
 				user = userPool.addUser(packetIp, packetPort, "user");
 				IDPacket idPacket = new IDPacket(user.getId());
 				sendPacket(idPacket, user);

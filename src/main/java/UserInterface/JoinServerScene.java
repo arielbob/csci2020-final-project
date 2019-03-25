@@ -83,8 +83,6 @@ public class JoinServerScene {
 				clientView.setClient(client);
 				clientView.init();
 
-				primaryStage.setOnCloseRequest(event1 -> clientView.close());
-
 				System.out.println(port);
 				client.start();
 				client.connect();
