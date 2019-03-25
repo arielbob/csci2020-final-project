@@ -25,7 +25,8 @@ public class CreateServerScene {
 	private Scene scene;
 	private VBox pane;
 
-	public CreateServerScene(Stage primaryStage) {
+	//public CreateServerScene(Stage primaryStage) {
+	public CreateServerScene(Stage primaryStage, Pane prevRoot) {
 		//VBox pane = new VBox();
 		pane = new VBox();
 		pane.setPrefSize(400, 250);
@@ -91,8 +92,15 @@ public class CreateServerScene {
 			}
 		});
 
+		Button cancelBtn = new Button("Cancel");
+		cancelBtn.setPadding(new Insets(10));
+		cancelBtn.setOnAction(event -> {
+			primaryStage.getScene().setRoot(prevRoot);
+		});
+		HBox buttonHbox = new HBox(10);
+		buttonHbox.getChildren().addAll(createServerBtn, cancelBtn);
 
-		pane.getChildren().addAll(usernameField, portField, createServerBtn, serverError);
+		pane.getChildren().addAll(usernameField, portField, buttonHbox, serverError);
 
 		//this.scene = new Scene(pane);
 	}
