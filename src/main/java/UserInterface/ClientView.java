@@ -165,11 +165,13 @@ public class ClientView {
 	public void setOpponentWin() {
 		player2Board.setWin();
 		showStartButton();
+		fileManager.incrementMultiplayer();
 	}
 
 	public void setClientWin() {
 		player1Board.setWin();
 		showStartButton();
+		fileManager.incrementMultiplayer();
 		fileManager.incrementGamesWon();
 	}
 

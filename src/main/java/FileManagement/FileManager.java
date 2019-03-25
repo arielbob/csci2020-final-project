@@ -82,4 +82,73 @@ public class FileManager {
         }
         return singlePlayerPlayed;
     }
+
+    public int getMultiplayerPlayed() {
+        int multiplayerPlayed = 0;
+        if (null != file && file.exists()) {
+            try {
+                Scanner input = new Scanner(file);
+                if (input.hasNext()) {
+                    input.next();
+                }
+                if (input.hasNext()) {
+                    multiplayerPlayed = Integer.valueOf(input.next());
+                }
+                input.close();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return multiplayerPlayed;
+    }
+
+    public int getMultiplayerWon() {
+        int multiplayerWon = 0;
+        if (null != file && file.exists()) {
+            try {
+                Scanner input = new Scanner(file);
+                if (input.hasNext()) {
+                    input.next();
+                }
+                if (input.hasNext()) {
+                    input.next();
+                }
+                if (input.hasNext()) {
+                    multiplayerWon = Integer.valueOf(input.next());
+                }
+                input.close();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return multiplayerWon;
+    }
+
+    public int getLinesCleared() {
+        int linesCleared = 0;
+        if (null != file && file.exists()) {
+            try {
+                Scanner input = new Scanner(file);
+                if (input.hasNext()) {
+                    input.next();
+                }
+                if (input.hasNext()) {
+                    input.next();
+                }
+                if (input.hasNext()) {
+                    input.next();
+                }
+                if (input.hasNext()) {
+                    linesCleared = Integer.valueOf(input.next());
+                }
+                input.close();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return linesCleared;
+    }
 }
