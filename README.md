@@ -4,11 +4,11 @@
 
 ### Contributors
 
-- [arielbob](https://github.com/arielbob)
+- [arielbob](https://github.com/arielbob): socket I/O, multi-threading, user interface
 
-- [Luke-Tran](https://github.com/Luke-Tran)
+- [Luke-Tran](https://github.com/Luke-Tran): game mechanics, user interface, file I/O
 
-- [Mitchtee22](https://github.com/Mitchtee22)
+- [Mitchtee22](https://github.com/Mitchtee22): main menu user interface
 
 ### Repository URL
 
