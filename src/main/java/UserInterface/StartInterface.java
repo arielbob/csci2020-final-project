@@ -16,6 +16,8 @@ public class StartInterface extends Application {
     Stage window;
     TetrisBoard board = new TetrisBoard();
     FileManager fileManager = new FileManager();
+    final double MIN_WIDTH = 400;
+    final double MIN_HEIGHT = 500;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -23,13 +25,13 @@ public class StartInterface extends Application {
 
         GridPane root = new GridPane();
         root.setAlignment(Pos.CENTER);
-        root.setMinWidth(250);
-        root.setMaxWidth(250);
-        root.setMinHeight(250);
-        root.setMaxHeight(250);
+        root.setMinWidth(MIN_WIDTH);
+        //root.setMaxWidth(250);
+        root.setMinHeight(MIN_WIDTH);
+        //root.setMaxHeight(250);
         root.setVgap(20);
 
-        Button soloBtn = new Button("       SOLO       ");
+        Button soloBtn = new Button("SOLO");
         soloBtn.setAlignment(Pos.CENTER);
         soloBtn.setPrefWidth(100);
         soloBtn.setPrefHeight(50);
@@ -45,10 +47,10 @@ public class StartInterface extends Application {
 
         GridPane root2 = new GridPane();
         root2.setAlignment(Pos.CENTER);
-        root2.setMinWidth(250);
-        root2.setMaxWidth(250);
-        root2.setMinHeight(250);
-        root2.setMaxHeight(250);
+        root2.setMinWidth(MIN_WIDTH);
+        //root2.setMaxWidth(250);
+        root2.setMinHeight(MIN_WIDTH);
+        //root2.setMaxHeight(250);
         root2.setVgap(20);
 
 
@@ -81,7 +83,7 @@ public class StartInterface extends Application {
 
         Scene firstScene = new Scene(root);
         Scene secondScene = new Scene(root2);
-        window.setTitle("MultiTetris7");
+        window.setTitle("Group 7 Tetris");
         window.setScene(firstScene);
         window.show();
 
@@ -89,16 +91,26 @@ public class StartInterface extends Application {
         soloBtn.setOnAction(event -> {
             fileManager.incrementSinglePlayer();
 
-            VBox pane = new VBox();
-            Scene scene = new Scene(pane);
+            VBox gameVbox = new VBox(10);
+            gameVbox.setAlignment(Pos.CENTER);
+            gameVbox.setMinWidth(MIN_WIDTH);
+            gameVbox.setMinHeight(MIN_WIDTH);
+            Scene scene = new Scene(gameVbox);
 
             Button quitBtn = new Button("Quit");
     		quitBtn.setOnAction(e -> {
+                board.gameOver = true;
     			window.setScene(firstScene);
     		});
 
-            pane.getChildren().addAll(quitBtn, board.pane);
-            pane.requestFocus();
+            HBox boardHbox = new HBox();
+            boardHbox.setAlignment(Pos.CENTER);
+            VBox boardVbox = new VBox();
+            boardVbox.setAlignment(Pos.CENTER);
+            boardVbox.getChildren().addAll(board.pane, new Label("Player"));
+            boardHbox.getChildren().add(boardVbox);
+            gameVbox.getChildren().addAll(quitBtn, boardHbox);
+            gameVbox.requestFocus();
 
             scene.setOnKeyPressed(e -> {
                 if (e.getCode() == KeyCode.LEFT) {

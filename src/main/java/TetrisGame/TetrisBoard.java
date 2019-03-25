@@ -20,7 +20,7 @@ import FileManagement.FileManager;
 public class TetrisBoard {
     public Pane pane = new Pane();
     public boolean stageClosed = false;
-    boolean gameOver = false;
+    public boolean gameOver = false;
 
     Paint defaultTileColor = Color.WHITE;
     double tileSize = 15;
