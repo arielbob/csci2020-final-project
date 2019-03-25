@@ -27,9 +27,7 @@ public class StartInterface extends Application {
         GridPane root = new GridPane();
         root.setAlignment(Pos.CENTER);
         root.setMinWidth(MIN_WIDTH);
-        //root.setMaxWidth(250);
         root.setMinHeight(MIN_WIDTH);
-        //root.setMaxHeight(250);
         root.setVgap(20);
 
         Button soloBtn = new Button("SOLO");
@@ -38,22 +36,23 @@ public class StartInterface extends Application {
         soloBtn.setPrefHeight(50);
         root.add(soloBtn, 0, 0);
 
-
         Button multiBtn = new Button("MULTIPLAYER");
         multiBtn.setAlignment(Pos.CENTER);
         multiBtn.setPrefWidth(100);
         multiBtn.setPrefHeight(50);
         root.add(multiBtn, 0, 1);
 
+        Button statsBtn = new Button("VIEW STATS");
+        statsBtn.setAlignment(Pos.CENTER);
+        statsBtn.setPrefWidth(100);
+        statsBtn.setPrefHeight(50);
+        root.add(statsBtn, 0, 2);
 
         GridPane root2 = new GridPane();
         root2.setAlignment(Pos.CENTER);
         root2.setMinWidth(MIN_WIDTH);
-        //root2.setMaxWidth(250);
         root2.setMinHeight(MIN_WIDTH);
-        //root2.setMaxHeight(250);
         root2.setVgap(20);
-
 
         Button createBtn = new Button("CREATE GAME");
         createBtn.setAlignment(Pos.CENTER);
@@ -133,6 +132,14 @@ public class StartInterface extends Application {
             gameVbox.getChildren().add(boardHbox);
             gameVbox.requestFocus();
             board.startGame();
+        });
+
+        statsBtn.setOnAction(e -> {
+            int singlePlayerPlayed = fileManager.getSinglePlayerPlayed();
+            System.out.println(singlePlayerPlayed);
+            int multiplayerPlayed;
+            int multiplayerWon;
+            int linesCleared;
         });
 
         multiBtn.setOnAction(e -> {

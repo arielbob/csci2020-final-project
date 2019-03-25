@@ -65,4 +65,21 @@ public class FileManager {
             e.printStackTrace();
         }
     }
+
+    public int getSinglePlayerPlayed() {
+        int singlePlayerPlayed = 0;
+        if (null != file && file.exists()) {
+            try {
+                Scanner input = new Scanner(file);
+                if (input.hasNext()) {
+                    singlePlayerPlayed += Integer.valueOf(input.next());
+                }
+                input.close();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return singlePlayerPlayed;
+    }
 }
