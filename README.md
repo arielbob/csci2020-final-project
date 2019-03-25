@@ -66,11 +66,11 @@ $ gradle tetris
 
 **To play single player:**
 
-- When the program starts, press the "SOLO" button.
+1. When the program starts, press the "SOLO" button.
 
 **To view player statistics:**
 
-- When the program starts, press the "VIEW STATS" button.
+1. When the program starts, press the "VIEW STATS" button.
 
 **To host a game:**
 
