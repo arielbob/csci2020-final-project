@@ -4,11 +4,11 @@
 
 ### Contributors
 
-- [arielbob](https://github.com/arielbob): socket I/O, multi-threading, user interface
+- Ariel Bobadilla ([arielbob](https://github.com/arielbob)): client/server mechanics, socket I/O, multi-threading, user interface
 
-- [Luke-Tran](https://github.com/Luke-Tran): game mechanics, user interface, file I/O
+- Luke Tran ([Luke-Tran](https://github.com/Luke-Tran)): gameplay mechanics, user key inputs, user interface, file I/O
 
-- [Mitchtee22](https://github.com/Mitchtee22): main menu user interface
+- Mitchell Theriault ([Mitchtee22](https://github.com/Mitchtee22)): main menu user interface
 
 ### Repository URL
 
@@ -36,4 +36,20 @@ Change to the cloned directory:
 
 ```bash
 $ cd csci2020-final-project/
+```
+
+## Compiling
+
+Compile using Gradle's build command:
+
+```bash
+$ gradle build
+```
+
+## Running
+
+Run main menu using Gradle's run command.
+
+```bash
+$ gradle run
 ```
