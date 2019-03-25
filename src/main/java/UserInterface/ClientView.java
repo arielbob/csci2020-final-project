@@ -16,6 +16,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.control.Label;
+import javafx.geometry.Pos;
 
 public class ClientView {
 	private static TetrisClient client;
@@ -55,7 +57,8 @@ public class ClientView {
 		pane.setSpacing(10);
 
 		scene = new Scene(pane);
-
+		HBox gamePane = new HBox();
+		gamePane.setAlignment(Pos.CENTER);
 		VBox gameVbox = new VBox(10);
 		gameVbox.setPadding(new Insets(20));
 		Button quitBtn = new Button("Quit");
@@ -65,14 +68,17 @@ public class ClientView {
 		});
 
 		HBox gameHbox = new HBox(100);
-		StackPane stackPane1 = new StackPane();
-		stackPane1.getChildren().add(player1Board.pane);
-		StackPane stackPane2 = new StackPane();
-		stackPane2.getChildren().add(player2Board.pane);
-		gameHbox.getChildren().addAll(stackPane1, stackPane2);
+		VBox vbox1 = new VBox();
+		vbox1.setAlignment(Pos.CENTER);
+		vbox1.getChildren().addAll(player1Board.pane, new Label("Player"));
+		VBox vbox2 = new VBox();
+		vbox2.setAlignment(Pos.CENTER);
+		vbox2.getChildren().addAll(player2Board.pane, new Label("Opponent"));
+		gameHbox.getChildren().addAll(vbox1, vbox2);
 
 		gameVbox.getChildren().addAll(quitBtn, gameHbox, startButton);
-		gameScene = new Scene(gameVbox);
+		gamePane.getChildren().add(gameVbox);
+		gameScene = new Scene(gamePane);
 
 		gameScene.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.LEFT) {

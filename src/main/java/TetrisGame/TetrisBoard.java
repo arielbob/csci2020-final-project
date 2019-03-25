@@ -44,13 +44,12 @@ public class TetrisBoard {
         for (int r = 0; r < boardArray.length; r++) {
             for (int c = 0; c < boardArray[r].length; c++) {
                 Rectangle tile = new Rectangle(tileSize, tileSize, defaultTileColor);
-                tile.setStroke(Color.BLACK);
-                tile.setY((r - HIDDEN_ROWS) * tileSize);
-                tile.setX(c * tileSize);
                 boardArray[r][c] = tile;
-                pane.getChildren().add(tile);
-                if (r < HIDDEN_ROWS) {
-                    tile.setVisible(false);
+                if (r >= HIDDEN_ROWS) {
+                    tile.setStroke(Color.BLACK);
+                    tile.setY((r - HIDDEN_ROWS) * tileSize);
+                    tile.setX(c * tileSize);
+                    pane.getChildren().add(tile);
                 }
             }
         }
@@ -397,7 +396,7 @@ public class TetrisBoard {
                 }
             }
         }
-        
+
         fileManager.incrementLinesCleared();
     }
 
