@@ -2,12 +2,10 @@ package UserInterface;
 
 import net.client.TetrisClient;
 import net.server.TetrisServer;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -25,9 +23,7 @@ public class JoinServerScene {
 	private Scene scene;
 	private VBox pane;
 
-	//public JoinServerScene(Stage primaryStage) {
 	public JoinServerScene(Stage primaryStage, Pane prevRoot) {
-		//VBox pane = new VBox();
 		pane = new VBox();
 		pane.setPrefSize(400, 250);
 		pane.setPadding(new Insets(20));
@@ -110,8 +106,6 @@ public class JoinServerScene {
 		buttonHbox.getChildren().addAll(joinServerBtn, cancelBtn);
 
 		pane.getChildren().addAll(usernameField, addressField, portField, buttonHbox, serverError);
-
-		//this.scene = new Scene(pane);
 	}
 
 	public Scene getScene() {

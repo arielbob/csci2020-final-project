@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class HomeScene {
-	Scene firstScene;// = new Scene(root);
+	Scene firstScene;
 	TetrisBoard board = new TetrisBoard();
 	FileManager fileManager = new FileManager();
 	final double MIN_WIDTH = 400;

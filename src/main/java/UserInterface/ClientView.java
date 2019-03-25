@@ -4,7 +4,6 @@ import net.client.TetrisClient;
 import net.server.TetrisServer;
 import FileManagement.FileManager;
 import java.io.IOException;
-
 import TetrisGame.TetrisBoard;
 import javafx.application.Platform;
 import javafx.geometry.Insets;

@@ -13,12 +13,6 @@ import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 
 public class StartInterface extends Application {
-//    Stage window;
-//    Scene firstScene;// = new Scene(root);
-//    TetrisBoard board = new TetrisBoard();
-//    FileManager fileManager = new FileManager();
-//    final double MIN_WIDTH = 400;
-//    final double MIN_HEIGHT = 500;
     private HomeScene scene;
 
     @Override
