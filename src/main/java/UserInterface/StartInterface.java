@@ -1,7 +1,7 @@
 package UserInterface;
 
 import TetrisGame.*;
-
+import FileManagement.FileManager;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,10 +11,6 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
-
-// import java.io.*;
-// import java.util.Scanner;
-import FileManagement.FileManager;
 
 public class StartInterface extends Application {
     Stage window;
@@ -91,40 +87,37 @@ public class StartInterface extends Application {
 
 
         //action handler for when button is clicked
-        soloBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                fileManager.incrementSinglePlayer();
+        soloBtn.setOnAction(event -> {
+            fileManager.incrementSinglePlayer();
 
-                Stage gameStage = new Stage();
+            Stage gameStage = new Stage();
 
-                Pane pane = new Pane();
-                Scene scene = new Scene(pane);
-                pane.setPrefSize(500, 500);
+            Pane pane = new Pane();
+            Scene scene = new Scene(pane);
+            pane.setPrefSize(500, 500);
 
-                pane.getChildren().add(board.pane);
+            pane.getChildren().add(board.pane);
 
-                scene.setOnKeyPressed(e -> {
-                    if (e.getCode() == KeyCode.LEFT) {
-                        board.moveTetrimino("left");
-                    }
-                    else if (e.getCode() == KeyCode.RIGHT) {
-                        board.moveTetrimino("right");
-                    }
-                    else if (e.getCode() == KeyCode.DOWN) {
-                        board.moveTetrimino("down");
-                    }
-                    else if (e.getCode() == KeyCode.SPACE) {
-                        board.rotateTetrimino();
-                    }
-                });
+            scene.setOnKeyPressed(e -> {
+                if (e.getCode() == KeyCode.LEFT) {
+                    board.moveTetrimino("left");
+                }
+                else if (e.getCode() == KeyCode.RIGHT) {
+                    board.moveTetrimino("right");
+                }
+                else if (e.getCode() == KeyCode.DOWN) {
+                    board.moveTetrimino("down");
+                }
+                else if (e.getCode() == KeyCode.SPACE) {
+                    board.rotateTetrimino();
+                }
+            });
 
-                board.startGame();
+            board.startGame();
 
-                gameStage.setTitle("Tetris Prototype");
-                gameStage.setScene(scene);
-                gameStage.show();
-            }
+            gameStage.setTitle("Tetris Prototype");
+            gameStage.setScene(scene);
+            gameStage.show();
         });
 
         multiBtn.setOnAction(new EventHandler<ActionEvent>() {
