@@ -141,6 +141,7 @@ public class ClientView {
 		if (server != null) server.stopServer();
 		player1Board.stageClosed = true;
 		player2Board.stageClosed = true;
+		primaryStage.setScene(new HomeScene(primaryStage).getScene());
 	}
 
 	public void appendText(String text) {
