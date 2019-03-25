@@ -170,6 +170,42 @@ public class HomeScene {
 			});
 		});
 
+		instructionBtn.setOnAction(e -> {
+			GridPane instructionPane = new GridPane();
+			instructionPane.setVgap(20);
+			instructionPane.setAlignment(Pos.CENTER);
+
+			Label arrowControlLbl = new Label("Control the falling block with the arrow keys");
+			arrowControlLbl.setAlignment(Pos.CENTER);
+			instructionPane.add(arrowControlLbl, 0, 0);
+
+			Label arrowDownLbl = new Label("Press the down arrow key to make the block fall faster");
+			arrowDownLbl.setAlignment(Pos.CENTER);
+			instructionPane.add(arrowDownLbl, 0, 1);
+
+			Label cwLbl = new Label("Press SPACE or X to rotate the block clockwise");
+			cwLbl.setAlignment(Pos.CENTER);
+			instructionPane.add(cwLbl, 0, 2);
+
+			Label ccwLbl = new Label("Press Z to rotate the block counterclockwise");
+			ccwLbl.setAlignment(Pos.CENTER);
+			instructionPane.add(ccwLbl, 0, 3);
+
+			Label fillRowsLbl = new Label("Fill out rows to clear them out");
+			fillRowsLbl.setAlignment(Pos.CENTER);
+			instructionPane.add(fillRowsLbl, 0, 4);
+
+			Button backToMenuBtn = new Button("BACK");
+			backToMenuBtn.setAlignment(Pos.CENTER);
+			backToMenuBtn.setPrefWidth(100);
+			backToMenuBtn.setPrefHeight(50);
+			instructionPane.add(backToMenuBtn, 0, 5);
+			firstScene.setRoot(instructionPane);
+			backToMenuBtn.setOnAction(event -> {
+				firstScene.setRoot(root);
+			});
+		});
+
 		multiBtn.setOnAction(e -> {
 			firstScene.setRoot(root2);
 		});
