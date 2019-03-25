@@ -146,6 +146,9 @@ public class TetrisClient extends Client {
 					view.setOpponentLose();
 				}
 				break;
+			case SERVER_CLOSE:
+				super.stopClient();
+				view.serverClose();
 		}
 	}
 }

@@ -133,6 +133,7 @@ public class ClientView {
 		}
 		Platform.runLater(() -> {
 			primaryStage.setScene(scene);
+			primaryStage.setOnCloseRequest(event1 -> close());
 		});
 	}
 
@@ -142,6 +143,15 @@ public class ClientView {
 		player1Board.stageClosed = true;
 		player2Board.stageClosed = true;
 		primaryStage.setScene(new HomeScene(primaryStage).getScene());
+	}
+
+	public void serverClose() {
+		player1Board.stageClosed = true;
+		player2Board.stageClosed = true;
+
+		Platform.runLater(() -> {
+			primaryStage.setScene(new HomeScene(primaryStage).getScene());
+		});
 	}
 
 	public void appendText(String text) {
