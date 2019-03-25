@@ -117,12 +117,15 @@ public class HomeScene {
 				else if (e.getCode() == KeyCode.DOWN) {
 					board.moveTetrimino("down");
 				}
-				else if (e.getCode() == KeyCode.SPACE) {
-					board.rotateTetrimino();
+				else if (e.getCode() == KeyCode.SPACE || e.getCode() == KeyCode.X) {
+					board.rotateTetrimino("cw");
+				}
+				else if (e.getCode() == KeyCode.Z) {
+					board.rotateTetrimino("ccw");
 				}
 			});
 
-			VBox gameVbox = new VBox();//new VBox(10);
+			VBox gameVbox = new VBox();
 			gameVbox.setAlignment(Pos.CENTER);
 			firstScene.setRoot(gameVbox);
 			gameVbox.getChildren().add(boardHbox);
