@@ -14,6 +14,7 @@ import javafx.scene.input.KeyCode;
 
 public class StartInterface extends Application {
     Stage window;
+    Scene firstScene;// = new Scene(root);
     TetrisBoard board = new TetrisBoard();
     FileManager fileManager = new FileManager();
     final double MIN_WIDTH = 400;
@@ -61,7 +62,8 @@ public class StartInterface extends Application {
         root2.add(createBtn, 0, 0);
 
         createBtn.setOnAction(event -> {
-            window.setScene(new CreateServerScene(window).getScene());
+            //window.setScene(new CreateServerScene(window).getScene());
+            firstScene.setRoot(new CreateServerScene(window).getRoot());
         });
 
         Button joinBtn = new Button("JOIN GAME");
@@ -81,7 +83,8 @@ public class StartInterface extends Application {
         root2.add(backBtn, 0, 2);
 
 
-        Scene firstScene = new Scene(root);
+        //Scene firstScene = new Scene(root);
+        firstScene = new Scene(root);
         //Scene secondScene = new Scene(root2);
         window.setTitle("Group 7 Tetris");
         window.setScene(firstScene);

@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
@@ -22,9 +23,11 @@ import javafx.stage.Stage;
 
 public class CreateServerScene {
 	private Scene scene;
+	private VBox pane;
 
 	public CreateServerScene(Stage primaryStage) {
-		VBox pane = new VBox();
+		//VBox pane = new VBox();
+		pane = new VBox();
 		pane.setPrefSize(400, 250);
 		pane.setPadding(new Insets(20));
 		pane.setSpacing(10);
@@ -91,10 +94,14 @@ public class CreateServerScene {
 
 		pane.getChildren().addAll(usernameField, portField, createServerBtn, serverError);
 
-		this.scene = new Scene(pane);
+		//this.scene = new Scene(pane);
 	}
 
 	public Scene getScene() {
 		return scene;
+	}
+
+	public Pane getRoot() {
+		return pane;
 	}
 }
