@@ -95,12 +95,14 @@ public class StartInterface extends Application {
             gameVbox.setAlignment(Pos.CENTER);
             gameVbox.setMinWidth(MIN_WIDTH);
             gameVbox.setMinHeight(MIN_WIDTH);
-            Scene gameScene = new Scene(gameVbox, firstScene.getWidth(), firstScene.getHeight());
+            //Scene gameScene = new Scene(gameVbox, firstScene.getWidth(), firstScene.getHeight());
+            firstScene.setRoot(gameVbox);
 
             Button quitBtn = new Button("Quit");
     		quitBtn.setOnAction(e -> {
                 board.gameOver = true;
-    			window.setScene(firstScene);
+                firstScene.setRoot(root);
+    			//window.setScene(firstScene);
     		});
 
             HBox boardHbox = new HBox();
@@ -112,7 +114,8 @@ public class StartInterface extends Application {
             gameVbox.getChildren().addAll(quitBtn, boardHbox);
             gameVbox.requestFocus();
 
-            gameScene.setOnKeyPressed(e -> {
+            //gameScene.setOnKeyPressed(e -> {
+            firstScene.setOnKeyPressed(e -> {
                 if (e.getCode() == KeyCode.LEFT) {
                     board.moveTetrimino("left");
                 }
@@ -128,7 +131,7 @@ public class StartInterface extends Application {
             });
 
             board.startGame();
-            window.setScene(gameScene);
+            //window.setScene(gameScene);
         });
 
         multiBtn.setOnAction(e -> {
