@@ -85,16 +85,12 @@ public class StartInterface extends Application {
         window.setScene(firstScene);
         window.show();
 
-
-        //action handler for when button is clicked
+        // Action handler for when button is clicked
         soloBtn.setOnAction(event -> {
             fileManager.incrementSinglePlayer();
 
-            //Stage gameStage = new Stage();
-
             VBox pane = new VBox();
             Scene scene = new Scene(pane);
-            //pane.setPrefSize(500, 500);
 
             Button quitBtn = new Button("Quit");
     		quitBtn.setOnAction(e -> {
@@ -120,25 +116,15 @@ public class StartInterface extends Application {
             });
 
             board.startGame();
-
-            //gameStage.setTitle("Tetris Prototype");
-            //gameStage.setScene(scene);
-            //gameStage.show();
             window.setScene(scene);
         });
 
-        multiBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                window.setScene(secondScene);
-            }
+        multiBtn.setOnAction(e -> {
+            window.setScene(secondScene);
         });
 
-        backBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                window.setScene(firstScene);
-            }
+        backBtn.setOnAction(e -> {
+            window.setScene(firstScene);
         });
     }
 
