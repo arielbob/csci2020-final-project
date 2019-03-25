@@ -57,7 +57,6 @@ public class HomeScene {
 		root2.add(createBtn, 0, 0);
 
 		createBtn.setOnAction(event -> {
-			//primaryStage.setScene(new CreateServerScene(primaryStage).getScene());
 			firstScene.setRoot(new CreateServerScene(primaryStage, root2).getRoot());
 		});
 
@@ -68,7 +67,8 @@ public class HomeScene {
 		root2.add(joinBtn, 0, 1);
 
 		joinBtn.setOnAction(event -> {
-			primaryStage.setScene(new JoinServerScene(primaryStage).getScene());
+			//primaryStage.setScene(new JoinServerScene(primaryStage).getScene());
+			firstScene.setRoot(new JoinServerScene(primaryStage, root2).getRoot());
 		});
 
 		Button backBtn = new Button("BACK");
