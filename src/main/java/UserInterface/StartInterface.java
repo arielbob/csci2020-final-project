@@ -19,8 +19,6 @@ public class StartInterface extends Application {
     Stage window;
     TetrisBoard board = new TetrisBoard();
 
-    File file = new File("stats.txt");
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
@@ -95,6 +93,7 @@ public class StartInterface extends Application {
             @Override
             public void handle(ActionEvent event) {
                 // Read file if it exists.
+                File file = new File("stats.txt");
                 int gamesPlayed = 1;
                 if (file.exists()) {
                     try {
