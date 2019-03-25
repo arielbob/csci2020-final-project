@@ -196,10 +196,22 @@ public class TetrisBoard {
         }
     }
 
-    public void rotateTetrimino() {
-        int newRotationState = (currentBlock.getRotationState() + 1) % 4;
-        int floorKick = checkFloorKick();
-        int wallKick = checkWallKick(floorKick);
+    public void rotateTetrimino(String dir) {
+        int newRotationState = 0;
+        switch (dir) {
+            case "cw":
+                newRotationState = (currentBlock.getRotationState() + 1) % 4;
+                break;
+            case "ccw":
+                newRotationState = (currentBlock.getRotationState() - 1) % 4;
+                break;
+        }
+        if (newRotationState < 0) {
+            newRotationState += 4;
+        }
+
+        int floorKick = checkFloorKick(newRotationState);
+        int wallKick = checkWallKick(newRotationState, floorKick);
         if (!isRotationPossible(newRotationState, wallKick, floorKick)) {
             return;
         }
@@ -238,10 +250,9 @@ public class TetrisBoard {
         }
     }
 
-    private int checkFloorKick() {
+    private int checkFloorKick(int rotationState) {
         int floorKickState = 0;
         int yTracker = -999;
-        int rotationState = (currentBlock.getRotationState() + 1) % 4;
         int[][] pieceArray = currentBlock.getRotationsArray(rotationState);
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {
@@ -262,10 +273,9 @@ public class TetrisBoard {
         return floorKickState;
     }
 
-    private int checkWallKick(int floorKick) {
+    private int checkWallKick(int rotationState, int floorKick) {
         int wallKickState = 0;
         int xTracker = -999;
-        int rotationState = (currentBlock.getRotationState() + 1) % 4;
         int[][] pieceArray = currentBlock.getRotationsArray(rotationState);
         for (int y = 0; y < pieceArray.length; y++) {
             for (int x = 0; x < pieceArray[y].length; x++) {

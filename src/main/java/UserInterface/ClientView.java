@@ -91,8 +91,11 @@ public class ClientView {
 			else if (e.getCode() == KeyCode.DOWN) {
 				player1Board.moveTetrimino("down");
 			}
-			else if (e.getCode() == KeyCode.SPACE) {
-				player1Board.rotateTetrimino();
+			else if (e.getCode() == KeyCode.SPACE || e.getCode() == KeyCode.X) {
+				player1Board.rotateTetrimino("cw");
+			}
+			else if (e.getCode() == KeyCode.Z) {
+				player1Board.rotateTetrimino("ccw");
 			}
 		});
 

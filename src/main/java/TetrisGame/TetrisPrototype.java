@@ -40,9 +40,12 @@ public class TetrisPrototype extends Application {
             if (e.getCode() == KeyCode.DOWN) {
                 board.moveTetrimino("down");
             }
-            if (e.getCode() == KeyCode.SPACE) {
-                board.rotateTetrimino();
-            }
+            else if (e.getCode() == KeyCode.SPACE || e.getCode() == KeyCode.X) {
+				board.rotateTetrimino("cw");
+			}
+			else if (e.getCode() == KeyCode.Z) {
+				board.rotateTetrimino("ccw");
+			}
         });
 		board.startGame();
 
