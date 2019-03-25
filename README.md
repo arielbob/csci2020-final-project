@@ -35,4 +35,5 @@ $ git clone https://github.com/arielbob/csci2020-final-project.git
 Change to the cloned directory:
 
 ```bash
-$ cd csci2020-assignment1
+$ cd
+```
