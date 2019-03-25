@@ -91,24 +91,23 @@ public class StartInterface extends Application {
         soloBtn.setOnAction(event -> {
             fileManager.incrementSinglePlayer();
 
-            VBox gameVbox = new VBox(10);
-            gameVbox.setAlignment(Pos.CENTER);
-            firstScene.setRoot(gameVbox);
-
             Button quitBtn = new Button("Quit");
     		quitBtn.setOnAction(e -> {
                 board.gameOver = true;
                 firstScene.setRoot(root);
     		});
 
-            HBox boardHbox = new HBox();
-            boardHbox.setAlignment(Pos.CENTER);
             VBox boardVbox = new VBox();
             boardVbox.setAlignment(Pos.CENTER);
             boardVbox.getChildren().addAll(board.pane, new Label("Player"));
-            boardHbox.getChildren().add(boardVbox);
-            gameVbox.getChildren().addAll(quitBtn, boardHbox);
-            gameVbox.requestFocus();
+
+            VBox alignVbox = new VBox(10);
+            alignVbox.setAlignment(Pos.CENTER_LEFT);
+            alignVbox.getChildren().addAll(quitBtn, boardVbox);
+
+            HBox boardHbox = new HBox();
+            boardHbox.setAlignment(Pos.CENTER);
+            boardHbox.getChildren().add(alignVbox);
 
             firstScene.setOnKeyPressed(e -> {
                 if (e.getCode() == KeyCode.LEFT) {
@@ -125,6 +124,11 @@ public class StartInterface extends Application {
                 }
             });
 
+            VBox gameVbox = new VBox();//new VBox(10);
+            gameVbox.setAlignment(Pos.CENTER);
+            firstScene.setRoot(gameVbox);
+            gameVbox.getChildren().add(boardHbox);
+            gameVbox.requestFocus();
             board.startGame();
         });
 
