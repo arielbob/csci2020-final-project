@@ -27,7 +27,7 @@ public class ClientView {
 	private static TetrisBoard player1Board;
 	private static TetrisBoard player2Board;
 	Stage primaryStage;
-	Scene scene, gameScene;
+	Scene scene;
 
 	Button startButton;
 
@@ -52,11 +52,6 @@ public class ClientView {
 		player1Board = new TetrisBoard(client);
 		player2Board = new TetrisBoard(client);
 
-		VBox pane = new VBox();
-		pane.setPadding(new Insets(10));
-		pane.setSpacing(10);
-
-		scene = new Scene(pane);
 		HBox gamePane = new HBox();
 		gamePane.setAlignment(Pos.CENTER);
 		VBox gameVbox = new VBox(10);
@@ -64,7 +59,7 @@ public class ClientView {
 		Button quitBtn = new Button("Quit");
 		quitBtn.setOnAction(e -> {
 			client.stopClient();
-			primaryStage.setScene(scene);
+//			primaryStage.setScene(scene);
 		});
 
 		HBox gameHbox = new HBox(100);
@@ -78,9 +73,9 @@ public class ClientView {
 
 		gameVbox.getChildren().addAll(quitBtn, gameHbox, startButton);
 		gamePane.getChildren().add(gameVbox);
-		gameScene = new Scene(gamePane);
+		scene = new Scene(gamePane);
 
-		gameScene.setOnKeyPressed(e -> {
+		scene.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.LEFT) {
 				player1Board.moveTetrimino("left");
 			}
@@ -100,18 +95,18 @@ public class ClientView {
 			gameHbox.requestFocus();
 		});
 
-		Button joinBtn = new Button("Join Game");
-		joinBtn.setOnAction(event -> {
-			try {
-				client.joinGame();
-				primaryStage.setScene(gameScene);
-				gameHbox.requestFocus();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
+//		Button joinBtn = new Button("Join Game");
+//		joinBtn.setOnAction(event -> {
+//			try {
+//				client.joinGame();
+//				primaryStage.setScene(gameScene);
+//				gameHbox.requestFocus();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		});
 
-		pane.getChildren().addAll(ta, joinBtn);
+//		pane.getChildren().addAll(ta, joinBtn);
 
 		this.scene = scene;
 //		primaryStage.setScene(scene);
@@ -128,6 +123,11 @@ public class ClientView {
 
 	// when we receive our ID, we know we connected and so we change scenes
 	public void setConnected() {
+		try {
+			client.joinGame();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		Platform.runLater(() -> {
 			primaryStage.setScene(scene);
 		});
