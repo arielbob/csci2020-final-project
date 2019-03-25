@@ -82,7 +82,7 @@ public class StartInterface extends Application {
 
 
         Scene firstScene = new Scene(root);
-        Scene secondScene = new Scene(root2);
+        //Scene secondScene = new Scene(root2);
         window.setTitle("Group 7 Tetris");
         window.setScene(firstScene);
         window.show();
@@ -135,11 +135,13 @@ public class StartInterface extends Application {
         });
 
         multiBtn.setOnAction(e -> {
-            window.setScene(secondScene);
+            //window.setScene(secondScene);
+            firstScene.setRoot(root2);
         });
 
         backBtn.setOnAction(e -> {
-            window.setScene(firstScene);
+            //window.setScene(firstScene);
+            firstScene.setRoot(root);
         });
     }
 
