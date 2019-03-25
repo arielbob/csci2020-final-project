@@ -2,7 +2,7 @@ package UserInterface;
 
 import net.client.TetrisClient;
 import net.server.TetrisServer;
-
+import FileManagement.FileManager;
 import java.io.IOException;
 
 import TetrisGame.TetrisBoard;
@@ -28,7 +28,7 @@ public class ClientView {
 	private static TetrisBoard player2Board;
 	Stage primaryStage;
 	Scene scene, gameScene;
-
+	FileManager fileManager = new FileManager();
 	Button startButton;
 
 	public ClientView(Stage primaryStage) {

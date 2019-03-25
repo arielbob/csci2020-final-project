@@ -413,14 +413,22 @@ public class TetrisBoard {
     public void setLose() {
         gameOver = true;
         EndBoard loseBoard = new LoseBoard();
-        //loseBoard.drawBoard(boardArray);
-        loseBoard.animateBoard(boardArray);
+        if (null != client) {
+            loseBoard.drawBoard(boardArray);
+        }
+        else {
+            loseBoard.animateBoard(boardArray);
+        }
     }
 
     public void setWin() {
         gameOver = true;
         EndBoard winBoard = new WinBoard();
-        //winBoard.drawBoard(boardArray);
-        winBoard.animateBoard(boardArray);
+        if (null != client) {
+            winBoard.drawBoard(boardArray);
+        }
+        else {
+            winBoard.animateBoard(boardArray);
+        }
     }
 }
