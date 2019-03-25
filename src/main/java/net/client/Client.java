@@ -48,6 +48,7 @@ public abstract class Client extends Thread {
 	}
 
 	public void stopClient() {
+		System.out.println("closing client socket");
 		socket.close();
 		isRunning = false;
 	}

@@ -13,11 +13,14 @@ import java.util.Arrays;
 import TetrisGame.Tetriminos.*;
 import TetrisGame.EndBoards.*;
 import net.client.TetrisClient;
+import java.io.*;
+import java.util.Scanner;
+import FileManagement.FileManager;
 
 public class TetrisBoard {
     public Pane pane = new Pane();
     public boolean stageClosed = false;
-    boolean gameOver = false;
+    public boolean gameOver = false;
 
     Paint defaultTileColor = Color.WHITE;
     double tileSize = 15;
@@ -35,19 +38,17 @@ public class TetrisBoard {
         new OBlock(), new SBlock(), new TBlock(), new ZBlock()};
 
     TetrisClient client;
+    FileManager fileManager = new FileManager();
 
     public TetrisBoard() {
         for (int r = 0; r < boardArray.length; r++) {
             for (int c = 0; c < boardArray[r].length; c++) {
                 Rectangle tile = new Rectangle(tileSize, tileSize, defaultTileColor);
-                tile.setVisible(false);
-                tile.setStroke(Color.BLACK);
-                tile.setY((r - HIDDEN_ROWS) * tileSize);
-                tile.setX(c * tileSize);
                 boardArray[r][c] = tile;
-                //pane.getChildren().add(tile);
                 if (r >= HIDDEN_ROWS) {
-                    tile.setVisible(true);
+                    tile.setStroke(Color.BLACK);
+                    tile.setY((r - HIDDEN_ROWS) * tileSize);
+                    tile.setX(c * tileSize);
                     pane.getChildren().add(tile);
                 }
             }
@@ -395,6 +396,8 @@ public class TetrisBoard {
                 }
             }
         }
+
+        fileManager.incrementLinesCleared();
     }
 
     private void setTileAt(int r, int c, int value) {
@@ -410,14 +413,22 @@ public class TetrisBoard {
     public void setLose() {
         gameOver = true;
         EndBoard loseBoard = new LoseBoard();
-        //loseBoard.drawBoard(boardArray);
-        loseBoard.animateBoard(boardArray);
+        if (null != client) {
+            loseBoard.drawBoard(boardArray);
+        }
+        else {
+            loseBoard.animateBoard(boardArray);
+        }
     }
 
     public void setWin() {
         gameOver = true;
         EndBoard winBoard = new WinBoard();
-        //winBoard.drawBoard(boardArray);
-        winBoard.animateBoard(boardArray);
+        if (null != client) {
+            winBoard.drawBoard(boardArray);
+        }
+        else {
+            winBoard.animateBoard(boardArray);
+        }
     }
 }

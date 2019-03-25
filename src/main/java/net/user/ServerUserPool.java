@@ -28,6 +28,11 @@ public class ServerUserPool {
 		return user;
 	}
 
+	public void removeUser(InetAddress ip, int port) {
+		String key = createKeyString(ip, port);
+		users.remove(key);
+	}
+
 	private String createKeyString(InetAddress ip, int port) {
 		return ip.toString() + ":" + Integer.toString(port);
 	}

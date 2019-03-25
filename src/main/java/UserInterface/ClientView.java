@@ -2,7 +2,7 @@ package UserInterface;
 
 import net.client.TetrisClient;
 import net.server.TetrisServer;
-
+import FileManagement.FileManager;
 import java.io.IOException;
 
 import TetrisGame.TetrisBoard;
@@ -16,6 +16,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.control.Label;
+import javafx.geometry.Pos;
 
 public class ClientView {
 	private static TetrisClient client;
@@ -25,9 +27,12 @@ public class ClientView {
 	private static TetrisBoard player1Board;
 	private static TetrisBoard player2Board;
 	Stage primaryStage;
-	Scene scene, gameScene;
-
+	Scene scene;
+	FileManager fileManager = new FileManager();
 	Button startButton;
+	HBox gameHbox;
+	Label playerLabel;
+	Label opponentLabel;
 
 	public ClientView(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -50,31 +55,33 @@ public class ClientView {
 		player1Board = new TetrisBoard(client);
 		player2Board = new TetrisBoard(client);
 
-		VBox pane = new VBox();
-		pane.setPadding(new Insets(10));
-		pane.setSpacing(10);
-
-		scene = new Scene(pane);
-
+		HBox gamePane = new HBox();
+		gamePane.setAlignment(Pos.CENTER);
 		VBox gameVbox = new VBox(10);
 		gameVbox.setPadding(new Insets(20));
 		Button quitBtn = new Button("Quit");
 		quitBtn.setOnAction(e -> {
-			client.stopClient();
-			primaryStage.setScene(scene);
+			close();
 		});
 
-		HBox gameHbox = new HBox(100);
-		StackPane stackPane1 = new StackPane();
-		stackPane1.getChildren().add(player1Board.pane);
-		StackPane stackPane2 = new StackPane();
-		stackPane2.getChildren().add(player2Board.pane);
-		gameHbox.getChildren().addAll(stackPane1, stackPane2);
+		gameHbox = new HBox(100);
+		VBox vbox1 = new VBox();
+		vbox1.setAlignment(Pos.CENTER);
+
+		playerLabel = new Label();
+		vbox1.getChildren().addAll(player1Board.pane, playerLabel);
+		VBox vbox2 = new VBox();
+		vbox2.setAlignment(Pos.CENTER);
+		opponentLabel = new Label();
+		vbox2.getChildren().addAll(player2Board.pane, opponentLabel);
+		gameHbox.getChildren().addAll(vbox1, vbox2);
+		gameHbox.requestFocus();
 
 		gameVbox.getChildren().addAll(quitBtn, gameHbox, startButton);
-		gameScene = new Scene(gameVbox);
+		gamePane.getChildren().add(gameVbox);
+		scene = new Scene(gamePane);
 
-		gameScene.setOnKeyPressed(e -> {
+		scene.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.LEFT) {
 				player1Board.moveTetrimino("left");
 			}
@@ -94,26 +101,7 @@ public class ClientView {
 			gameHbox.requestFocus();
 		});
 
-		Button joinBtn = new Button("Join Game");
-		joinBtn.setOnAction(event -> {
-			try {
-				client.joinGame();
-				primaryStage.setScene(gameScene);
-				gameHbox.requestFocus();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-
-		pane.getChildren().addAll(ta, joinBtn);
-
 		this.scene = scene;
-//		primaryStage.setScene(scene);
-//		primaryStage.setOnCloseRequest(event -> {
-//			client.stopClient();
-//			player1Board.stageClosed = true;
-//			player2Board.stageClosed = true;
-//		});
 	}
 
 	public Scene getScene() {
@@ -122,8 +110,15 @@ public class ClientView {
 
 	// when we receive our ID, we know we connected and so we change scenes
 	public void setConnected() {
+		try {
+			client.joinGame();
+			gameHbox.requestFocus();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		Platform.runLater(() -> {
 			primaryStage.setScene(scene);
+			primaryStage.setOnCloseRequest(event1 -> close());
 		});
 	}
 
@@ -132,6 +127,16 @@ public class ClientView {
 		if (server != null) server.stopServer();
 		player1Board.stageClosed = true;
 		player2Board.stageClosed = true;
+		primaryStage.setScene(new HomeScene(primaryStage).getScene());
+	}
+
+	public void serverClose() {
+		player1Board.stageClosed = true;
+		player2Board.stageClosed = true;
+
+		Platform.runLater(() -> {
+			primaryStage.setScene(new HomeScene(primaryStage).getScene());
+		});
 	}
 
 	public void appendText(String text) {
@@ -155,14 +160,25 @@ public class ClientView {
 	public void setOpponentWin() {
 		player2Board.setWin();
 		showStartButton();
+		fileManager.incrementMultiplayer();
 	}
 
 	public void setClientWin() {
 		player1Board.setWin();
 		showStartButton();
+		fileManager.incrementMultiplayer();
+		fileManager.incrementGamesWon();
 	}
 
 	private void showStartButton() {
 		if (server != null) startButton.setVisible(true);
+	}
+
+	public void setPlayerName(String name) {
+		Platform.runLater(() -> playerLabel.setText(name));
+	}
+
+	public void setOpponentName(String name) {
+		Platform.runLater(() -> opponentLabel.setText(name));
 	}
 }

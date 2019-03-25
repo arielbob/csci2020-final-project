@@ -92,7 +92,13 @@ public class TetrisServer extends Server {
 		}
 	}
 
-	public void close() {
+	public void stopServer() {
+		ServerClosePacket packet = new ServerClosePacket();
+		try {
+			sendPacket(packet, userPool.getUsers());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		super.stopServer();
 		state = ServerState.WAITING;
 	}
@@ -111,7 +117,11 @@ public class TetrisServer extends Server {
 		// the clients only ever need to know a player once they are joined, hence AddPlayerPacket
 		if (type == PacketType.CONNECT) {
 			if (user == null) {
-				user = userPool.addUser(packetIp, packetPort, "user");
+				if (userPool.getUsers().size() >= 2) return;
+
+				ConnectPacket connectPacket = new ConnectPacket(packet);
+
+				user = userPool.addUser(packetIp, packetPort, connectPacket.getUsername());
 				IDPacket idPacket = new IDPacket(user.getId());
 				sendPacket(idPacket, user);
 
@@ -121,12 +131,16 @@ public class TetrisServer extends Server {
 				// with their state, since there is more UserState than just WAITING
 				// it would be easier if the client just knew all the connected people, i.e. not just those that are joined
 				for (ServerUser su : userPool.getUsers().values()) {
-					if (su.getState() == UserState.WAITING) {
-						AddPlayerPacket addPlayerPacket = new AddPlayerPacket(su.getId(), su.getUsername());
-						sendPacket(addPlayerPacket, user);
-					}
+					System.out.println(su.getUsername());
+					AddPlayerPacket addPlayerPacket = new AddPlayerPacket(su.getId(), su.getUsername());
+					sendPacket(addPlayerPacket, user);
 				}
 			}
+		} else if (type == PacketType.QUIT) {
+			QuitPacket quitPacket = new QuitPacket(packet);
+			sendPacket(quitPacket, userPool.getUsers());
+			userPool.removeUser(packetIp, packetPort);
+			endGame();
 		}
 
 		if (user == null) return;

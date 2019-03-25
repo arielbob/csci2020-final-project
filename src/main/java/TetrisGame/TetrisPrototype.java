@@ -2,14 +2,15 @@ package TetrisGame;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.geometry.Pos;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 
 public class TetrisPrototype extends Application {
     TetrisBoard board = new TetrisBoard();
@@ -20,11 +21,14 @@ public class TetrisPrototype extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Pane pane = new Pane();
-        Scene scene = new Scene(pane);
-        pane.setPrefSize(500, 500);
-
-        pane.getChildren().add(board.pane);
+        VBox vbox = new VBox();
+        vbox.setAlignment(Pos.CENTER);
+        HBox hbox = new HBox();
+        hbox.setAlignment(Pos.CENTER);
+        hbox.getChildren().add(board.pane);
+        vbox.getChildren().add(hbox);
+        Scene scene = new Scene(vbox);
+        vbox.setPrefSize(400, 400);
 
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.LEFT) {

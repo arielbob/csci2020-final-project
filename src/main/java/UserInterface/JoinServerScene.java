@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
@@ -22,9 +23,12 @@ import javafx.stage.Stage;
 
 public class JoinServerScene {
 	private Scene scene;
+	private VBox pane;
 
-	public JoinServerScene(Stage primaryStage) {
-		VBox pane = new VBox();
+	//public JoinServerScene(Stage primaryStage) {
+	public JoinServerScene(Stage primaryStage, Pane prevRoot) {
+		//VBox pane = new VBox();
+		pane = new VBox();
 		pane.setPrefSize(400, 250);
 		pane.setPadding(new Insets(20));
 		pane.setSpacing(10);
@@ -83,11 +87,9 @@ public class JoinServerScene {
 				clientView.setClient(client);
 				clientView.init();
 
-				primaryStage.setOnCloseRequest(event1 -> clientView.close());
-
 				System.out.println(port);
 				client.start();
-				client.connect();
+				client.connect(username);
 			} catch (IllegalArgumentException e) {
 				serverError.setText("Please enter a port between 0 and 65535 (inclusive)");
 				serverError.setVisible(true);
@@ -99,13 +101,24 @@ public class JoinServerScene {
 			}
 		});
 
+		Button cancelBtn = new Button("Cancel");
+		cancelBtn.setPadding(new Insets(10));
+		cancelBtn.setOnAction(event -> {
+			primaryStage.getScene().setRoot(prevRoot);
+		});
+		HBox buttonHbox = new HBox(10);
+		buttonHbox.getChildren().addAll(joinServerBtn, cancelBtn);
 
-		pane.getChildren().addAll(usernameField, addressField, portField, joinServerBtn, serverError);
+		pane.getChildren().addAll(usernameField, addressField, portField, buttonHbox, serverError);
 
-		this.scene = new Scene(pane);
+		//this.scene = new Scene(pane);
 	}
 
 	public Scene getScene() {
 		return scene;
+	}
+
+	public Pane getRoot() {
+		return pane;
 	}
 }
