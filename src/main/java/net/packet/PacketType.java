@@ -11,7 +11,8 @@ public enum PacketType {
 	ADD_PLAYER(0x04),			// server -> client: to add a player to the game
 	UPDATE_CLIENT_STATE(0x05),	// server -> client: to update client state
 	UPDATE_USER_STATE(0x06),		// server -> client: to update user state
-	BOARD(0x07);					// server -> client: to update a user's board
+	BOARD(0x07),					// server -> client: to update a user's board
+	QUIT(0x08);
 
 	public int id;
 

@@ -37,6 +37,11 @@ public class TetrisClient extends Client {
 		sendPacket(packet);
 	}
 
+	public void quitGame() throws IOException {
+		QuitPacket packet = new QuitPacket(id);
+		sendPacket(packet);
+	}
+
 	public void sendMessage(String message) throws IOException {
 		if (this.id != null) {
 			MessagePacket packet = new MessagePacket(this.id, message);
@@ -59,6 +64,15 @@ public class TetrisClient extends Client {
 	private void sendUserState(UUID id, UserState userState) throws IOException {
 		UpdateUserStatePacket updateUserStatePacket = new UpdateUserStatePacket(id, UserState.LOST);
 		sendPacket(updateUserStatePacket);
+	}
+
+	public void stopClient() {
+		try {
+			quitGame();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		super.stopClient();
 	}
 
 	@Override
@@ -122,6 +136,14 @@ public class TetrisClient extends Client {
 				user = userPool.findUserById(boardPacket.getId());
 				if (!user.getId().toString().equals(this.id.toString())) {
 					view.receiveBoardState(boardPacket.getBoard());
+				}
+				break;
+			case QUIT:
+				QuitPacket quitPacket = new QuitPacket(packet);
+				boolean isClient = quitPacket.getId().toString().equals(id.toString());
+				if (!isClient && state == ClientState.IN_PROGRESS) {
+					view.setClientWin();
+					view.setOpponentLose();
 				}
 				break;
 		}

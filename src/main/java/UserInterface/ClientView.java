@@ -59,7 +59,7 @@ public class ClientView {
 		gameVbox.setPadding(new Insets(20));
 		Button quitBtn = new Button("Quit");
 		quitBtn.setOnAction(e -> {
-			client.stopClient();
+			close();
 //			primaryStage.setScene(scene);
 		});
 

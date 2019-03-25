@@ -92,7 +92,7 @@ public class TetrisServer extends Server {
 		}
 	}
 
-	public void close() {
+	public void stopServer() {
 		super.stopServer();
 		state = ServerState.WAITING;
 	}
@@ -127,6 +127,10 @@ public class TetrisServer extends Server {
 					}
 				}
 			}
+		} else if (type == PacketType.QUIT) {
+			QuitPacket quitPacket = new QuitPacket(packet);
+			sendPacket(quitPacket, userPool.getUsers());
+			userPool.removeUser(packetIp, packetPort);
 		}
 
 		if (user == null) return;
