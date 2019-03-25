@@ -43,6 +43,12 @@ public class HomeScene {
 		statsBtn.setPrefHeight(50);
 		root.add(statsBtn, 0, 2);
 
+		Button instructionBtn = new Button("HOW TO PLAY");
+		instructionBtn.setAlignment(Pos.CENTER);
+		instructionBtn.setPrefWidth(100);
+		instructionBtn.setPrefHeight(50);
+		root.add(instructionBtn, 0, 3);
+
 		GridPane root2 = new GridPane();
 		root2.setAlignment(Pos.CENTER);
 		root2.setMinWidth(MIN_WIDTH);
