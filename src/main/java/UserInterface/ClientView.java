@@ -30,6 +30,7 @@ public class ClientView {
 	Scene scene;
 	FileManager fileManager = new FileManager();
 	Button startButton;
+	HBox gameHbox;
 
 	public ClientView(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -62,7 +63,7 @@ public class ClientView {
 //			primaryStage.setScene(scene);
 		});
 
-		HBox gameHbox = new HBox(100);
+		gameHbox = new HBox(100);
 		VBox vbox1 = new VBox();
 		vbox1.setAlignment(Pos.CENTER);
 		vbox1.getChildren().addAll(player1Board.pane, new Label("Player"));
@@ -70,6 +71,7 @@ public class ClientView {
 		vbox2.setAlignment(Pos.CENTER);
 		vbox2.getChildren().addAll(player2Board.pane, new Label("Opponent"));
 		gameHbox.getChildren().addAll(vbox1, vbox2);
+		gameHbox.requestFocus();
 
 		gameVbox.getChildren().addAll(quitBtn, gameHbox, startButton);
 		gamePane.getChildren().add(gameVbox);
@@ -125,6 +127,7 @@ public class ClientView {
 	public void setConnected() {
 		try {
 			client.joinGame();
+			gameHbox.requestFocus();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
