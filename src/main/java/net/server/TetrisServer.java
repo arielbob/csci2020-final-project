@@ -137,6 +137,7 @@ public class TetrisServer extends Server {
 			QuitPacket quitPacket = new QuitPacket(packet);
 			sendPacket(quitPacket, userPool.getUsers());
 			userPool.removeUser(packetIp, packetPort);
+			endGame();
 		}
 
 		if (user == null) return;
