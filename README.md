@@ -47,3 +47,9 @@ $ gradle build
 ```
 
 ## Running
+
+Run main menu using Gradle's run command.
+
+```bash
+$ gradle run
+```
