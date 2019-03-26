@@ -96,3 +96,15 @@ $ gradle tetris
 If playing against yourself, you can simply enter in "localhost" for the server address.
 
 3. Press "Join Server" then wait for the host to start the game
+
+**Controls:**
+
+- Control the falling block with the arrow keys
+
+- Press the down arrow key to make the block fall faster
+
+- Press SPACE or X to rotate the block clockwise
+
+- Press Z to rotate the block counterclockwise
+
+- Fill out rows to clear them out
